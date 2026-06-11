@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMZ MedAI Academy — Teaching healthcare professionals to integrate AI into clinical practice. CPD-accredited courses for doctors, nurses, and allied health staff." />
+  <title>AMZ MedAI Academy | AI Integration Training for Healthcare Professionals</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-name">AMZ</span>
+          <span class="logo-tagline">MedAI Academy</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home"      class="nav-link active">Home</a></li>
+        <li><a href="#about"     class="nav-link">About</a></li>
+        <li><a href="#paths"     class="nav-link">Programs</a></li>
+        <li><a href="#courses"   class="nav-link">Courses</a></li>
+        <li><a href="#community" class="nav-link">Community</a></li>
+        <li><a href="#contact"   class="nav-link">Enroll</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn-ghost-nav" onclick="openChatbot()">
+          <i class="fas fa-robot"></i> AI Mentor
+        </button>
+        <a href="#contact" class="btn-cta-nav">Start Free <i class="fas fa-arrow-right"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO — full bleed img-hero.jpg ═══ -->
+  <section id="home" class="hero">
+    <div class="hero-bg" style="background-image:url('assets/img-hero.jpg')"></div>
+    <div class="hero-overlay"></div>
+    <canvas id="heroCanvas"></canvas>
+
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-dot"></span>
+          Africa's #1 AI-in-Medicine Learning Platform
+        </div>
+
+        <h1>
+          Train Healthcare<br>
+          Professionals to<br>
+          <span class="hero-accent">Work With AI</span>
+        </h1>
+
+        <p class="hero-sub">
+          Structured, CPD-accredited programs that teach doctors, nurses, radiologists, and allied health professionals how to confidently integrate artificial intelligence into everyday clinical practice.
+        </p>
+
+        <div class="hero-btns">
+          <a href="#courses" class="btn-hero-primary">
+            <i class="fas fa-play-circle"></i> Explore Courses
+          </a>
+          <a href="#paths" class="btn-hero-outline">
+            <i class="fas fa-route"></i> View Programs
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-stats-row">
+        <div class="hero-stat">
+          <span class="stat-num" data-target="12000">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Clinicians Trained</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="hero-stat">
+          <span class="stat-num" data-target="120">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Courses Available</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="hero-stat">
+          <span class="stat-num" data-target="48">0</span><span class="stat-suf">+</span>
+          <span class="stat-lbl">Countries</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="hero-stat">
+          <span class="stat-num" data-target="95">0</span><span class="stat-suf">%</span>
+          <span class="stat-lbl">Satisfaction Rate</span>
+        </div>
+      </div>
+    </div>
+
+    <a href="#about" class="scroll-down">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>Scroll</span>
+    </a>
+  </section>
+
+  <!-- ═══ TRUST BAR ═══ -->
+  <div class="trust-bar">
+    <div class="tb-inner">
+      <span class="tb-label">Accredited &amp; Recognised By</span>
+      <div class="tb-logos">
+        <span><i class="fas fa-hospital"></i> WHO Learning Hub</span>
+        <span><i class="fas fa-graduation-cap"></i> CME Accredited</span>
+        <span><i class="fas fa-certificate"></i> ISO 27001</span>
+        <span><i class="fas fa-award"></i> AMA Approved</span>
+        <span><i class="fas fa-shield-halved"></i> HIPAA Compliant</span>
+        <span><i class="fas fa-globe"></i> 48+ Countries</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ABOUT — split: text + img-xray.jpg ═══ -->
+  <section id="about" class="split-section">
+    <div class="split-image reveal">
+      <img src="assets/img-xray.jpg" alt="Doctor and clinical staff reviewing AI chest X-ray analysis" />
+      <div class="split-img-badge">
+        <i class="fas fa-lungs"></i>
+        <div>
+          <strong>AI Image Analysis</strong>
+          <span>X-Ray · CT · MRI · Ultrasound</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="split-content reveal" data-delay="120">
+      <span class="section-tag">Why AMZ MedAI Academy</span>
+      <h2>AI Is Already in Your<br><span class="g-text">Hospital. Are You Ready?</span></h2>
+      <p>AI diagnostic tools, clinical decision support systems, and automated monitoring are being deployed across hospitals right now — but most healthcare professionals have received no training on how to use them safely and effectively.</p>
+      <p>AMZ MedAI Academy bridges that gap with courses built by clinicians, for clinicians. No coding. No maths. Just practical, role-specific training that makes you confident and competent with AI on day one.</p>
+
+      <div class="check-list">
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>10,000+ annotated real clinical cases</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>Live AI sandbox environment</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>Expert clinician &amp; AI specialist instructors</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>CME/CPD certificates in 48 countries</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>Mobile-first, offline-capable learning</span></div>
+      </div>
+
+      <a href="#contact" class="btn-primary">Start Learning Free <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ═══ PROGRAMS / PATHS ═══ -->
+  <section id="paths" class="section bg-offwhite">
+    <div class="container">
+      <div class="sec-header">
+        <span class="section-tag">Structured Programs</span>
+        <h2>Choose Your <span class="g-text">Learning Path</span></h2>
+        <p>Purpose-built curricula for every healthcare role — from frontline clinicians to hospital administrators.</p>
+      </div>
+
+      <div class="paths-grid">
+
+        <div class="path-card featured reveal">
+          <div class="pc-icon" style="--c:#4F7EFF"><i class="fas fa-brain"></i></div>
+          <div class="pc-badge">Most Popular</div>
+          <h3>AI Diagnostics for Clinicians</h3>
+          <p>Interpret AI-assisted diagnostics including radiology AI, pathology AI, and clinical decision support in real clinical workflows.</p>
+          <div class="pc-meta">
+            <span><i class="fas fa-book-open"></i> 24 Modules</span>
+            <span><i class="fas fa-clock"></i> 40 Hours</span>
+            <span><i class="fas fa-signal"></i> Intermediate</span>
+          </div>
+          <a href="#contact" class="pc-link">Enroll Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="path-card reveal" data-delay="80">
+          <div class="pc-icon" style="--c:#00C9A7"><i class="fas fa-x-ray"></i></div>
+          <h3>Radiology AI Mastery</h3>
+          <p>Deep-dive into AI image interpretation for chest X-rays, CT, MRI, and ultrasound with hands-on annotated case studies.</p>
+          <div class="pc-meta">
+            <span><i class="fas fa-book-open"></i> 32 Modules</span>
+            <span><i class="fas fa-clock"></i> 60 Hours</span>
+            <span><i class="fas fa-signal"></i> Advanced</span>
+          </div>
+          <a href="#contact" class="pc-link">Enroll Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="path-card reveal" data-delay="160">
+          <div class="pc-icon" style="--c:#FF6B6B"><i class="fas fa-chart-line"></i></div>
+          <h3>Healthcare Data Analytics</h3>
+          <p>Transform clinical data into actionable insights using AI dashboards, predictive models, and EHR analytics tools.</p>
+          <div class="pc-meta">
+            <span><i class="fas fa-book-open"></i> 20 Modules</span>
+            <span><i class="fas fa-clock"></i> 35 Hours</span>
+            <span><i class="fas fa-signal"></i> Beginner–Mid</span>
+          </div>
+          <a href="#contact" class="pc-link">Enroll Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="path-card reveal">
+          <div class="pc-icon" style="--c:#A78BFA"><i class="fas fa-robot"></i></div>
+          <h3>Surgical Robotics &amp; AI</h3>
+          <p>Prepare surgeons and theatre teams to work alongside AI-guided robotic systems and computer-assisted interventions.</p>
+          <div class="pc-meta">
+            <span><i class="fas fa-book-open"></i> 18 Modules</span>
+            <span><i class="fas fa-clock"></i> 30 Hours</span>
+            <span><i class="fas fa-signal"></i> Advanced</span>
+          </div>
+          <a href="#contact" class="pc-link">Enroll Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="path-card reveal" data-delay="80">
+          <div class="pc-icon" style="--c:#FFB347"><i class="fas fa-shield-heart"></i></div>
+          <h3>AI Ethics &amp; Clinical Safety</h3>
+          <p>Navigate bias, accountability, consent, and regulation around AI deployment in clinical environments responsibly.</p>
+          <div class="pc-meta">
+            <span><i class="fas fa-book-open"></i> 12 Modules</span>
+            <span><i class="fas fa-clock"></i> 20 Hours</span>
+            <span><i class="fas fa-signal"></i> All Levels</span>
+          </div>
+          <a href="#contact" class="pc-link">Enroll Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+        <div class="path-card reveal" data-delay="160">
+          <div class="pc-icon" style="--c:#34D399"><i class="fas fa-dna"></i></div>
+          <h3>Genomics &amp; Precision Medicine AI</h3>
+          <p>Use AI to interpret genomic data, predict drug responses, and build personalised treatment plans for your patients.</p>
+          <div class="pc-meta">
+            <span><i class="fas fa-book-open"></i> 22 Modules</span>
+            <span><i class="fas fa-clock"></i> 45 Hours</span>
+            <span><i class="fas fa-signal"></i> Advanced</span>
+          </div>
+          <a href="#contact" class="pc-link">Enroll Now <i class="fas fa-arrow-right"></i></a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COMMUNITY FULLBLEED — img-team.jpg ═══ -->
+  <section id="community" class="fullbleed-section">
+    <div class="fb-bg" style="background-image:url('assets/img-team.jpg')"></div>
+    <div class="fb-overlay"></div>
+    <div class="fb-content reveal">
+      <span class="section-tag light">Peer Learning</span>
+      <h2>Learn Together.<br><span class="hero-accent">Grow Together.</span></h2>
+      <p>Join the fastest-growing network of AI-forward healthcare professionals in Africa and beyond. Collaborate on real cases, debate ethics, and grow together across disciplines.</p>
+
+      <div class="fb-stats">
+        <div class="fb-stat">
+          <strong>12,000+</strong>
+          <span>Active Learners</span>
+        </div>
+        <div class="fb-stat">
+          <strong>48</strong>
+          <span>Countries</span>
+        </div>
+        <div class="fb-stat">
+          <strong>32</strong>
+          <span>Specialties</span>
+        </div>
+        <div class="fb-stat">
+          <strong>500+</strong>
+          <span>Expert Instructors</span>
+        </div>
+      </div>
+
+      <div class="fb-features">
+        <div class="fb-feat"><i class="fas fa-comments"></i> Live case discussion forums</div>
+        <div class="fb-feat"><i class="fas fa-chalkboard-teacher"></i> Weekly expert webinars</div>
+        <div class="fb-feat"><i class="fas fa-hands-helping"></i> Mentorship matching</div>
+        <div class="fb-feat"><i class="fas fa-trophy"></i> Leaderboards &amp; challenges</div>
+      </div>
+
+      <a href="#contact" class="btn-hero-primary">Join the Community <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ═══ COURSES ═══ -->
+  <section id="courses" class="section bg-white">
+    <div class="container">
+      <div class="sec-header">
+        <span class="section-tag">Course Catalog</span>
+        <h2>Start with a <span class="g-text">Featured Course</span></h2>
+        <p>All courses are free to preview. Upgrade for certificates, sandbox access, and community.</p>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="diagnostics">Diagnostics</button>
+        <button class="filter-btn" data-filter="imaging">Imaging</button>
+        <button class="filter-btn" data-filter="data">Data &amp; Analytics</button>
+        <button class="filter-btn" data-filter="ethics">Ethics &amp; Safety</button>
+      </div>
+
+      <div class="courses-grid" id="coursesGrid">
+
+        <div class="course-card reveal" data-category="imaging">
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#0D1B2A,#4F7EFF)">
+            <i class="fas fa-x-ray"></i>
+            <span class="cc-level beginner">Beginner</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Imaging AI</span>
+            <h3>Introduction to AI in Radiology</h3>
+            <p>How CNNs read chest X-rays and what radiologists need to verify in AI-assisted reporting.</p>
+            <div class="cc-meta">
+              <span><i class="fas fa-clock"></i> 6h 30m</span>
+              <span><i class="fas fa-book-open"></i> 8 modules</span>
+              <span class="cc-rating"><i class="fas fa-star"></i> 4.9</span>
+            </div>
+            <a href="#contact" class="cc-enroll">Enroll Free <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="80" data-category="diagnostics">
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#004D4D,#00C9A7)">
+            <i class="fas fa-brain"></i>
+            <span class="cc-level intermediate">Intermediate</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">AI Diagnostics</span>
+            <h3>Clinical Decision Support Systems</h3>
+            <p>Integrate AI-powered CDS into your diagnostic workflow safely with real case walkthroughs.</p>
+            <div class="cc-meta">
+              <span><i class="fas fa-clock"></i> 8h 15m</span>
+              <span><i class="fas fa-book-open"></i> 10 modules</span>
+              <span class="cc-rating"><i class="fas fa-star"></i> 4.8</span>
+            </div>
+            <a href="#contact" class="cc-enroll">Enroll Free <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="160" data-category="data">
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#2D1B69,#A78BFA)">
+            <i class="fas fa-chart-bar"></i>
+            <span class="cc-level beginner">Beginner</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Data Analytics</span>
+            <h3>Reading AI Health Dashboards</h3>
+            <p>A practical guide for nurses and ward managers to interpret AI-generated patient monitoring data.</p>
+            <div class="cc-meta">
+              <span><i class="fas fa-clock"></i> 4h 45m</span>
+              <span><i class="fas fa-book-open"></i> 6 modules</span>
+              <span class="cc-rating"><i class="fas fa-star"></i> 4.7</span>
+            </div>
+            <a href="#contact" class="cc-enroll">Enroll Free <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-category="imaging">
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#7C2D12,#FFB347)">
+            <i class="fas fa-brain"></i>
+            <span class="cc-level advanced">Advanced</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Neuro AI</span>
+            <h3>AI in Neuroimaging &amp; Stroke Care</h3>
+            <p>Detect stroke, haemorrhage, and tumours in brain CT and MRI using AI analysis tools.</p>
+            <div class="cc-meta">
+              <span><i class="fas fa-clock"></i> 12h 00m</span>
+              <span><i class="fas fa-book-open"></i> 14 modules</span>
+              <span class="cc-rating"><i class="fas fa-star"></i> 5.0</span>
+            </div>
+            <a href="#contact" class="cc-enroll">Enroll Now <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="80" data-category="ethics">
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#064E3B,#34D399)">
+            <i class="fas fa-balance-scale"></i>
+            <span class="cc-level beginner">Beginner</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Ethics &amp; Safety</span>
+            <h3>AI Ethics for Healthcare Professionals</h3>
+            <p>Bias, explainability, consent, and your legal obligations when using AI clinical tools.</p>
+            <div class="cc-meta">
+              <span><i class="fas fa-clock"></i> 5h 00m</span>
+              <span><i class="fas fa-book-open"></i> 7 modules</span>
+              <span class="cc-rating"><i class="fas fa-star"></i> 4.9</span>
+            </div>
+            <a href="#contact" class="cc-enroll">Enroll Free <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="160" data-category="diagnostics">
+          <div class="cc-thumb" style="background:linear-gradient(135deg,#1E1B4B,#818CF8)">
+            <i class="fas fa-heartbeat"></i>
+            <span class="cc-level intermediate">Intermediate</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Cardiology AI</span>
+            <h3>ECG Interpretation with AI Assistance</h3>
+            <p>Compare your ECG reads against AI outputs to sharpen arrhythmia and ischaemia accuracy.</p>
+            <div class="cc-meta">
+              <span><i class="fas fa-clock"></i> 7h 30m</span>
+              <span><i class="fas fa-book-open"></i> 9 modules</span>
+              <span class="cc-rating"><i class="fas fa-star"></i> 4.8</span>
+            </div>
+            <a href="#contact" class="cc-enroll">Enroll Now <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:48px">
+        <a href="#contact" class="btn-outline">View All 120+ Courses <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <section class="section bg-offwhite">
+    <div class="container">
+      <div class="sec-header">
+        <span class="section-tag">Simple Process</span>
+        <h2>Your Journey to <span class="g-text">AI Proficiency</span></h2>
+      </div>
+      <div class="steps-row">
+        <div class="step-item reveal">
+          <div class="step-num">01</div>
+          <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+          <h3>Create Free Account</h3>
+          <p>Register and verify your healthcare credentials to unlock all accredited content and the AI Sandbox.</p>
+        </div>
+        <div class="step-connector"><div class="sc-line"></div><i class="fas fa-chevron-right"></i></div>
+        <div class="step-item reveal" data-delay="150">
+          <div class="step-num">02</div>
+          <div class="step-icon"><i class="fas fa-route"></i></div>
+          <h3>Choose Your Path</h3>
+          <p>Take a 5-minute assessment and let our AI recommend the right learning path for your role and experience.</p>
+        </div>
+        <div class="step-connector"><div class="sc-line"></div><i class="fas fa-chevron-right"></i></div>
+        <div class="step-item reveal" data-delay="300">
+          <div class="step-num">03</div>
+          <div class="step-icon"><i class="fas fa-trophy"></i></div>
+          <h3>Learn, Practise &amp; Certify</h3>
+          <p>Complete modules, use the AI Sandbox on real cases, earn CPD credits, and apply skills in clinical practice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SPECIALTIES FULLBLEED — img-brain.jpg ═══ -->
+  <section class="fullbleed-section fullbleed-right">
+    <div class="fb-bg" style="background-image:url('assets/img-brain.jpg')"></div>
+    <div class="fb-overlay overlay-left"></div>
+    <div class="fb-content-right reveal">
+      <span class="section-tag light">Advanced Specialties</span>
+      <h2>From the Ward to the<br><span class="hero-accent">Cath Lab —</span><br>AI is Everywhere</h2>
+      <p>Whether you are a neurosurgeon reviewing AI-enhanced brain scans or a cardiologist interpreting real-time AI echo analysis, AMZ MedAI Academy has expert-led content for every corner of the hospital.</p>
+
+      <div class="spec-tags">
+        <span><i class="fas fa-brain"></i> Neurology</span>
+        <span><i class="fas fa-heart"></i> Cardiology</span>
+        <span><i class="fas fa-lungs"></i> Pulmonology</span>
+        <span><i class="fas fa-eye"></i> Ophthalmology</span>
+        <span><i class="fas fa-bone"></i> Orthopaedics</span>
+        <span><i class="fas fa-microscope"></i> Pathology</span>
+        <span><i class="fas fa-baby"></i> Paediatrics</span>
+        <span><i class="fas fa-female"></i> Obs &amp; Gynae</span>
+        <span><i class="fas fa-ambulance"></i> Emergency Med</span>
+        <span><i class="fas fa-pills"></i> Pharmacology</span>
+      </div>
+
+      <a href="#contact" class="btn-hero-primary">Find My Specialty <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIALS ═══ -->
+  <section class="section bg-white">
+    <div class="container">
+      <div class="sec-header">
+        <span class="section-tag">Learner Stories</span>
+        <h2>What Our <span class="g-text">Clinicians Say</span></h2>
+      </div>
+
+      <div class="testimonials-track-wrapper">
+        <div class="testimonials-track" id="testimonialsTrack">
+
+          <div class="tcard">
+            <div class="tcard-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"The Radiology AI course changed how I work. I now use AI tools to double-check my reads and have caught lesions I would previously have missed. Invaluable."</p>
+            <div class="tcard-author">
+              <div class="tcard-av" style="background:linear-gradient(135deg,#4F7EFF,#00C9A7)">AK</div>
+              <div><strong>Dr. Amara K.</strong><span>Radiologist, Nairobi, Kenya</span></div>
+            </div>
+          </div>
+
+          <div class="tcard">
+            <div class="tcard-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"As a rural GP with limited specialist support, the AI diagnostics training gave me confidence to use AI tools responsibly. My patients are genuinely better for it."</p>
+            <div class="tcard-author">
+              <div class="tcard-av" style="background:linear-gradient(135deg,#00C9A7,#34D399)">FO</div>
+              <div><strong>Dr. Funke O.</strong><span>General Practitioner, Ibadan, Nigeria</span></div>
+            </div>
+          </div>
+
+          <div class="tcard">
+            <div class="tcard-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"The AI Ethics course should be mandatory for every clinician. I thought I understood consent — this course showed me how AI changes everything we assumed."</p>
+            <div class="tcard-author">
+              <div class="tcard-av" style="background:linear-gradient(135deg,#A78BFA,#4F7EFF)">BN</div>
+              <div><strong>Sr. Beatrice N.</strong><span>ICU Nurse, Dar es Salaam, Tanzania</span></div>
+            </div>
+          </div>
+
+          <div class="tcard">
+            <div class="tcard-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"I completed the Data Analytics path alongside my registrar duties. The mobile app made it possible. Now I am leading AI adoption at my hospital."</p>
+            <div class="tcard-author">
+              <div class="tcard-av" style="background:linear-gradient(135deg,#FFB347,#FF6B6B)">JM</div>
+              <div><strong>Dr. James M.</strong><span>Medical Registrar, Cape Town, South Africa</span></div>
+            </div>
+          </div>
+
+          <div class="tcard">
+            <div class="tcard-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p>"The AI Sandbox is genius. I practised on 500 real X-ray cases before using the tool clinically. That practice gave me a confidence nothing else could."</p>
+            <div class="tcard-author">
+              <div class="tcard-av" style="background:linear-gradient(135deg,#34D399,#00C9A7)">PN</div>
+              <div><strong>Dr. Priya N.</strong><span>Pulmonologist, Kampala, Uganda</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="testimonials-nav">
+        <button class="t-nav-btn" id="tPrev"><i class="fas fa-chevron-left"></i></button>
+        <div class="t-dots" id="tDots"></div>
+        <button class="t-nav-btn" id="tNext"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="section bg-offwhite">
+    <div class="container">
+      <div class="sec-header">
+        <span class="section-tag">Questions &amp; Answers</span>
+        <h2>Frequently Asked <span class="g-text">Questions</span></h2>
+      </div>
+      <div class="faq-wrap">
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Do I need a technical background to take these courses? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-a"><p>No. Our courses are built for clinicians, not data scientists. We explain AI in clinical language you already understand. Beginner paths require zero programming or maths background.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Are the certificates recognised by medical councils? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-a"><p>Yes. AMZ MedAI Academy is accredited for CME/CPD points by medical associations in 48 countries including KMA, NMA, HPCSA, AMA, and the Royal Colleges. Each course page lists specific accreditations.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">How long does each course take? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-a"><p>Courses range from 4 hours to 60 hours. All content is self-paced — complete a module in 20 minutes between shifts. Most learners finish beginner courses in 2–3 weeks at a comfortable pace.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Can my hospital enrol the entire team? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-a"><p>Absolutely. We offer institutional licences with dedicated dashboards, bulk enrolment, custom learning paths, and a dedicated account manager. Contact us for enterprise pricing.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">Is patient data used in the AI sandbox? <i class="fas fa-plus faq-icon"></i></button>
+          <div class="faq-a"><p>All sandbox cases use fully anonymised, de-identified data sourced with ethics board approval. No real patient data is accessible to learners. All handling is HIPAA and GDPR compliant.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ENROL ═══ -->
+  <section id="contact" class="enrol-section">
+    <div class="enrol-inner">
+
+      <div class="enrol-left reveal">
+        <span class="section-tag light">Get Started Today</span>
+        <h2>Join <span class="hero-accent">12,000+</span><br>Healthcare Professionals</h2>
+        <p>Whether you are a student doctor or a senior consultant, there is a course for you. Start free — upgrade when you are ready.</p>
+
+        <div class="enrol-info">
+          <div class="ei-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><span>learn@amzmedzone.com</span></div></div>
+          <div class="ei-item"><i class="fas fa-phone"></i><div><strong>Hotline</strong><span>+1 (800) AMZ-LEARN</span></div></div>
+          <div class="ei-item"><i class="fas fa-map-marker-alt"></i><div><strong>HQ</strong><span>Nairobi Innovation Hub, Kenya</span></div></div>
+        </div>
+
+        <div class="social-row">
+          <a href="#" class="soc-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="soc-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="soc-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="soc-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="enrol-form-wrap reveal" data-delay="200">
+        <form class="enrol-form" id="contactForm" novalidate>
+          <h3>Create Your Free Account</h3>
+
+          <div class="form-row">
+            <div class="fg"><label for="firstName">First Name</label>
+              <input type="text" id="firstName" placeholder="Dr. John" required />
+              <span class="ferr" id="firstNameError"></span></div>
+            <div class="fg"><label for="lastName">Last Name</label>
+              <input type="text" id="lastName" placeholder="Doe" required />
+              <span class="ferr" id="lastNameError"></span></div>
+          </div>
+
+          <div class="fg"><label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="john@hospital.com" required />
+            <span class="ferr" id="emailError"></span></div>
+
+          <div class="fg"><label for="service">Your Healthcare Role</label>
+            <select id="service" required>
+              <option value="">Select your role…</option>
+              <option value="physician">Physician / Doctor</option>
+              <option value="nurse">Nurse / Midwife</option>
+              <option value="radiologist">Radiologist</option>
+              <option value="surgeon">Surgeon</option>
+              <option value="pharmacist">Pharmacist</option>
+              <option value="student">Medical Student / Intern</option>
+              <option value="admin">Healthcare Administrator</option>
+              <option value="researcher">Medical Researcher</option>
+              <option value="institution">Institution / Hospital</option>
+            </select>
+            <span class="ferr" id="serviceError"></span></div>
+
+          <div class="fg"><label for="message">What do you hope to learn? (Optional)</label>
+            <textarea id="message" rows="3" placeholder="e.g. I want to understand how AI can help in emergency medicine…"></textarea></div>
+
+          <button type="submit" class="btn-primary btn-block">
+            <span class="btn-text">Create Free Account</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <p class="form-note"><i class="fas fa-lock"></i> Free forever. No credit card required.</p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="#home" class="nav-logo">
+              <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+              <div class="logo-text">
+                <span class="logo-name">AMZ</span>
+                <span class="logo-tagline">MedAI Academy</span>
+              </div>
+            </a>
+            <p>Empowering healthcare professionals to harness AI — improving patient outcomes across Africa and the world.</p>
+            <span class="footer-badge">Bridging Tech &amp; Human Life</span>
+          </div>
+          <div class="footer-col">
+            <h4>Learn</h4>
+            <ul>
+              <li><a href="#paths">AI Diagnostics</a></li>
+              <li><a href="#paths">Radiology AI</a></li>
+              <li><a href="#paths">Health Analytics</a></li>
+              <li><a href="#paths">Surgical Robotics</a></li>
+              <li><a href="#paths">AI Ethics</a></li>
+              <li><a href="#paths">Genomics AI</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="#courses">Course Catalog</a></li>
+              <li><a href="#community">Community</a></li>
+              <li><a href="#">AI Sandbox</a></li>
+              <li><a href="#">CPD Certificates</a></li>
+              <li><a href="#">Institutional Plans</a></li>
+              <li><a href="#">Mobile App</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Stay Updated</h4>
+            <p>New courses, webinars, and AI-in-medicine insights weekly.</p>
+            <form class="footer-nl" id="newsletterForm">
+              <input type="email" id="newsletterEmail" placeholder="your@email.com" required />
+              <button type="submit"><i class="fas fa-arrow-right"></i></button>
+            </form>
+            <p class="footer-legal"><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Cookies</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2025 AMZ – MedAI Academy. All rights reserved.</p>
+        <p>Made with <i class="fas fa-heart" style="color:#FF6B6B"></i> for a healthier world.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ CHATBOT ═══ -->
+  <div class="chatbot-container" id="chatbotContainer" aria-hidden="true">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="20" fill="url(#cg)"/>
+          <circle cx="20" cy="15" r="7" fill="white" opacity="0.9"/>
+          <path d="M6 35 Q20 25 34 35" fill="white" opacity="0.9"/>
+          <defs><linearGradient id="cg" x1="0" y1="0" x2="40" y2="40">
+            <stop offset="0%" stop-color="#4F7EFF"/><stop offset="100%" stop-color="#00C9A7"/>
+          </linearGradient></defs>
+        </svg>
+        <div class="avatar-status"></div>
+      </div>
+      <div class="chatbot-info">
+        <strong>AMZ AI Mentor</strong>
+        <span>Learning Assistant <span class="online-dot"></span> Online</span>
+      </div>
+      <div class="chatbot-header-actions">
+        <button class="chat-action-btn" id="chatClear"    title="Clear"><i class="fas fa-trash-alt"></i></button>
+        <button class="chat-action-btn" id="chatMinimize" title="Minimize"><i class="fas fa-minus"></i></button>
+        <button class="chat-action-btn" id="chatClose"    title="Close"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-suggestions" id="chatSuggestions"></div>
+    <div class="chatbot-input-area">
+      <textarea id="chatInput" placeholder="Ask about courses, AI tools, or how to get started…" rows="1" aria-label="Chat message"></textarea>
+      <button class="chat-send-btn" id="chatSend" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <p class="chat-disclaimer"><i class="fas fa-circle-info"></i> Course guidance only — not a substitute for clinical training.</p>
+  </div>
+
+  <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open AI Mentor">
+    <i class="fas fa-robot toggle-icon-open"></i>
+    <i class="fas fa-times toggle-icon-close" style="display:none"></i>
+    <div class="chat-notification-badge">1</div>
+  </button>
+
+  <div class="toast" id="toast" role="alert"></div>
+  <script src="script.js"></script>
+</body>
+</html>
