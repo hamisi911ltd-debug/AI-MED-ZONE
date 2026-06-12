@@ -453,14 +453,33 @@ h1,h2,h3,h4{line-height:1.15;font-weight:800}
 .ps-item div{display:flex;flex-direction:column}
 .ps-item strong{font-size:.86rem;color:var(--navy);font-weight:700}
 .ps-item span{font-size:.75rem;color:var(--text-lt)}
-.ps-note{
-  background:rgba(79,126,255,.07);border:1px solid rgba(79,126,255,.15);
-  border-radius:12px;padding:14px 16px;
-  font-size:.82rem;color:var(--text-md);line-height:1.65;
-  display:flex;align-items:flex-start;gap:10px;
+/* Full-width commendation banner */
+.commend-banner{
+  display:flex;align-items:center;gap:18px;flex-wrap:nowrap;
+  margin-top:40px;padding:18px 28px;
+  background:linear-gradient(90deg,rgba(79,126,255,.1),rgba(0,201,167,.08),rgba(79,126,255,.1));
+  border:1px solid rgba(79,126,255,.2);
+  border-radius:var(--r);
+  width:100%;
 }
-.ps-note i{color:var(--teal);margin-top:2px;flex-shrink:0}
-.ps-note strong{color:var(--navy)}
+.commend-icon{font-size:1.35rem;color:var(--gold);flex-shrink:0}
+.commend-banner span{font-size:.87rem;color:var(--text-md);line-height:1.5;white-space:nowrap}
+.commend-banner strong{color:var(--navy)}
+.commend-sep{color:var(--teal);font-weight:900;font-size:1.1rem;flex-shrink:0}
+.commend-cta{
+  margin-left:auto;flex-shrink:0;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:var(--r);
+  background:var(--grad);color:white;
+  font-size:.82rem;font-weight:700;white-space:nowrap;
+  transition:all .2s;
+}
+.commend-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(79,126,255,.35)}
+@media(max-width:900px){
+  .commend-banner{flex-wrap:wrap;gap:10px}
+  .commend-banner span{white-space:normal}
+  .commend-cta{margin-left:0}
+}
 
 /* ── PATHS ── */
 .paths-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:22px}
