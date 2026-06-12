@@ -5,6 +5,38 @@
 
 'use strict';
 
+/* ── HERO SLIDESHOW ── */
+(function initSlideshow() {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots   = document.querySelectorAll('.slide-dot');
+  if (!slides.length) return;
+
+  let current = 0, timer;
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots[current]?.classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current]?.classList.add('active');
+  }
+
+  function next() { goTo(current + 1); }
+
+  function start() { timer = setInterval(next, 4500); }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      clearInterval(timer);
+      goTo(+dot.dataset.index);
+      start();
+    });
+  });
+
+  start();
+})();
+
+
 /* ── HERO CANVAS PARTICLE SYSTEM ── */
 (function initCanvas() {
   const canvas = document.getElementById('heroCanvas');
@@ -198,7 +230,7 @@
   const dotsContainer = document.getElementById('tDots');
   if (!track) return;
 
-  const cards = track.querySelectorAll('.testimonial-card');
+  const cards = track.querySelectorAll('.tcard');
   let current = 0, autoTimer;
 
   function getVisibleCount() {
@@ -254,7 +286,8 @@
 (function initFAQ() {
   const items = document.querySelectorAll('.faq-item');
   items.forEach(item => {
-    const btn = item.querySelector('.faq-question');
+    const btn = item.querySelector('.faq-q');
+    if (!btn) return;
     btn.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
       items.forEach(i => i.classList.remove('open'));
