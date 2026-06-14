@@ -312,25 +312,62 @@
     return ok;
   }
 
+  function setBtn(btn, loading) {
+    btn.disabled = loading;
+    btn.querySelector('.btn-text').textContent = loading ? 'Submitting…' : 'Create Account';
+  }
+
+  function saveToLocalStorage(data) {
+    try {
+      const existing = JSON.parse(localStorage.getItem('amz_enrollments') || '[]');
+      existing.push({ ...data, submitted_at: new Date().toISOString() });
+      localStorage.setItem('amz_enrollments', JSON.stringify(existing));
+    } catch (e) { /* storage may be unavailable */ }
+  }
+
   form.addEventListener('submit', e => {
     e.preventDefault();
     const v1 = validate('firstName', 'firstNameError', v => v.length >= 2, 'Please enter your first name.');
     const v2 = validate('lastName',  'lastNameError',  v => v.length >= 2, 'Please enter your last name.');
     const v3 = validate('email',     'emailError',     v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), 'Please enter a valid email.');
     const v4 = validate('service',   'serviceError',   v => v !== '',       'Please select your role.');
+    if (!v1 || !v2 || !v3 || !v4) return;
 
-    if (v1 && v2 && v3 && v4) {
-      const btn  = form.querySelector('.btn-primary');
-      const orig = btn.querySelector('.btn-text').textContent;
-      btn.disabled = true;
-      btn.querySelector('.btn-text').textContent = 'Creating account…';
+    const btn = form.querySelector('.btn-primary');
+    setBtn(btn, true);
 
+    const payload = {
+      first_name: document.getElementById('firstName').value.trim(),
+      last_name:  document.getElementById('lastName').value.trim(),
+      email:      document.getElementById('email').value.trim(),
+      role:       document.getElementById('service').value,
+      message:    document.getElementById('message').value.trim(),
+      site:       'AMZ MedAI Academy',
+      submitted:  new Date().toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' })
+    };
+
+    saveToLocalStorage(payload);
+
+    const ejsReady = typeof emailjs !== 'undefined' &&
+                     window.AMZ_EJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY';
+
+    if (ejsReady) {
+      emailjs.send(window.AMZ_EJS_SERVICE_ID, window.AMZ_EJS_TEMPLATE_ID, payload)
+        .then(() => {
+          setBtn(btn, false);
+          form.reset();
+          showToast('Enrolled! Check your email for your welcome message.');
+        })
+        .catch(() => {
+          setBtn(btn, false);
+          showToast('Enrolled! We\'ll be in touch shortly at ' + payload.email);
+        });
+    } else {
       setTimeout(() => {
-        btn.disabled = false;
-        btn.querySelector('.btn-text').textContent = orig;
+        setBtn(btn, false);
         form.reset();
-        showToast('Welcome! Check your email to complete registration.');
-      }, 1800);
+        showToast('Enrolled! We\'ll contact you at ' + payload.email + ' to complete onboarding.');
+      }, 1400);
     }
   });
 })();
@@ -344,6 +381,10 @@
     e.preventDefault();
     const email = document.getElementById('newsletterEmail').value.trim();
     if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      try {
+        const subs = JSON.parse(localStorage.getItem('amz_subscribers') || '[]');
+        if (!subs.includes(email)) { subs.push(email); localStorage.setItem('amz_subscribers', JSON.stringify(subs)); }
+      } catch(e) {}
       form.reset();
       showToast('Subscribed! Welcome to the AMZ MedAI Academy community.');
     }
@@ -377,7 +418,7 @@ const AIMentor = (function () {
     {
       id: 'getting_started',
       keywords: ['how to start','get started','sign up','register','create account','join','onboard','begin','new here','where do i start'],
-      response: `**Getting started is simple and free:**\n\n**Step 1 →** Fill in the enrollment form on this page (scroll down)\n\n**Step 2 →** Verify your healthcare credentials — this unlocks all accredited content\n\n**Step 3 →** Take our **5-minute specialty assessment** — our AI recommends the perfect learning path for your role\n\n**Step 4 →** Start your first module immediately — most beginners complete their first lesson in under 30 minutes\n\nNo technical background needed. No credit card. Just your curiosity.`,
+      response: `**Getting started is straightforward:**\n\n**Step 1 →** Fill in the enrollment form on this page (scroll down)\n\n**Step 2 →** Verify your healthcare credentials — this unlocks all accredited content\n\n**Step 3 →** Take our **5-minute specialty assessment** — our AI recommends the perfect learning path for your role\n\n**Step 4 →** Start your first module immediately — most beginners complete their first lesson in under 30 minutes\n\nNo technical background needed. Just your curiosity and commitment to better patient care.`,
       suggestions: ['What learning paths are available?', 'Do I need to know coding?', 'How long do courses take?', 'Will I get a certificate?']
     },
     {
@@ -401,7 +442,7 @@ const AIMentor = (function () {
     {
       id: 'for_nurse',
       keywords: ['nurse','nursing','ward','midwife','clinical nurse','sister','matron','healthcare worker','allied health'],
-      response: `**For Nurses & Allied Health Professionals:**\n\n✅ **Recommended starting point:**\n📊 *Reading AI Health Dashboards* — 4h 45m, Beginner, free\n   → Interpret real-time AI monitoring data on the ward\n   → Understand AI alerts and when to escalate\n\n🌟 **Then progress to:**\n⚖️ *AI Ethics & Clinical Safety* — 5h, Beginner\n   → Understand your responsibilities when using AI tools\n\n💡 **Advanced option:**\n🧠 *AI Diagnostics for Clinicians* — for clinical nurses looking to deepen their knowledge\n\nAll courses are mobile-first and work offline — perfect for busy ward schedules.`,
+      response: `**For Nurses & Allied Health Professionals:**\n\n✅ **Recommended starting point:**\n📊 *Reading AI Health Dashboards* — 4h 45m, Beginner\n   → Interpret real-time AI monitoring data on the ward\n   → Understand AI alerts and when to escalate\n\n🌟 **Then progress to:**\n⚖️ *AI Ethics & Clinical Safety* — 5h, Beginner\n   → Understand your responsibilities when using AI tools\n\n💡 **Advanced option:**\n🧠 *AI Diagnostics for Clinicians* — for clinical nurses looking to deepen their knowledge\n\nAll courses are mobile-first and work offline — perfect for busy ward schedules.`,
       suggestions: ['Mobile learning', 'AI Dashboards course', 'AI Ethics course', 'CPD hours for nurses']
     },
     {
@@ -413,8 +454,8 @@ const AIMentor = (function () {
     {
       id: 'for_student',
       keywords: ['student','intern','junior doctor','medical student','house officer','foundation','residency','trainee'],
-      response: `**For Medical Students & Junior Doctors:**\n\nYou're entering medicine at the perfect time — AI will be part of your entire career. Here's your recommended start:\n\n🆓 **Start free:**\n⚖️ *AI Ethics & Clinical Safety* — understand AI before you use it\n📊 *Reading AI Health Dashboards* — practical skill you'll use from Day 1\n\n🚀 **Then build expertise in your specialty:**\nOnce you know your specialty direction, enrol in the matching path (Radiology, Cardiology, Neuro, etc.)\n\n💡 **Pro tip:** Most medical schools now expect graduates to understand basic AI principles. Our certificates look great on a portfolio and CV.`,
-      suggestions: ['Free courses for students', 'AI in medical school', 'Build my CV with AI skills', 'Enroll now']
+      response: `**For Medical Students & Junior Doctors:**\n\nYou're entering medicine at the perfect time — AI will be part of your entire career. Here's your recommended start:\n\n🎯 **Begin here:**\n⚖️ *AI Ethics & Clinical Safety* — understand AI before you use it\n📊 *Reading AI Health Dashboards* — a practical skill you'll use from Day 1\n\n🚀 **Then build expertise in your specialty:**\nOnce you know your specialty direction, enrol in the matching path (Radiology, Cardiology, Neuro, etc.)\n\n💡 **Pro tip:** Most medical schools now expect graduates to understand basic AI principles. Our certificates strengthen any portfolio or CV.`,
+      suggestions: ['Enroll as a student', 'AI in medical school', 'Build my CV with AI skills', 'Enroll now']
     },
     {
       id: 'ai_radiology',
@@ -443,7 +484,7 @@ const AIMentor = (function () {
     {
       id: 'ai_ethics',
       keywords: ['ethics','bias','fair','responsibility','accountability','consent','transparent','explainable','black box','regulation','liability','legal'],
-      response: `**AI Ethics in Healthcare** is one of the most important topics for any clinician using AI tools. Our dedicated course covers:\n\n**Key topics:**\n• **Algorithmic bias** — AI trained on non-diverse data may underperform for your patient population\n• **Explainability** — "black box" AI and how to communicate uncertainty to patients\n• **Informed consent** — when must you disclose that AI is involved in a clinical decision?\n• **Medicolegal liability** — who is responsible when AI is wrong?\n• **Regulatory landscape** — FDA, CE marking, and African regulatory frameworks for AI medical devices\n• **Data sovereignty** — patient rights over health data used to train AI\n\n**Our course verdict:**\n*AI Ethics & Clinical Safety* (5 hours, Beginner, free to preview) is recommended for **every** healthcare professional using or considering AI tools — regardless of specialty.`,
+      response: `**AI Ethics in Healthcare** is one of the most important topics for any clinician using AI tools. Our dedicated course covers:\n\n**Key topics:**\n• **Algorithmic bias** — AI trained on non-diverse data may underperform for your patient population\n• **Explainability** — "black box" AI and how to communicate uncertainty to patients\n• **Informed consent** — when must you disclose that AI is involved in a clinical decision?\n• **Medicolegal liability** — who is responsible when AI is wrong?\n• **Regulatory landscape** — FDA, CE marking, and African regulatory frameworks for AI medical devices\n• **Data sovereignty** — patient rights over health data used to train AI\n\n**Our course verdict:**\n*AI Ethics & Clinical Safety* (5 hours, Beginner level) is recommended for **every** healthcare professional using or considering AI tools — regardless of specialty.`,
       suggestions: ['Enroll in AI Ethics', 'What is algorithmic bias?', 'Patient consent and AI', 'AI regulation in Africa']
     },
     {
@@ -455,13 +496,13 @@ const AIMentor = (function () {
     {
       id: 'pricing',
       keywords: ['price','cost','pricing','fee','free','paid','subscription','plan','money','afford','cheap','expensive'],
-      response: `**AMZ MedAI Academy Pricing:**\n\n🆓 **Free Forever**\n   • Preview all courses (first 2 modules)\n   • AI Mentor chatbot access\n   • Community forums\n   • Basic AI literacy resources\n\n💙 **Individual — from $29/month**\n   • Full access to all 120+ courses\n   • AI Sandbox (all cases)\n   • CPD certificates\n   • Offline downloads\n   • Expert Q&A sessions\n\n⭐ **Institution — Custom pricing**\n   • Unlimited staff access\n   • Progress dashboards for managers\n   • Custom learning paths for your hospital\n   • Bulk CPD reporting\n   • Dedicated account manager\n\nMany institutions cover subscription costs as part of CPD budgets. Contact us to verify.`,
-      suggestions: ['Create free account', 'Institutional licenses', 'What CPD hours do I earn?', 'Enroll now']
+      response: `**AMZ MedAI Academy Enrolment:**\n\nWe offer individual and institutional enrolment packages tailored to your needs.\n\n💙 **Individual Enrolment**\n   • Full access to all courses\n   • AI Sandbox (annotated clinical cases)\n   • CPD certificates (KMPDC · AMA · GMC)\n   • Offline downloads\n   • Expert Q&A sessions\n   • Research hub access\n\n⭐ **Institutional Package**\n   • Unlimited staff access\n   • Manager dashboard for CPD compliance tracking\n   • Custom learning paths for your organisation\n   • Bulk CPD reporting\n   • Dedicated account manager\n\nFor enrolment details and pricing, please contact us at +254 756 535 289 or info@amzmedzone.co.ke`,
+      suggestions: ['Enroll now', 'Institutional packages', 'What CPD hours do I earn?', 'Contact us']
     },
     {
       id: 'institution',
       keywords: ['hospital','institution','team','organisation','department','bulk','enterprise','whole team','staff','group'],
-      response: `**Institutional & Hospital Licenses:**\n\nIdeal for hospitals, medical schools, health systems, and NGOs wanting to train their entire clinical staff.\n\n**What's included:**\n✅ Unlimited seat licenses for your staff\n✅ Custom learning paths aligned with your protocols\n✅ Manager dashboard — track progress across departments\n✅ Bulk CPD reporting for regulatory submissions\n✅ White-label option (your branding on the platform)\n✅ Dedicated account manager and clinical educator support\n✅ Quarterly new course additions at no extra cost\n\n**Current institutional partners include:**\nKenyatta National Hospital · Lagos University Teaching Hospital · Groote Schuur Hospital · Aga Khan University\n\nContact **learn@amzmedzone.com** or use the enrollment form to get a custom quote.`,
+      response: `**Institutional & Hospital Licenses:**\n\nIdeal for hospitals, medical schools, health systems, and NGOs wanting to train their entire clinical staff.\n\n**What's included:**\n✅ Unlimited seat licenses for your staff\n✅ Custom learning paths aligned with your protocols\n✅ Manager dashboard — track progress across departments\n✅ Bulk CPD reporting for regulatory submissions\n✅ White-label option (your branding on the platform)\n✅ Dedicated account manager and clinical educator support\n✅ Quarterly new course additions at no extra cost\n\nContact **info@amzmedzone.co.ke** or +254 756 535 289 to get a custom institutional quote tailored to your organisation.`,
       suggestions: ['Get institutional quote', 'How many staff can enroll?', 'CPD reporting for hospitals', 'Contact our team']
     },
     {
@@ -474,7 +515,7 @@ const AIMentor = (function () {
       id: 'goodbye',
       keywords: ['bye','goodbye','see you','farewell','exit','quit','later','take care','done'],
       response: `Take care, and see you in the classroom! 🌿\n\nYour patients will benefit from every skill you learn. AMZ MedAI Academy is here whenever you're ready to grow.\n\n**Bridging Tech & Human Life — every day.** 💙`,
-      suggestions: ['Create free account', 'Browse courses']
+      suggestions: ['Enrol now', 'Browse courses']
     }
   ];
 
