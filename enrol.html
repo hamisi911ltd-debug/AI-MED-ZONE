@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enrol | AMZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo">
+        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+        <div class="logo-text"><span class="logo-name">AMZ</span><span class="logo-tagline">MedAI Zone</span></div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="home.html"     class="nav-link">Home</a></li>
+        <li><a href="about.html"    class="nav-link">About</a></li>
+        <li><a href="courses.html"  class="nav-link">Courses</a></li>
+        <li><a href="research.html" class="nav-link">Research</a></li>
+        <li><a href="enrol.html"    class="nav-link active">Enrol</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="login.html?signup=1" class="btn-cta-nav">Enrol Now <i class="fas fa-arrow-right"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section id="contact" class="enrol-section" style="padding-top:120px">
+    <div class="enrol-inner">
+
+      <div class="enrol-left reveal">
+        <span class="section-tag light">Get Started Today</span>
+        <h2>Join <span class="hero-accent">Healthcare Professionals</span><br>Training With AI</h2>
+        <p>Whether you are a student doctor or a senior consultant, there is a course for you. Create your account and earn an internationally recognised certificate.</p>
+
+        <div class="enrol-info">
+          <div class="ei-item"><i class="fas fa-envelope"></i><div><strong>Email</strong><span>info@amzmedzone.co.ke</span></div></div>
+          <div class="ei-item"><i class="fas fa-phone"></i><div><strong>Phone / WhatsApp</strong><span>+254 756 535 289</span></div></div>
+          <div class="ei-item"><i class="fas fa-map-marker-alt"></i><div><strong>Location</strong><span>Nairobi, Kenya</span></div></div>
+        </div>
+
+        <div class="social-row">
+          <a href="#" class="soc-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="soc-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="soc-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="soc-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="enrol-form-wrap reveal" data-delay="200">
+        <form class="enrol-form" id="contactForm" novalidate>
+          <h3>Create Your Account</h3>
+          <div class="form-row">
+            <div class="fg"><label for="firstName">First Name</label>
+              <input type="text" id="firstName" placeholder="Dr. John" required />
+              <span class="ferr" id="firstNameError"></span></div>
+            <div class="fg"><label for="lastName">Last Name</label>
+              <input type="text" id="lastName" placeholder="Doe" required />
+              <span class="ferr" id="lastNameError"></span></div>
+          </div>
+          <div class="fg"><label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="john@hospital.com" required />
+            <span class="ferr" id="emailError"></span></div>
+          <div class="fg"><label for="service">Your Healthcare Role</label>
+            <select id="service" required>
+              <option value="">Select your role…</option>
+              <option value="physician">Physician / Doctor</option>
+              <option value="nurse">Nurse / Midwife</option>
+              <option value="radiologist">Radiologist</option>
+              <option value="surgeon">Surgeon</option>
+              <option value="pharmacist">Pharmacist</option>
+              <option value="student">Medical Student / Intern</option>
+              <option value="admin">Healthcare Administrator</option>
+              <option value="researcher">Medical Researcher</option>
+              <option value="institution">Institution / Hospital</option>
+            </select>
+            <span class="ferr" id="serviceError"></span></div>
+          <div class="fg"><label for="message">What do you hope to learn? (Optional)</label>
+            <textarea id="message" rows="3" placeholder="e.g. I want to integrate AI into radiology reporting…"></textarea></div>
+          <button type="submit" class="btn-primary btn-block">
+            <span class="btn-text">Create Account</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <p class="form-note"><i class="fas fa-lock"></i> Your data is protected and secure.</p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="toast" id="toast" role="alert"></div>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 AMZ. All rights reserved. Nairobi, Kenya.</p>
+        <p>Made with <i class="fas fa-heart" style="color:#FF6B6B"></i> for a healthier East Africa.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

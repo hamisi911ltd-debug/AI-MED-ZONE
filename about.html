@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | AMZ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .page-hero{
+      padding:160px 0 80px;
+      background:linear-gradient(135deg,#0D1B2A 0%,#1B2B4B 60%,#003d3d 100%);
+      text-align:center;
+    }
+    .page-hero h1{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;color:white;margin-bottom:14px}
+    .page-hero p{font-size:1rem;color:rgba(255,255,255,.6);max-width:540px;margin:0 auto;line-height:1.75}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="home.html" class="nav-logo">
+        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-name">AMZ</span>
+          <span class="logo-tagline">MedAI Zone</span>
+        </div>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="home.html"     class="nav-link">Home</a></li>
+        <li><a href="about.html"    class="nav-link active">About</a></li>
+        <li><a href="courses.html"  class="nav-link">Courses</a></li>
+        <li><a href="research.html" class="nav-link">Research</a></li>
+        <li><a href="enrol.html"    class="nav-link">Enrol</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="login.html?signup=1" class="btn-cta-nav">Enrol Now <i class="fas fa-arrow-right"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <h1>About <span style="background:linear-gradient(90deg,#4F7EFF,#00C9A7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">AMZ</span></h1>
+    <p>Kenya's dedicated AI-in-medicine learning platform, built by clinicians for clinicians.</p>
+  </div>
+
+  <!-- About Split -->
+  <section id="about" class="split-section">
+    <div class="split-image reveal">
+      <img src="2.png" alt="Doctor and clinical staff reviewing AI chest X-ray analysis" loading="lazy" decoding="async" />
+      <div class="split-img-badge">
+        <i class="fas fa-lungs"></i>
+        <div>
+          <strong>AI Image Analysis</strong>
+          <span>X-Ray · CT · MRI · Ultrasound</span>
+        </div>
+      </div>
+    </div>
+    <div class="split-content reveal" data-delay="120">
+      <span class="section-tag">Why AMZ</span>
+      <h2>AI Is Already in Your<br><span class="g-text">Hospital. Are You Ready?</span></h2>
+      <p>AI diagnostic tools, clinical decision support systems, and automated monitoring are being deployed across Kenyan hospitals right now — but most healthcare professionals have received no training on how to use them safely and effectively.</p>
+      <p>AMZ bridges that gap with courses built by clinicians, for clinicians. No coding. No maths. Just practical, role-specific training that makes you confident with AI on day one.</p>
+      <div class="check-list">
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>10 structured weekly modules — AI fundamentals through capstone presentation</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>Grounded in Kenya Data Protection Act 2019 and African healthcare contexts</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>Ubuntu philosophy &amp; the CARE framework embedded in ethics training</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>KMPDC · AMA · GMC · WHO internationally recognised certificates</span></div>
+        <div class="check-item"><i class="fas fa-check-circle"></i><span>Capstone project presented to an expert clinical AI panel</span></div>
+      </div>
+      <a href="login.html?signup=1" class="btn-primary">Create Your Account <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- Impact Panels -->
+  <section class="impact-panels">
+    <div class="ip-grid">
+      <div class="ip-panel reveal">
+        <div class="ip-bg" style="background-image:url('1.png')"></div>
+        <div class="ip-overlay"></div>
+        <div class="ip-content">
+          <div class="ip-tag"><i class="fas fa-brain"></i> AI Diagnostics</div>
+          <h3>AI-Powered Clinical Decision Support</h3>
+          <p>Real-time diagnostic assistance helping Kenyan clinicians make faster, more accurate decisions at the point of care.</p>
+        </div>
+      </div>
+      <div class="ip-panel reveal" data-delay="80">
+        <div class="ip-bg" style="background-image:url('2.png')"></div>
+        <div class="ip-overlay"></div>
+        <div class="ip-content">
+          <div class="ip-tag"><i class="fas fa-x-ray"></i> Medical Imaging AI</div>
+          <h3>AI-Assisted Radiology &amp; Imaging</h3>
+          <p>Training clinicians to confidently interpret AI-generated insights from X-rays, CT scans, MRI, and ultrasound.</p>
+        </div>
+      </div>
+      <div class="ip-panel reveal" data-delay="120">
+        <div class="ip-bg" style="background-image:url('3.png')"></div>
+        <div class="ip-overlay"></div>
+        <div class="ip-content">
+          <div class="ip-tag"><i class="fas fa-users"></i> Team Collaboration</div>
+          <h3>Peer Learning &amp; Research Networks</h3>
+          <p>Multidisciplinary teams across Kenya and East Africa collaborating on cases, ethics, and published AI research.</p>
+        </div>
+      </div>
+      <div class="ip-panel reveal" data-delay="160">
+        <div class="ip-bg" style="background-image:url('4.png')"></div>
+        <div class="ip-overlay"></div>
+        <div class="ip-content">
+          <div class="ip-tag"><i class="fas fa-microscope"></i> Advanced Specialties</div>
+          <h3>From Neurology to the Cath Lab</h3>
+          <p>From brain scan AI analysis to interventional cardiology — specialist training for Kenya's most complex clinical environments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community -->
+  <section id="community" class="fullbleed-section">
+    <div class="fb-bg" style="background-image:url('3.png')"></div>
+    <div class="fb-overlay"></div>
+    <div class="fb-content reveal">
+      <span class="section-tag light">Peer Learning</span>
+      <h2>Learn Together.<br><span class="hero-accent">Grow Together.</span></h2>
+      <p>Join the growing network of AI-forward healthcare professionals in Kenya and East Africa. Collaborate on real cases, debate ethics, co-author research, and grow together across disciplines.</p>
+      <div class="fb-features">
+        <div class="fb-feat"><i class="fas fa-comments"></i> Live case discussion forums</div>
+        <div class="fb-feat"><i class="fas fa-chalkboard-teacher"></i> Monthly expert webinars</div>
+        <div class="fb-feat"><i class="fas fa-flask"></i> Research team collaboration</div>
+      </div>
+      <a href="login.html?signup=1" class="btn-hero-primary">Join the Community <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 AMZ. All rights reserved. Nairobi, Kenya.</p>
+        <p>Made with <i class="fas fa-heart" style="color:#FF6B6B"></i> for a healthier East Africa.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
