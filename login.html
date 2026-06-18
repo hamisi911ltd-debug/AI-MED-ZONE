@@ -114,10 +114,7 @@
     .btn-login.loading .btn-text{display:none}
     .btn-login.loading .btn-spinner{display:block}
     @keyframes spin{to{transform:rotate(360deg)}}
-    .btn-secondary{width:100%;padding:12px 24px;background:transparent;color:var(--blue);font-size:.9rem;font-weight:600;border:1.5px solid rgba(79,126,255,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;margin-top:10px}
-    .btn-secondary:hover{background:rgba(79,126,255,.06);border-color:var(--blue)}
-    .divider{display:flex;align-items:center;gap:14px;margin:20px 0;font-size:.76rem;color:var(--text-lt)}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
 
     /* Alerts */
     .alert{display:none;padding:11px 15px;border-radius:10px;font-size:.84rem;margin-bottom:16px;align-items:center;gap:10px}
@@ -268,10 +265,7 @@
             <div class="btn-spinner"></div>
           </button>
 
-          <div class="divider">or</div>
-          <button type="button" class="btn-secondary" onclick="handleSSOLogin()">
-            <i class="fas fa-building-columns"></i> Institutional SSO Login
-          </button>
+
         </form>
 
         <div class="security-note">
@@ -577,11 +571,6 @@
         showAlert('resetSuccess');
       }, 2000);
     });
-
-    /* ── SSO stub ── */
-    function handleSSOLogin() {
-      alert('Institutional SSO login is available for partner organisations. Contact info@amzmedzone.co.ke to set up SSO for your hospital or university.');
-    }
 
     /* ── Clear errors on input ── */
     ['loginEmail','loginPassword','signupFirst','signupLast','signupEmail','signupRole','signupPassword','resetEmail'].forEach(id => {
