@@ -38,6 +38,7 @@
         <li><a href="enrol.html"    class="nav-link">Enrol</a></li>
       </ul>
       <div class="nav-actions">
+        <button class="btn-ghost-nav" onclick="openChatbot()"><i class="fas fa-robot"></i> AI Mentor</button>
         <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
         <a href="login.html?signup=1" class="btn-cta-nav">Enrol Now <i class="fas fa-arrow-right"></i></a>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
@@ -139,6 +140,49 @@
   </section>
 
   <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="home.html" class="nav-logo">
+              <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+              <div class="logo-text">
+                <span class="logo-name">AMZ</span>
+                <span class="logo-tagline">MedAI Zone</span>
+              </div>
+            </a>
+            <p>Nairobi, Kenya — Training healthcare professionals to harness AI for better patient outcomes.</p>
+            <span class="footer-badge">Bridging Tech &amp; Human Life</span>
+          </div>
+          <div class="footer-col">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="home.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="research.html">Research Hub</a></li>
+              <li><a href="enrol.html">Enrol</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Account</h4>
+            <ul>
+              <li><a href="login.html">Sign In</a></li>
+              <li><a href="login.html?signup=1">Create Account</a></li>
+              <li><a href="#">CPD Certificates</a></li>
+              <li><a href="#">Institutional Plans</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <p class="footer-contact-line"><i class="fas fa-phone"></i> +254 756 535 289</p>
+            <p class="footer-contact-line"><i class="fas fa-envelope"></i> info@amzmedzone.co.ke</p>
+            <p class="footer-contact-line"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+            <p class="footer-legal" style="margin-top:12px"><a href="#">Privacy</a> · <a href="#">Terms</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="footer-bottom">
       <div class="container">
         <p>&copy; 2026 AMZ. All rights reserved. Nairobi, Kenya.</p>
@@ -146,6 +190,45 @@
       </div>
     </div>
   </footer>
+
+  <!-- CHATBOT -->
+  <div class="chatbot-container" id="chatbotContainer" aria-hidden="true">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="20" fill="url(#cg)"/>
+          <circle cx="20" cy="15" r="7" fill="white" opacity="0.9"/>
+          <path d="M6 35 Q20 25 34 35" fill="white" opacity="0.9"/>
+          <defs><linearGradient id="cg" x1="0" y1="0" x2="40" y2="40">
+            <stop offset="0%" stop-color="#4F7EFF"/><stop offset="100%" stop-color="#00C9A7"/>
+          </linearGradient></defs>
+        </svg>
+        <div class="avatar-status"></div>
+      </div>
+      <div class="chatbot-info">
+        <strong>AMZ AI Mentor</strong>
+        <span>Learning Assistant <span class="online-dot"></span> Online</span>
+      </div>
+      <div class="chatbot-header-actions">
+        <button class="chat-action-btn" id="chatClear" title="Clear"><i class="fas fa-trash-alt"></i></button>
+        <button class="chat-action-btn" id="chatMinimize" title="Minimize"><i class="fas fa-minus"></i></button>
+        <button class="chat-action-btn" id="chatClose" title="Close"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-suggestions" id="chatSuggestions"></div>
+    <div class="chatbot-input-area">
+      <textarea id="chatInput" placeholder="Ask about courses, research, certificates…" rows="1" aria-label="Chat message"></textarea>
+      <button class="chat-send-btn" id="chatSend" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <p class="chat-disclaimer"><i class="fas fa-circle-info"></i> Course guidance only.</p>
+  </div>
+  <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open AI Mentor">
+    <i class="fas fa-robot toggle-icon-open"></i>
+    <i class="fas fa-times toggle-icon-close" style="display:none"></i>
+    <div class="chat-notification-badge hidden"></div>
+  </button>
+  <div class="toast" id="toast" role="alert"></div>
 
   <script src="script.js"></script>
 </body>

@@ -42,6 +42,9 @@
     .lp-logo-text .ln-name{display:block;font-size:1.2rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
     .lp-logo-text .ln-tag{display:block;font-size:.6rem;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-top:1px}
     .lp-nav-actions{display:flex;align-items:center;gap:10px}
+    .lp-nav-links{display:flex;align-items:center;gap:4px}
+    .lp-nav-link{padding:8px 13px;color:rgba(255,255,255,.72);font-size:.88rem;font-weight:500;border-radius:10px;transition:all .2s}
+    .lp-nav-link:hover{color:white;background:rgba(255,255,255,.09)}
     .btn-nav-ghost{padding:8px 20px;border:1.5px solid rgba(255,255,255,.3);border-radius:var(--r);color:rgba(255,255,255,.85);font-size:.85rem;font-weight:600;transition:all .2s;background:none;cursor:pointer}
     .btn-nav-ghost:hover{border-color:var(--teal);color:var(--teal)}
     .btn-nav-solid{padding:9px 22px;background:var(--grad);border-radius:var(--r);color:white;font-size:.85rem;font-weight:700;transition:all .2s;box-shadow:0 4px 16px rgba(79,126,255,.35)}
@@ -205,6 +208,12 @@
         <span class="ln-tag">AI Training for Healthcare Professionals</span>
       </div>
     </div>
+    <div class="lp-nav-links">
+      <a href="home.html" class="lp-nav-link">Platform</a>
+      <a href="about.html" class="lp-nav-link">About</a>
+      <a href="courses.html" class="lp-nav-link">Courses</a>
+      <a href="research.html" class="lp-nav-link">Research</a>
+    </div>
     <div class="lp-nav-actions">
       <a href="login.html" class="btn-nav-ghost">Sign In</a>
       <a href="login.html?signup=1" class="btn-nav-solid">Get Started</a>
@@ -232,6 +241,9 @@
         </a>
         <a href="login.html" class="btn-hero-outline">
           <i class="fas fa-sign-in-alt"></i> Sign In
+        </a>
+        <a href="home.html" class="btn-hero-outline">
+          <i class="fas fa-compass"></i> Explore Platform
         </a>
       </div>
     </div>
@@ -288,6 +300,40 @@
     </div>
   </section>
 
+  <!-- ── PAGE NAVIGATOR ── -->
+  <section style="padding:64px 24px;background:var(--offwhite)">
+    <div style="max-width:1100px;margin:0 auto">
+      <p style="text-align:center;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:40px">Explore the Platform</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px">
+        <a href="home.html" style="background:white;border-radius:16px;padding:28px 22px;border:1px solid rgba(0,0,0,.06);text-decoration:none;transition:all .25s;display:block" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 32px rgba(13,27,42,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="width:44px;height:44px;border-radius:11px;background:linear-gradient(90deg,#4F7EFF,#00C9A7);display:flex;align-items:center;justify-content:center;margin-bottom:14px"><i class="fas fa-home" style="color:white;font-size:1.1rem"></i></div>
+          <h4 style="font-size:.96rem;font-weight:700;color:#0D1B2A;margin-bottom:6px">Home</h4>
+          <p style="font-size:.83rem;color:#4A5568;line-height:1.5">Platform overview, highlights and quick course preview</p>
+        </a>
+        <a href="about.html" style="background:white;border-radius:16px;padding:28px 22px;border:1px solid rgba(0,0,0,.06);text-decoration:none;transition:all .25s;display:block" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 32px rgba(13,27,42,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="width:44px;height:44px;border-radius:11px;background:linear-gradient(90deg,#4F7EFF,#00C9A7);display:flex;align-items:center;justify-content:center;margin-bottom:14px"><i class="fas fa-info-circle" style="color:white;font-size:1.1rem"></i></div>
+          <h4 style="font-size:.96rem;font-weight:700;color:#0D1B2A;margin-bottom:6px">About</h4>
+          <p style="font-size:.83rem;color:#4A5568;line-height:1.5">Who we are, our mission and our clinical community</p>
+        </a>
+        <a href="courses.html" style="background:white;border-radius:16px;padding:28px 22px;border:1px solid rgba(0,0,0,.06);text-decoration:none;transition:all .25s;display:block" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 32px rgba(13,27,42,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="width:44px;height:44px;border-radius:11px;background:linear-gradient(90deg,#4F7EFF,#00C9A7);display:flex;align-items:center;justify-content:center;margin-bottom:14px"><i class="fas fa-graduation-cap" style="color:white;font-size:1.1rem"></i></div>
+          <h4 style="font-size:.96rem;font-weight:700;color:#0D1B2A;margin-bottom:6px">Courses</h4>
+          <p style="font-size:.83rem;color:#4A5568;line-height:1.5">10-week programme, tracks and individual modules</p>
+        </a>
+        <a href="research.html" style="background:white;border-radius:16px;padding:28px 22px;border:1px solid rgba(0,0,0,.06);text-decoration:none;transition:all .25s;display:block" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 32px rgba(13,27,42,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="width:44px;height:44px;border-radius:11px;background:linear-gradient(90deg,#4F7EFF,#00C9A7);display:flex;align-items:center;justify-content:center;margin-bottom:14px"><i class="fas fa-flask" style="color:white;font-size:1.1rem"></i></div>
+          <h4 style="font-size:.96rem;font-weight:700;color:#0D1B2A;margin-bottom:6px">Research</h4>
+          <p style="font-size:.83rem;color:#4A5568;line-height:1.5">Collaborative AI research hub and clinical datasets</p>
+        </a>
+        <a href="enrol.html" style="background:white;border-radius:16px;padding:28px 22px;border:1px solid rgba(0,0,0,.06);text-decoration:none;transition:all .25s;display:block" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 32px rgba(13,27,42,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="width:44px;height:44px;border-radius:11px;background:linear-gradient(90deg,#4F7EFF,#00C9A7);display:flex;align-items:center;justify-content:center;margin-bottom:14px"><i class="fas fa-pen-to-square" style="color:white;font-size:1.1rem"></i></div>
+          <h4 style="font-size:.96rem;font-weight:700;color:#0D1B2A;margin-bottom:6px">Enrol</h4>
+          <p style="font-size:.83rem;color:#4A5568;line-height:1.5">Register now and get your CPD-accredited certificate</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- ── BOTTOM CTA ── -->
   <section class="lp-cta">
     <div class="lp-cta-inner">
@@ -308,9 +354,11 @@
   <footer class="lp-footer">
     <p>&copy; 2026 AMZ. Nairobi, Kenya.</p>
     <div class="lp-footer-links">
-      <a href="home.html">Platform</a>
+      <a href="about.html">About</a>
+      <a href="courses.html">Courses</a>
+      <a href="research.html">Research</a>
+      <a href="enrol.html">Enrol</a>
       <a href="login.html">Sign In</a>
-      <a href="login.html?signup=1">Register</a>
     </div>
   </footer>
 
