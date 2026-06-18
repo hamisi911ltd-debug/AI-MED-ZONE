@@ -65,6 +65,26 @@
     .lb-footer{padding-top:32px;border-top:1px solid rgba(255,255,255,.08)}
     .lb-tagline-bottom{font-size:.88rem;color:rgba(255,255,255,.45);font-style:italic}
 
+    /* About strip */
+    .lb-about{
+      margin-top:32px;padding-top:28px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .lb-about p{
+      font-size:.84rem;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:18px;
+    }
+    .lb-contact{display:flex;flex-direction:column;gap:10px}
+    .lb-contact-item{
+      display:flex;align-items:center;gap:10px;
+      font-size:.8rem;color:rgba(255,255,255,.5);
+    }
+    .lb-contact-item i{
+      width:28px;height:28px;border-radius:7px;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:center;
+      font-size:.7rem;color:var(--teal);flex-shrink:0;
+    }
+
 
     /* ── RIGHT PANEL ── */
     .login-panel{background:var(--white);display:flex;flex-direction:column;justify-content:center;padding:48px 44px;min-height:100vh;overflow-y:auto}
@@ -187,6 +207,25 @@
           <div class="lb-feat">
             <div class="lb-feat-icon"><i class="fas fa-shield-halved"></i></div>
             <span>Your data protected under Kenya's Data Protection Act</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- About strip -->
+      <div class="lb-about">
+        <p>AMZ MedAI Zone is Kenya's dedicated AI-in-medicine learning platform, built by clinicians for clinicians. We equip doctors, nurses, radiologists, and public health professionals with the practical skills to safely and confidently use AI tools in everyday clinical practice.</p>
+        <div class="lb-contact">
+          <div class="lb-contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Nairobi, Kenya</span>
+          </div>
+          <div class="lb-contact-item">
+            <i class="fas fa-phone"></i>
+            <span>+254 756 535 289</span>
+          </div>
+          <div class="lb-contact-item">
+            <i class="fas fa-envelope"></i>
+            <span>info@amzmedzone.co.ke</span>
           </div>
         </div>
       </div>
