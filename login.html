@@ -87,7 +87,14 @@
 
 
     /* ── RIGHT PANEL ── */
-    .login-panel{background:var(--white);display:flex;flex-direction:column;justify-content:center;padding:48px 44px;min-height:100vh;overflow-y:auto}
+    .login-panel{
+      background:var(--white);
+      display:flex;flex-direction:column;justify-content:center;
+      padding:48px 44px;
+      min-height:100vh;min-height:100dvh;  /* dynamic viewport on mobile */
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
 
     /* ── TABS ── */
     .auth-tabs{display:flex;background:var(--offwhite);border-radius:14px;padding:4px;margin-bottom:32px;border:1px solid var(--border)}
@@ -158,15 +165,57 @@
     .terms-note a{color:var(--blue)}
 
     /* Mobile logo */
-    .login-mobile-logo{display:none;align-items:center;gap:12px;margin-bottom:28px;text-decoration:none;color:var(--navy)}
-    .login-mobile-logo img{width:40px;height:40px;object-fit:contain;border-radius:8px}
+    .login-mobile-logo{display:none;align-items:center;gap:12px;margin-bottom:24px;text-decoration:none;color:var(--navy)}
+    .login-mobile-logo img{width:38px;height:38px;object-fit:contain;border-radius:8px}
     .login-mobile-logo .lb-name{font-size:1.1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .login-mobile-logo .lb-tagline{font-size:.7rem;color:var(--text-lt);display:block;text-transform:uppercase;letter-spacing:.08em}
+    .login-mobile-logo .lb-tagline{font-size:.68rem;color:var(--text-lt);display:block;text-transform:uppercase;letter-spacing:.08em}
 
-    /* Responsive */
-    @media(max-width:900px){.login-page{grid-template-columns:1fr}.login-brand{display:none}.login-panel{padding:48px 28px;padding-top:52px;justify-content:flex-start}.login-mobile-logo{display:flex}}
-    @media(min-width:901px){.login-mobile-logo{display:none!important}}
-    @media(max-width:480px){.login-panel{padding:36px 18px}.form-header h2{font-size:1.35rem}.form-meta{flex-direction:column;align-items:flex-start}.form-row-2{grid-template-columns:1fr}}
+    /* ── RESPONSIVE ── */
+
+    /* Tablet — hide brand panel, stack form full width */
+    @media(max-width:900px){
+      .login-page{grid-template-columns:1fr}
+      .login-brand{display:none}
+      .login-panel{
+        padding:32px 28px 48px;
+        min-height:100vh;
+        justify-content:flex-start;
+      }
+      .login-mobile-logo{display:flex}
+    }
+    @media(min-width:901px){
+      .login-mobile-logo{display:none!important}
+    }
+
+    /* Phone — tighter spacing, full-width inputs */
+    @media(max-width:600px){
+      .login-panel{
+        padding:24px 20px 40px;
+      }
+      .auth-tabs{margin-bottom:24px}
+      .tab-btn{padding:10px 12px;font-size:.86rem}
+      .form-header{margin-bottom:20px}
+      .form-header h2{font-size:1.45rem}
+      .form-header p{font-size:.84rem}
+      .fg{margin-bottom:14px}
+      .input-wrap input,
+      .input-wrap select{
+        padding:13px 42px;  /* taller touch target */
+        font-size:1rem;     /* prevents iOS zoom on focus */
+        border-radius:14px;
+      }
+      .btn-login{padding:15px;font-size:1rem}
+      .form-meta{flex-direction:column;align-items:flex-start;gap:10px}
+      .form-row-2{grid-template-columns:1fr}
+    }
+
+    /* Very small phones (≤380px) */
+    @media(max-width:380px){
+      .login-panel{padding:20px 16px 36px}
+      .form-header h2{font-size:1.3rem}
+      .auth-tabs{padding:3px}
+      .tab-btn{padding:9px 8px;font-size:.82rem}
+    }
   </style>
 </head>
 <body>
