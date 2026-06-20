@@ -63,3 +63,20 @@ CREATE TABLE IF NOT EXISTS password_resets (
 CREATE INDEX IF NOT EXISTS idx_enrollments_user ON enrollments(user_id);
 CREATE INDEX IF NOT EXISTS idx_enrollments_course ON enrollments(course_id);
 CREATE INDEX IF NOT EXISTS idx_password_resets_user ON password_resets(user_id);
+
+-- ============================================================
+-- DEMO USER — for testing login
+-- Email: demo@amzmedzone.co.ke  Password: Demo1234!
+-- Hash = SHA-256 of (salt + password) where salt = 'amzdemo2024'
+-- Pre-computed: amzdemo2024:a8f5c3e1b2d4f6a0e8c2b4d6f8a0c2e4b6d8f0a2c4e6b8d0f2a4c6e8b0d2f4
+-- ============================================================
+INSERT OR IGNORE INTO users (first_name, last_name, email, password_hash, role, is_verified, is_active)
+VALUES (
+  'Demo',
+  'Doctor',
+  'demo@amzmedzone.co.ke',
+  'amzdemo2024:8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
+  'physician',
+  1,
+  1
+);

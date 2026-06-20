@@ -1,6 +1,6 @@
 /**
  * POST /api/signup
- * Creates a new user account and returns a session token
+ * Accepts both camelCase (firstName) and snake_case (first_name) field names
  */
 
 async function hashPassword(password) {
@@ -21,7 +21,7 @@ function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type'              : 'application/json',
       'Access-Control-Allow-Origin': '*',
     },
   });
@@ -29,9 +29,15 @@ function json(data, status = 200) {
 
 export async function onRequestPost({ request, env }) {
   let body;
-  try { body = await request.json(); } catch { return json({ ok: false, error: 'Invalid JSON' }, 400); }
+  try { body = await request.json(); }
+  catch { return json({ ok: false, error: 'Invalid JSON' }, 400); }
 
-  const { first_name, last_name, email, password, role } = body;
+  /* Accept both camelCase and snake_case field names */
+  const first_name = (body.firstName || body.first_name || '').trim();
+  const last_name  = (body.lastName  || body.last_name  || '').trim();
+  const email      = (body.email     || '').toLowerCase().trim();
+  const password   = body.password   || '';
+  const role       = body.role       || '';
 
   if (!first_name || !last_name || !email || !password || !role) {
     return json({ ok: false, error: 'All fields are required' }, 400);
@@ -43,9 +49,10 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: 'Password must be at least 8 characters' }, 400);
   }
 
+  /* Check for duplicate email */
   const existing = await env.DB.prepare(
     'SELECT id FROM users WHERE email = ?'
-  ).bind(email.toLowerCase().trim()).first();
+  ).bind(email).first();
 
   if (existing) {
     return json({ ok: false, error: 'An account with this email already exists' }, 409);
@@ -54,7 +61,7 @@ export async function onRequestPost({ request, env }) {
   const hash   = await hashPassword(password);
   const result = await env.DB.prepare(
     'INSERT INTO users (first_name, last_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)'
-  ).bind(first_name.trim(), last_name.trim(), email.toLowerCase().trim(), hash, role).run();
+  ).bind(first_name, last_name, email, hash, role).run();
 
   const userId = result.meta.last_row_id;
   const token  = crypto.randomUUID() + '-' + crypto.randomUUID();
@@ -70,7 +77,7 @@ export async function onRequestPost({ request, env }) {
   return json({
     ok   : true,
     token,
-    user : { id: userId, first_name: first_name.trim(), last_name: last_name.trim(), email, role }
+    user : { id: userId, first_name, last_name, email, role }
   }, 201);
 }
 
