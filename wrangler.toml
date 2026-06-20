@@ -1,0 +1,9 @@
+name = "amz-medai-zone"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+account_id = "PASTE_YOUR_ACCOUNT_ID_HERE"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "AMZ_DB"
+database_id = "PASTE_DATABASE_ID_HERE"
