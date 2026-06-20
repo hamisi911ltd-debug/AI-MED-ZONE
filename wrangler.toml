@@ -1,5 +1,4 @@
 name                   = "ai-med-zone"
-main                   = "worker.js"
 pages_build_output_dir = "."
 compatibility_date     = "2026-06-10"
 account_id             = "7ae8d26215d22e65db04d1ce0febe9e7"
