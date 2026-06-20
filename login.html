@@ -585,7 +585,7 @@
     }
 
     /* ── Sign In form ── */
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault(); hideAlert('loginError');
       const email = document.getElementById('loginEmail').value.trim();
       const pw    = document.getElementById('loginPassword').value;
@@ -596,18 +596,38 @@
       if (!pw) { setErr('loginPassword','loginPasswordErr','Please enter your password.'); ok=false; }
       else if (pw.length < 6) { setErr('loginPassword','loginPasswordErr','Password must be at least 6 characters.'); ok=false; }
       if (!ok) return;
+
       const btn = document.getElementById('loginBtn');
       btn.classList.add('loading'); btn.disabled = true;
-      setTimeout(() => {
+
+      try {
+        const res  = await fetch('/api/login', {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ email, password: pw })
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          localStorage.setItem('amz_token', data.token);
+          localStorage.setItem('amz_user',  JSON.stringify(data.user));
+          /* Redirect to platform */
+          window.location.href = 'home.html';
+        } else {
+          btn.classList.remove('loading'); btn.disabled = false;
+          document.getElementById('loginErrorMsg').textContent = data.error || 'Invalid email or password.';
+          showAlert('loginError');
+        }
+      } catch {
         btn.classList.remove('loading'); btn.disabled = false;
-        document.getElementById('loginErrorMsg').textContent = 'Sign-in is not yet active. Please contact us to complete your enrolment.';
+        document.getElementById('loginErrorMsg').textContent = 'Network error. Please try again.';
         showAlert('loginError');
-      }, 1800);
+      }
     });
 
 
     /* ── Sign Up form ── */
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
       e.preventDefault(); hideAlert('signupError'); hideAlert('signupSuccess');
       const first = document.getElementById('signupFirst').value.trim();
       const last  = document.getElementById('signupLast').value.trim();
@@ -626,34 +646,60 @@
       if (!pw) { setErr('signupPassword','signupPasswordErr','Please create a password.'); ok=false; }
       else if (pw.length < 8) { setErr('signupPassword','signupPasswordErr','Password must be at least 8 characters.'); ok=false; }
       if (!ok) return;
+
       const btn = document.getElementById('signupBtn');
       btn.classList.add('loading'); btn.disabled = true;
+
       try {
-        const regs = JSON.parse(localStorage.getItem('amz_registrations') || '[]');
-        regs.push({ first, last, email, role, registered_at: new Date().toISOString() });
-        localStorage.setItem('amz_registrations', JSON.stringify(regs));
-      } catch(err) {}
-      setTimeout(() => {
+        const res  = await fetch('/api/signup', {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ first_name: first, last_name: last, email, role, password: pw })
+        });
+        const data = await res.json();
+
+        if (data.ok) {
+          localStorage.setItem('amz_token', data.token);
+          localStorage.setItem('amz_user',  JSON.stringify(data.user));
+          /* Redirect to platform */
+          window.location.href = 'home.html';
+        } else {
+          btn.classList.remove('loading'); btn.disabled = false;
+          document.getElementById('signupErrorMsg').textContent = data.error || 'Something went wrong. Please try again.';
+          showAlert('signupError');
+        }
+      } catch {
         btn.classList.remove('loading'); btn.disabled = false;
-        document.getElementById('signupForm').reset();
-        showAlert('signupSuccess');
-      }, 1800);
+        document.getElementById('signupErrorMsg').textContent = 'Network error. Please try again.';
+        showAlert('signupError');
+      }
     });
 
     /* ── Forgot password form ── */
-    document.getElementById('forgotForm').addEventListener('submit', function(e) {
+    document.getElementById('forgotForm').addEventListener('submit', async function(e) {
       e.preventDefault(); hideAlert('resetSuccess'); hideAlert('resetError');
       const email = document.getElementById('resetEmail').value.trim();
       setErr('resetEmail','resetEmailErr','');
       if (!email) { setErr('resetEmail','resetEmailErr','Please enter your email.'); return; }
       if (!validateEmail(email)) { setErr('resetEmail','resetEmailErr','Please enter a valid email.'); return; }
+
       const btn = document.getElementById('resetBtn');
       btn.classList.add('loading'); btn.disabled = true;
-      setTimeout(() => {
+
+      try {
+        const res  = await fetch('/api/reset-password', {
+          method : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ email })
+        });
+        const data = await res.json();
         btn.classList.remove('loading'); btn.disabled = false;
         document.getElementById('resetEmail').value = '';
         showAlert('resetSuccess');
-      }, 2000);
+      } catch {
+        btn.classList.remove('loading'); btn.disabled = false;
+        showAlert('resetSuccess'); /* still show success to prevent enumeration */
+      }
     });
 
     /* ── Clear errors on input ── */
