@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="AMZ — Sign in or create your account to access AI training for healthcare professionals." />
-  <title>Welcome | AMZ</title>
+  <meta name="description" content="AMZ MedAI Academy — Secure Login for Doctors" />
+  <title>Sign In | AMZ MedAI Academy</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
   <style>
     :root {
       --navy:    #0D1B2A;
@@ -27,113 +28,259 @@
       --sh-lg:   0 8px 56px rgba(13,27,42,0.22);
       --r:       16px;
     }
+
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth;font-size:16px}
-    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:var(--navy);min-height:100vh;overflow-x:hidden}
+    body{
+      font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+      color:var(--text);background:var(--navy);
+      min-height:100vh;overflow-x:hidden;
+    }
     a{text-decoration:none;color:inherit}
     button{cursor:pointer;border:none;background:none;font-family:inherit}
-    input,select,textarea{font-family:inherit}
+    input{font-family:inherit}
 
     /* ── BACKGROUND ── */
-    .login-bg{position:fixed;inset:0;z-index:0;background-image:url('2.png');background-size:cover;background-position:center}
-    .login-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,27,42,.97) 0%,rgba(13,27,42,.88) 40%,rgba(0,60,60,.80) 75%,rgba(13,27,42,.90) 100%)}
+    .login-bg {
+      position:fixed;inset:0;z-index:0;
+      background-image:url('2.png');
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+    }
+    .login-bg::after {
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,
+        rgba(13,27,42,.97) 0%,
+        rgba(13,27,42,.88) 40%,
+        rgba(0,60,60,.80) 75%,
+        rgba(13,27,42,.90) 100%);
+    }
 
-    /* ── CANVAS ── */
-    #loginCanvas{position:fixed;inset:0;z-index:1;width:100%;height:100%;opacity:.25;pointer-events:none}
+    /* ── PARTICLE CANVAS ── */
+    #loginCanvas {
+      position:fixed;inset:0;z-index:1;
+      width:100%;height:100%;
+      opacity:.25;pointer-events:none;
+    }
 
     /* ── LAYOUT ── */
-    .login-page{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr 500px;align-items:stretch}
+    .login-page {
+      position:relative;z-index:2;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:1fr 480px;
+      align-items:stretch;
+    }
 
-    /* ── LEFT BRAND PANEL ── */
-    .login-brand{display:flex;flex-direction:column;justify-content:space-between;padding:48px 56px;color:white}
-    .lb-logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:white}
-    .lb-logo img{width:46px;height:46px;object-fit:contain;border-radius:10px}
-    .lb-logo-text .lb-name{display:block;font-size:1.2rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
-    .lb-logo-text .lb-tagline{display:block;font-size:.75rem;font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase}
+    /* ── LEFT PANEL — brand / info ── */
+    .login-brand {
+      display:flex;flex-direction:column;
+      justify-content:space-between;
+      padding:48px 56px;
+      color:white;
+    }
 
-    .lb-hero{margin:auto 0;padding:40px 0}
-    .lb-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(0,201,167,.12);border:1px solid rgba(0,201,167,.25);border-radius:100px;font-size:.72rem;font-weight:600;color:var(--teal);margin-bottom:24px}
-    .lb-hero h1{font-size:clamp(2rem,3.5vw,3rem);font-weight:900;line-height:1.1;color:white;margin-bottom:20px}
-    .lb-hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .lb-hero p{font-size:1rem;color:rgba(255,255,255,.65);line-height:1.7;max-width:380px;margin-bottom:36px}
+    .lb-logo {
+      display:flex;align-items:center;gap:14px;
+      text-decoration:none;color:white;
+    }
+    .lb-logo img {width:46px;height:46px;object-fit:contain;border-radius:10px}
+    .lb-logo-text .lb-name {
+      display:block;font-size:1.2rem;font-weight:800;
+      background:var(--grad);-webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;background-clip:text;
+      line-height:1.1;
+    }
+    .lb-logo-text .lb-tagline {
+      display:block;font-size:.75rem;font-weight:500;
+      color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;
+    }
 
-    .lb-features{display:flex;flex-direction:column;gap:14px}
-    .lb-feat{display:flex;align-items:center;gap:12px;font-size:.88rem;color:rgba(255,255,255,.75)}
-    .lb-feat-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .lb-hero {margin:auto 0;padding:40px 0}
+    .lb-eyebrow {
+      display:inline-flex;align-items:center;gap:8px;
+      padding:6px 14px;
+      background:rgba(0,201,167,.12);
+      border:1px solid rgba(0,201,167,.25);
+      border-radius:100px;
+      font-size:.72rem;font-weight:600;
+      color:var(--teal);margin-bottom:24px;
+    }
+    .lb-eyebrow i{font-size:.7rem}
+
+    .lb-hero h1 {
+      font-size:clamp(2rem,3.5vw,3rem);
+      font-weight:900;line-height:1.1;
+      color:white;margin-bottom:20px;
+    }
+    .lb-hero h1 span {
+      background:var(--grad);-webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .lb-hero p {
+      font-size:1rem;color:rgba(255,255,255,.65);
+      line-height:1.7;max-width:380px;margin-bottom:36px;
+    }
+
+    .lb-features {display:flex;flex-direction:column;gap:14px}
+    .lb-feat {
+      display:flex;align-items:center;gap:12px;
+      font-size:.88rem;color:rgba(255,255,255,.75);
+    }
+    .lb-feat-icon {
+      width:36px;height:36px;border-radius:10px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.1);
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
+    }
     .lb-feat-icon i{font-size:.8rem;color:var(--teal)}
 
-    .lb-footer{padding-top:32px;border-top:1px solid rgba(255,255,255,.08)}
-    .lb-tagline-bottom{font-size:.88rem;color:rgba(255,255,255,.45);font-style:italic}
-
-    /* About strip */
-    .lb-about{
-      margin-top:32px;padding-top:28px;
+    .lb-footer {
+      padding-top:32px;
       border-top:1px solid rgba(255,255,255,.08);
     }
-    .lb-about p{
-      font-size:.84rem;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:18px;
-    }
-    .lb-contact{display:flex;flex-direction:column;gap:10px}
-    .lb-contact-item{
-      display:flex;align-items:center;gap:10px;
-      font-size:.8rem;color:rgba(255,255,255,.5);
-    }
-    .lb-contact-item i{
-      width:28px;height:28px;border-radius:7px;
-      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
-      display:flex;align-items:center;justify-content:center;
-      font-size:.7rem;color:var(--teal);flex-shrink:0;
-    }
+    .lb-stats {display:flex;gap:32px;flex-wrap:wrap}
+    .lb-stat strong{display:block;font-size:1.5rem;font-weight:900;color:white}
+    .lb-stat span{font-size:.72rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em}
 
-
-    /* ── RIGHT PANEL ── */
-    .login-panel{
+    /* ── RIGHT PANEL — form ── */
+    .login-panel {
       background:var(--white);
-      display:flex;flex-direction:column;justify-content:center;
-      padding:48px 44px;
-      min-height:100vh;min-height:100dvh;  /* dynamic viewport on mobile */
+      display:flex;flex-direction:column;
+      justify-content:center;
+      padding:56px 48px;
+      min-height:100vh;
       overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
     }
 
-    /* ── TABS ── */
-    .auth-tabs{display:flex;background:var(--offwhite);border-radius:14px;padding:4px;margin-bottom:32px;border:1px solid var(--border)}
-    .tab-btn{flex:1;padding:11px 16px;border-radius:10px;font-size:.9rem;font-weight:600;color:var(--text-lt);transition:all .25s;background:none;border:none;cursor:pointer}
-    .tab-btn.active{background:white;color:var(--navy);box-shadow:0 2px 12px rgba(13,27,42,.1)}
+    .login-form-header {margin-bottom:36px}
+    .login-form-header h2 {
+      font-size:1.75rem;font-weight:800;
+      color:var(--navy);margin-bottom:8px;
+    }
+    .login-form-header p {
+      font-size:.9rem;color:var(--text-lt);line-height:1.5;
+    }
+    .login-form-header p a {
+      color:var(--blue);font-weight:600;
+    }
+    .login-form-header p a:hover{text-decoration:underline}
 
-    /* ── FORM SECTIONS ── */
-    .form-section{display:block}
-    .form-section.hidden{display:none}
-    .form-header{margin-bottom:26px}
-    .form-header h2{font-size:1.6rem;font-weight:800;color:var(--navy);margin-bottom:6px}
-    .form-header p{font-size:.88rem;color:var(--text-lt);line-height:1.5}
+    /* Trust badges */
+    .login-trust {
+      display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;
+    }
+    .trust-badge {
+      display:flex;align-items:center;gap:5px;
+      padding:4px 10px;
+      background:rgba(79,126,255,.07);
+      border:1px solid rgba(79,126,255,.15);
+      border-radius:100px;
+      font-size:.7rem;font-weight:600;color:var(--blue);
+    }
+    .trust-badge i{font-size:.65rem;color:var(--teal)}
 
-    /* Fields */
-    .fg{margin-bottom:16px}
-    .fg label{display:block;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:6px}
+    /* Auth tabs */
+    .auth-tabs {
+      display:flex;background:var(--offwhite);border-radius:14px;
+      padding:4px;margin-bottom:28px;border:1px solid var(--border);
+    }
+    .tab-btn {
+      flex:1;padding:11px 16px;border-radius:10px;
+      font-size:.9rem;font-weight:600;color:var(--text-lt);
+      transition:all .25s;background:none;border:none;cursor:pointer;
+    }
+    .tab-btn.active {background:white;color:var(--navy);box-shadow:0 2px 12px rgba(13,27,42,.1)}
+
+    /* Forms */
+    .form-section {display:block}
+    .form-section.hidden {display:none}
+    .form-row-2 {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:480px){.form-row-2{grid-template-columns:1fr}}
+
+    .input-wrap select {
+      width:100%;padding:13px 42px 13px 42px;
+      border:1.5px solid rgba(0,0,0,.12);border-radius:12px;
+      font-size:.93rem;color:var(--text);background:var(--offwhite);
+      transition:border-color .2s,box-shadow .2s;outline:none;appearance:none;
+    }
+    .input-wrap select:focus {border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(79,126,255,.12)}
+
+    .fg {margin-bottom:18px}
+    .fg label {
+      display:block;font-size:.82rem;font-weight:600;
+      color:var(--text);margin-bottom:7px;
+    }
     .fg label span.req{color:#FF6B6B;margin-left:2px}
-    .input-wrap{position:relative;display:flex;align-items:center}
-    .input-wrap .input-icon{position:absolute;left:14px;color:var(--text-lt);font-size:.85rem;pointer-events:none;z-index:1}
-    .input-wrap input,.input-wrap select{width:100%;padding:12px 42px;border:1.5px solid rgba(0,0,0,.12);border-radius:12px;font-size:.92rem;color:var(--text);background:var(--offwhite);transition:border-color .2s,box-shadow .2s;outline:none;appearance:none}
-    .input-wrap input:focus,.input-wrap select:focus{border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(79,126,255,.12)}
-    .input-wrap input.error,.input-wrap select.error{border-color:#FF6B6B}
+
+    .input-wrap {position:relative;display:flex;align-items:center}
+    .input-wrap .input-icon {
+      position:absolute;left:14px;
+      color:var(--text-lt);font-size:.85rem;pointer-events:none;
+      z-index:1;
+    }
+    .input-wrap input {
+      width:100%;padding:13px 42px;
+      border:1.5px solid rgba(0,0,0,.12);
+      border-radius:12px;
+      font-size:.93rem;color:var(--text);
+      background:var(--offwhite);
+      transition:border-color .2s,box-shadow .2s;
+      outline:none;
+    }
+    .input-wrap input:focus {
+      border-color:var(--blue);
+      background:white;
+      box-shadow:0 0 0 3px rgba(79,126,255,.12);
+    }
+    .input-wrap input.error {
+      border-color:#FF6B6B;
+      box-shadow:0 0 0 3px rgba(255,107,107,.1);
+    }
     .input-wrap input::placeholder{color:var(--text-lt)}
-    .pw-toggle{position:absolute;right:14px;background:none;border:none;cursor:pointer;color:var(--text-lt);font-size:.85rem;padding:4px;transition:color .2s;z-index:2}
+
+    .pw-toggle {
+      position:absolute;right:14px;
+      background:none;border:none;cursor:pointer;
+      color:var(--text-lt);font-size:.85rem;
+      padding:4px;transition:color .2s;z-index:2;
+    }
     .pw-toggle:hover{color:var(--blue)}
-    .ferr{display:block;font-size:.74rem;color:#FF6B6B;margin-top:4px;min-height:1em}
-    .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-    /* Meta row */
-    .form-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px}
-    .checkbox-wrap{display:flex;align-items:center;gap:8px;cursor:pointer}
-    .checkbox-wrap input[type="checkbox"]{width:16px;height:16px;accent-color:var(--blue);cursor:pointer}
-    .checkbox-wrap span{font-size:.82rem;color:var(--text-md)}
-    .forgot-link{font-size:.82rem;font-weight:600;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;transition:color .2s}
-    .forgot-link:hover{text-decoration:underline}
+    .ferr {
+      display:block;font-size:.76rem;color:#FF6B6B;
+      margin-top:5px;min-height:1em;
+    }
 
+    .form-meta {
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:22px;flex-wrap:wrap;gap:10px;
+    }
+    .checkbox-wrap {display:flex;align-items:center;gap:8px;cursor:pointer}
+    .checkbox-wrap input[type="checkbox"] {
+      width:16px;height:16px;accent-color:var(--blue);cursor:pointer;
+    }
+    .checkbox-wrap span{font-size:.83rem;color:var(--text-md)}
 
-    /* ── BUTTONS ── */
-    .btn-login{width:100%;padding:14px 24px;background:linear-gradient(90deg,var(--blue),var(--teal));color:white;font-size:.95rem;font-weight:700;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .2s,transform .15s,box-shadow .2s;box-shadow:0 4px 20px rgba(79,126,255,.35)}
+    .forgot-link {
+      font-size:.83rem;font-weight:600;color:var(--blue);
+      background:none;border:none;cursor:pointer;
+      padding:0;transition:color .2s;
+    }
+    .forgot-link:hover{color:var(--navy);text-decoration:underline}
+
+    /* Submit button */
+    .btn-login {
+      width:100%;padding:14px 24px;
+      background:var(--grad);
+      background:linear-gradient(90deg,var(--blue),var(--teal));
+      color:white;font-size:.95rem;font-weight:700;
+      border:none;border-radius:12px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      transition:opacity .2s,transform .15s,box-shadow .2s;
+      box-shadow:0 4px 20px rgba(79,126,255,.35);
+      letter-spacing:.01em;
+    }
     .btn-login:hover{opacity:.92;transform:translateY(-1px);box-shadow:0 6px 28px rgba(79,126,255,.45)}
     .btn-login:active{transform:translateY(0)}
     .btn-login:disabled{opacity:.6;cursor:not-allowed;transform:none}
@@ -142,79 +289,99 @@
     .btn-login.loading .btn-spinner{display:block}
     @keyframes spin{to{transform:rotate(360deg)}}
 
+    .btn-secondary {
+      width:100%;padding:13px 24px;
+      background:transparent;color:var(--blue);
+      font-size:.92rem;font-weight:600;
+      border:1.5px solid rgba(79,126,255,.3);border-radius:12px;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      transition:all .2s;margin-top:10px;
+    }
+    .btn-secondary:hover{background:rgba(79,126,255,.06);border-color:var(--blue)}
 
-    /* Alerts */
-    .alert{display:none;padding:11px 15px;border-radius:10px;font-size:.84rem;margin-bottom:16px;align-items:center;gap:10px}
+    .divider {
+      display:flex;align-items:center;gap:14px;
+      margin:22px 0;font-size:.78rem;color:var(--text-lt);
+    }
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+    /* Alert banners */
+    .alert {
+      display:none;padding:12px 16px;border-radius:10px;
+      font-size:.84rem;margin-bottom:18px;
+      align-items:center;gap:10px;
+    }
     .alert.show{display:flex}
     .alert.error{background:#FFF1F1;border:1px solid #FFD1D1;color:#C53030}
     .alert.success{background:#F0FFF4;border:1px solid #C6F6D5;color:#276749}
     .alert i{font-size:1rem;flex-shrink:0}
 
-    /* Forgot panel */
-    .back-btn{display:inline-flex;align-items:center;gap:7px;font-size:.83rem;font-weight:600;color:var(--blue);background:none;border:none;cursor:pointer;padding:0;margin-bottom:20px;transition:color .2s}
+    /* Forgot password panel */
+    .back-btn {
+      display:inline-flex;align-items:center;gap:7px;
+      font-size:.83rem;font-weight:600;color:var(--blue);
+      background:none;border:none;cursor:pointer;
+      padding:0;margin-bottom:24px;transition:color .2s;
+    }
     .back-btn:hover{color:var(--navy)}
-    .reset-info{background:rgba(79,126,255,.06);border:1px solid rgba(79,126,255,.15);border-radius:12px;padding:14px;margin-bottom:20px}
-    .reset-info p{font-size:.84rem;color:var(--text-md);line-height:1.6}
 
-    /* Security note */
-    .security-note{display:flex;align-items:center;gap:8px;margin-top:16px;padding:10px 14px;background:rgba(0,201,167,.06);border:1px solid rgba(0,201,167,.15);border-radius:10px;font-size:.74rem;color:var(--text-lt)}
+    .reset-info {
+      background:rgba(79,126,255,.06);
+      border:1px solid rgba(79,126,255,.15);
+      border-radius:12px;padding:16px;
+      margin-bottom:22px;
+    }
+    .reset-info p{font-size:.85rem;color:var(--text-md);line-height:1.6}
+    .reset-info p strong{color:var(--navy)}
+
+    /* Signup prompt */
+    .signup-prompt {
+      margin-top:28px;padding-top:22px;
+      border-top:1px solid var(--border);
+      text-align:center;
+      font-size:.85rem;color:var(--text-lt);
+    }
+    .signup-prompt a{color:var(--blue);font-weight:600}
+    .signup-prompt a:hover{text-decoration:underline}
+
+    /* Security notice */
+    .security-note {
+      display:flex;align-items:center;gap:8px;
+      margin-top:18px;padding:10px 14px;
+      background:rgba(0,201,167,.06);
+      border:1px solid rgba(0,201,167,.15);
+      border-radius:10px;
+      font-size:.75rem;color:var(--text-lt);
+    }
     .security-note i{color:var(--teal);font-size:.8rem;flex-shrink:0}
 
-    /* Terms note */
-    .terms-note{font-size:.74rem;color:var(--text-lt);text-align:center;margin-top:14px;line-height:1.5}
-    .terms-note a{color:var(--blue)}
-
-    /* Mobile logo */
-    .login-mobile-logo{display:none;align-items:center;gap:12px;margin-bottom:24px;text-decoration:none;color:var(--navy)}
-    .login-mobile-logo img{width:38px;height:38px;object-fit:contain;border-radius:8px}
-    .login-mobile-logo .lb-name{font-size:1.1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .login-mobile-logo .lb-tagline{font-size:.68rem;color:var(--text-lt);display:block;text-transform:uppercase;letter-spacing:.08em}
-
     /* ── RESPONSIVE ── */
-
-    /* Tablet — hide brand panel, stack form full width */
-    @media(max-width:900px){
+    @media(max-width:900px) {
       .login-page{grid-template-columns:1fr}
       .login-brand{display:none}
-      .login-panel{
-        padding:32px 28px 48px;
-        min-height:100vh;
-        justify-content:flex-start;
+      .login-panel{padding:48px 32px;min-height:100vh;justify-content:flex-start;padding-top:60px}
+      .login-mobile-logo{
+        display:flex;align-items:center;gap:12px;
+        margin-bottom:32px;
+        text-decoration:none;color:var(--navy);
       }
-      .login-mobile-logo{display:flex}
+      .login-mobile-logo img{width:40px;height:40px;object-fit:contain;border-radius:8px}
+      .login-mobile-logo .lb-name{
+        font-size:1.1rem;font-weight:800;
+        background:var(--grad);-webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;background-clip:text;
+      }
+      .login-mobile-logo .lb-tagline{
+        font-size:.7rem;color:var(--text-lt);
+        display:block;text-transform:uppercase;letter-spacing:.08em;
+      }
     }
-    @media(min-width:901px){
-      .login-mobile-logo{display:none!important}
-    }
+    @media(min-width:901px){.login-mobile-logo{display:none!important}}
 
-    /* Phone — tighter spacing, full-width inputs */
-    @media(max-width:600px){
-      .login-panel{
-        padding:24px 20px 40px;
-      }
-      .auth-tabs{margin-bottom:24px}
-      .tab-btn{padding:10px 12px;font-size:.86rem}
-      .form-header{margin-bottom:20px}
-      .form-header h2{font-size:1.45rem}
-      .form-header p{font-size:.84rem}
-      .fg{margin-bottom:14px}
-      .input-wrap input,
-      .input-wrap select{
-        padding:13px 42px;  /* taller touch target */
-        font-size:1rem;     /* prevents iOS zoom on focus */
-        border-radius:14px;
-      }
-      .btn-login{padding:15px;font-size:1rem}
-      .form-meta{flex-direction:column;align-items:flex-start;gap:10px}
-      .form-row-2{grid-template-columns:1fr}
-    }
-
-    /* Very small phones (≤380px) */
-    @media(max-width:380px){
-      .login-panel{padding:20px 16px 36px}
-      .form-header h2{font-size:1.3rem}
-      .auth-tabs{padding:3px}
-      .tab-btn{padding:9px 8px;font-size:.82rem}
+    @media(max-width:480px){
+      .login-panel{padding:40px 20px}
+      .login-form-header h2{font-size:1.45rem}
+      .form-meta{flex-direction:column;align-items:flex-start;gap:8px}
     }
   </style>
 </head>
@@ -227,90 +394,64 @@
 
     <!-- ═══ LEFT — Brand Panel ═══ -->
     <div class="login-brand">
-      <a href="login.html" class="lb-logo">
-        <img src="LOGO.png" alt="AMZ Logo" />
+      <a href="index.html" class="lb-logo">
+        <img src="LOGO.png" alt="AMZ MedAI Academy Logo" />
         <div class="lb-logo-text">
-          <span class="lb-name">AMZ</span>
-          <span class="lb-tagline">AI Training for Healthcare Professionals</span>
+          <span class="lb-name">AMZ MedAI Academy</span>
+          <span class="lb-tagline">AI in Healthcare Training for Doctors</span>
         </div>
       </a>
 
       <div class="lb-hero">
-        <div class="lb-eyebrow"><i class="fas fa-circle-dot"></i> Nairobi, Kenya · Est. 2024</div>
-        <h1>AI Skills for<br><span>Healthcare Professionals</span></h1>
-        <p>Kenya's AI-in-medicine learning platform. A structured 10-week programme teaching doctors, nurses, radiologists, and public health professionals to confidently integrate AI into clinical practice.</p>
+        <div class="lb-eyebrow"><i class="fas fa-circle-dot"></i> Nairobi, Kenya</div>
+        <h1>Welcome,<br><span>Doctor.</span></h1>
+        <p>Training platform for doctors, grounded in African healthcare contexts.</p>
 
         <div class="lb-features">
           <div class="lb-feat">
             <div class="lb-feat-icon"><i class="fas fa-brain"></i></div>
-            <span>AI-powered clinical decision support training</span>
-          </div>
-          <div class="lb-feat">
-            <div class="lb-feat-icon"><i class="fas fa-certificate"></i></div>
-            <span>KMPDC · AMA · GMC internationally recognised CPD</span>
-          </div>
-          <div class="lb-feat">
-            <div class="lb-feat-icon"><i class="fas fa-flask"></i></div>
-            <span>Collaborative medical AI research hub</span>
+            <span>AI fundamentals, ethics, diagnostics &amp; imaging</span>
           </div>
           <div class="lb-feat">
             <div class="lb-feat-icon"><i class="fas fa-shield-halved"></i></div>
-            <span>Your data protected under Kenya's Data Protection Act</span>
+            <span>Data privacy &amp; governance in African healthcare</span>
+          </div>
+          <div class="lb-feat">
+            <div class="lb-feat-icon"><i class="fas fa-user-md"></i></div>
+            <span>Built exclusively for doctors</span>
           </div>
         </div>
-      </div>
-
-      <!-- About strip -->
-      <div class="lb-about">
-        <p>AMZ is Kenya's dedicated AI-in-medicine learning platform, built by clinicians for clinicians. We equip doctors, nurses, radiologists, and public health professionals with the practical skills to safely and confidently use AI tools in everyday clinical practice.</p>
-        <div class="lb-contact">
-          <div class="lb-contact-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>Nairobi, Kenya</span>
-          </div>
-          <div class="lb-contact-item">
-            <i class="fas fa-phone"></i>
-            <span>+254 756 535 289</span>
-          </div>
-          <div class="lb-contact-item">
-            <i class="fas fa-envelope"></i>
-            <span>info@amzmedzone.co.ke</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="lb-footer">
-        <p class="lb-tagline-bottom">Bridging Technology &amp; Human Life — Nairobi, Kenya</p>
-        <a href="home.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:.82rem;font-weight:600;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(0,201,167,1)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">
-          <i class="fas fa-arrow-right" style="font-size:.75rem"></i> Explore the platform first
-        </a>
       </div>
     </div>
 
-
-    <!-- ═══ RIGHT — Auth Panel ═══ -->
+    <!-- ═══ RIGHT — Login Form ═══ -->
     <div class="login-panel">
 
-      <!-- Mobile logo -->
-      <a href="login.html" class="login-mobile-logo">
-        <img src="LOGO.png" alt="AMZ Logo" />
+      <!-- Mobile-only logo -->
+      <a href="index.html" class="login-mobile-logo">
+        <img src="LOGO.png" alt="AMZ MedAI Academy Logo" />
         <div>
-          <span class="lb-name">AMZ</span>
-          <span class="lb-tagline">AI Training for Healthcare Professionals</span>
+          <span class="lb-name">AMZ MedAI Academy</span>
+          <span class="lb-tagline">AI in Healthcare Training for Doctors</span>
         </div>
       </a>
 
-      <!-- ── TABS ── -->
-      <div class="auth-tabs" id="authTabs">
-        <button class="tab-btn active" id="tabSignIn" onclick="switchTab('signin')">Sign In</button>
-        <button class="tab-btn" id="tabSignUp" onclick="switchTab('signup')">Create Account</button>
+      <!-- ── AUTH TABS ── -->
+      <div class="auth-tabs">
+        <button class="tab-btn active" id="tabSignIn" type="button">Sign In</button>
+        <button class="tab-btn" id="tabSignUp" type="button">Create Account</button>
       </div>
 
-      <!-- ════ SIGN IN SECTION ════ -->
-      <div class="form-section" id="signinSection">
-        <div class="form-header">
-          <h2>Welcome Back</h2>
-          <p>Sign in to continue your AI in healthcare journey.</p>
+      <!-- ── LOGIN SECTION ── -->
+      <div class="form-section" id="loginSection">
+        <div class="login-form-header">
+          <h2>Sign In</h2>
+          <p>Don't have an account? <a href="#" id="goToSignUp">Create one now</a></p>
+        </div>
+
+        <div class="login-trust">
+          <span class="trust-badge"><i class="fas fa-lock"></i> Secure Login</span>
+          <span class="trust-badge"><i class="fas fa-user-md"></i> Doctors Only</span>
         </div>
 
         <div class="alert error" id="loginError" role="alert">
@@ -352,46 +493,53 @@
             <span class="btn-text"><i class="fas fa-sign-in-alt"></i> &nbsp;Sign In</span>
             <div class="btn-spinner"></div>
           </button>
-
-
         </form>
 
+        <div class="security-note">
+          <i class="fas fa-lock"></i>
+          Your session is encrypted and compliant with Kenya's Data Protection Act.
+        </div>
+
+        <div class="signup-prompt">
+          New to AMZ MedAI Academy?
+          <a href="#" id="goToSignUp2">Create your account</a>
+        </div>
       </div>
 
-
-      <!-- ════ SIGN UP SECTION ════ -->
+      <!-- ── SIGN UP SECTION ── -->
       <div class="form-section hidden" id="signupSection">
-        <div class="form-header">
+        <div class="login-form-header">
           <h2>Create Your Account</h2>
-          <p>Join healthcare professionals training with AI — free to get started.</p>
+          <p>Already have an account? <a href="#" id="goToSignIn">Sign in instead</a></p>
+        </div>
+
+        <div class="login-trust">
+          <span class="trust-badge"><i class="fas fa-lock"></i> Secure Signup</span>
+          <span class="trust-badge"><i class="fas fa-user-md"></i> Doctors Only</span>
         </div>
 
         <div class="alert error" id="signupError" role="alert">
           <i class="fas fa-circle-exclamation"></i>
-          <span id="signupErrorMsg">Please fix the errors below.</span>
-        </div>
-        <div class="alert success" id="signupSuccess" role="alert">
-          <i class="fas fa-circle-check"></i>
-          <span>Account created! Check your email to confirm and get started.</span>
+          <span id="signupErrorMsg"></span>
         </div>
 
         <form id="signupForm" novalidate>
           <div class="form-row-2">
             <div class="fg">
-              <label for="signupFirst">First Name <span class="req">*</span></label>
+              <label for="firstName">First Name <span class="req">*</span></label>
               <div class="input-wrap">
                 <i class="fas fa-user input-icon"></i>
-                <input type="text" id="signupFirst" placeholder="Dr. Jane" required />
+                <input type="text" id="firstName" placeholder="Dr. John" required />
               </div>
-              <span class="ferr" id="signupFirstErr"></span>
+              <span class="ferr" id="firstNameErr"></span>
             </div>
             <div class="fg">
-              <label for="signupLast">Last Name <span class="req">*</span></label>
+              <label for="lastName">Last Name <span class="req">*</span></label>
               <div class="input-wrap">
                 <i class="fas fa-user input-icon"></i>
-                <input type="text" id="signupLast" placeholder="Mwangi" required />
+                <input type="text" id="lastName" placeholder="Doe" required />
               </div>
-              <span class="ferr" id="signupLastErr"></span>
+              <span class="ferr" id="lastNameErr"></span>
             </div>
           </div>
 
@@ -405,30 +553,10 @@
           </div>
 
           <div class="fg">
-            <label for="signupRole">Your Healthcare Role <span class="req">*</span></label>
-            <div class="input-wrap">
-              <i class="fas fa-stethoscope input-icon"></i>
-              <select id="signupRole" required>
-                <option value="">Select your role…</option>
-                <option value="physician">Physician / Doctor</option>
-                <option value="nurse">Nurse / Midwife</option>
-                <option value="radiologist">Radiologist</option>
-                <option value="surgeon">Surgeon</option>
-                <option value="pharmacist">Pharmacist</option>
-                <option value="student">Medical Student / Intern</option>
-                <option value="admin">Healthcare Administrator</option>
-                <option value="researcher">Medical Researcher</option>
-                <option value="institution">Institution / Hospital</option>
-              </select>
-            </div>
-            <span class="ferr" id="signupRoleErr"></span>
-          </div>
-
-          <div class="fg">
             <label for="signupPassword">Create Password <span class="req">*</span></label>
             <div class="input-wrap">
               <i class="fas fa-lock input-icon"></i>
-              <input type="password" id="signupPassword" placeholder="Min. 8 characters" autocomplete="new-password" required />
+              <input type="password" id="signupPassword" placeholder="At least 8 characters" autocomplete="new-password" required />
               <button type="button" class="pw-toggle" id="toggleSignupPw" aria-label="Show password">
                 <i class="fas fa-eye" id="toggleSignupPwIcon"></i>
               </button>
@@ -436,73 +564,71 @@
             <span class="ferr" id="signupPasswordErr"></span>
           </div>
 
+          <div class="fg">
+            <label for="signupRole">Your Medical Role <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="fas fa-user-doctor input-icon"></i>
+              <select id="signupRole" required>
+                <option value="">Select your role…</option>
+                <option value="general_practitioner">General Practitioner / Family Physician</option>
+                <option value="specialist_consultant">Specialist Consultant</option>
+                <option value="surgeon">Surgeon</option>
+                <option value="radiologist">Radiologist</option>
+                <option value="resident_intern">Resident / Medical Intern</option>
+                <option value="physician_researcher">Physician-Researcher / Academic Clinician</option>
+              </select>
+            </div>
+            <span class="ferr" id="signupRoleErr"></span>
+          </div>
+
           <button type="submit" class="btn-login" id="signupBtn">
             <span class="btn-text"><i class="fas fa-user-plus"></i> &nbsp;Create Account</span>
             <div class="btn-spinner"></div>
           </button>
-
-          <p class="terms-note">By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. Your data is protected under Kenya's Data Protection Act 2019.</p>
         </form>
 
         <div class="security-note">
-          <i class="fas fa-shield-halved"></i>
-          Your data is protected under Kenya's Data Protection Act 2019.
+          <i class="fas fa-lock"></i>
+          No patient data is collected. Your account data is protected and secure.
         </div>
       </div>
 
-
-      <!-- ════ FORGOT PASSWORD SECTION ════ -->
+      <!-- ── FORGOT PASSWORD SECTION ── -->
       <div class="form-section hidden" id="forgotSection">
         <button type="button" class="back-btn" id="backToLoginBtn">
           <i class="fas fa-arrow-left"></i> Back to Sign In
         </button>
 
-        <div class="form-header">
+        <div class="login-form-header">
           <h2>Reset Password</h2>
-          <p>Enter your registered email and we'll send a secure reset link.</p>
-        </div>
-
-        <div class="alert success" id="resetSuccess" role="alert">
-          <i class="fas fa-circle-check"></i>
-          <span>Reset link sent! Check your inbox. Valid for 30 minutes.</span>
-        </div>
-        <div class="alert error" id="resetError" role="alert">
-          <i class="fas fa-circle-exclamation"></i>
-          <span id="resetErrorMsg">Email not found. Please check and try again.</span>
+          <p>Enter your registered email address and we'll send you a secure reset link.</p>
         </div>
 
         <div class="reset-info">
-          <p><strong>How it works:</strong> We'll email you a one-time secure link. Click it to set a new password. The link expires in 30 minutes for your security.</p>
+          <p><strong>Self-service password reset isn't available yet.</strong> Email us at <strong>info@amzmedzone.co.ke</strong> or call <strong>+254 756 535 289</strong> with your registered email address and we'll help you regain access.</p>
         </div>
 
-        <form id="forgotForm" novalidate>
-          <div class="fg">
-            <label for="resetEmail">Registered Email Address <span class="req">*</span></label>
-            <div class="input-wrap">
-              <i class="fas fa-envelope input-icon"></i>
-              <input type="email" id="resetEmail" placeholder="doctor@hospital.com" autocomplete="email" required />
-            </div>
-            <span class="ferr" id="resetEmailErr"></span>
-          </div>
-
-          <button type="submit" class="btn-login" id="resetBtn">
-            <span class="btn-text"><i class="fas fa-paper-plane"></i> &nbsp;Send Reset Link</span>
-            <div class="btn-spinner"></div>
-          </button>
-        </form>
-
-        <div class="security-note" style="margin-top:18px">
+        <div class="security-note" style="margin-top:20px">
           <i class="fas fa-shield-halved"></i>
-          Need help? Call <strong>+254 756 535 289</strong> or email <strong>info@amzmedzone.co.ke</strong>
+          Need further help? Call us on <strong>+254 756 535 289</strong> or email <strong>info@amzmedzone.co.ke</strong>
         </div>
       </div>
 
     </div><!-- /login-panel -->
   </div><!-- /login-page -->
 
-
   <script>
     'use strict';
+
+    /* ── Already signed in? Skip the form, go straight back into the platform. ── */
+    (async function redirectIfSignedIn() {
+      try {
+        const res = await fetch('/api/me', { credentials: 'include' });
+        if (!res.ok) return;
+        const me = await res.json();
+        window.location.replace(me.isAdmin ? 'admin.html' : 'dashboard.html');
+      } catch (err) { /* network blip — let them log in normally */ }
+    })();
 
     /* ── Canvas particle background ── */
     (function() {
@@ -510,206 +636,256 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let W, H, particles = [], animId;
-      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-      function mkP() { return { x:Math.random()*W, y:Math.random()*H, r:Math.random()*1.8+0.4, vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35, a:Math.random()*.6+.2 }; }
-      function init() { resize(); particles = Array.from({length:70}, mkP); }
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function mkParticle() {
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.8 + 0.4,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          a: Math.random() * 0.6 + 0.2
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({length: 70}, mkParticle);
+      }
+
       function draw() {
-        ctx.clearRect(0,0,W,H);
+        ctx.clearRect(0, 0, W, H);
         particles.forEach(p => {
-          p.x+=p.vx; p.y+=p.vy;
-          if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
-          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle=`rgba(0,201,167,${p.a})`; ctx.fill();
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0,201,167,${p.a})`;
+          ctx.fill();
         });
-        particles.forEach((p,i) => {
-          for(let j=i+1;j<particles.length;j++){
-            const q=particles[j], d=Math.hypot(p.x-q.x,p.y-q.y);
-            if(d<120){ ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.strokeStyle=`rgba(79,126,255,${.12*(1-d/120)})`; ctx.lineWidth=.6; ctx.stroke(); }
+
+        particles.forEach((p, i) => {
+          for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j];
+            const d = Math.hypot(p.x - q.x, p.y - q.y);
+            if (d < 120) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = `rgba(79,126,255,${0.12 * (1 - d / 120)})`;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
           }
         });
         animId = requestAnimationFrame(draw);
       }
-      init(); draw();
-      window.addEventListener('resize', ()=>{ cancelAnimationFrame(animId); init(); draw(); });
+
+      init();
+      draw();
+      window.addEventListener('resize', () => { cancelAnimationFrame(animId); init(); draw(); });
     })();
 
-    /* ── Tab switching ── */
-    function switchTab(tab) {
-      const signin = document.getElementById('signinSection');
-      const signup = document.getElementById('signupSection');
-      const forgot = document.getElementById('forgotSection');
-      const btnIn  = document.getElementById('tabSignIn');
-      const btnUp  = document.getElementById('tabSignUp');
-      signin.classList.add('hidden'); signup.classList.add('hidden'); forgot.classList.add('hidden');
-      btnIn.classList.remove('active'); btnUp.classList.remove('active');
-      if (tab === 'signin') { signin.classList.remove('hidden'); btnIn.classList.add('active'); }
-      else { signup.classList.remove('hidden'); btnUp.classList.add('active'); }
-    }
+    /* ── Show/Hide password toggle ── */
+    const loginPwInput = document.getElementById('loginPassword');
+    const toggleLoginPwBtn = document.getElementById('toggleLoginPw');
+    const toggleLoginPwIcon = document.getElementById('toggleLoginPwIcon');
 
-    /* ── Password toggles ── */
-    function initToggle(inputId, btnId, iconId) {
-      const inp = document.getElementById(inputId);
-      const btn = document.getElementById(btnId);
-      const ico = document.getElementById(iconId);
-      if (!btn) return;
-      btn.addEventListener('click', () => {
-        const hidden = inp.type === 'password';
-        inp.type = hidden ? 'text' : 'password';
-        ico.className = hidden ? 'fas fa-eye-slash' : 'fas fa-eye';
-        btn.setAttribute('aria-label', hidden ? 'Hide password' : 'Show password');
-      });
-    }
-    initToggle('loginPassword','toggleLoginPw','toggleLoginPwIcon');
-    initToggle('signupPassword','toggleSignupPw','toggleSignupPwIcon');
+    toggleLoginPwBtn.addEventListener('click', () => {
+      const isHidden = loginPwInput.type === 'password';
+      loginPwInput.type = isHidden ? 'text' : 'password';
+      toggleLoginPwIcon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+      toggleLoginPwBtn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    });
 
-    /* ── Forgot / back ── */
+    /* ── Show / hide sections ── */
+    const loginSection  = document.getElementById('loginSection');
+    const forgotSection = document.getElementById('forgotSection');
+
     document.getElementById('showForgotBtn').addEventListener('click', () => {
-      document.getElementById('signinSection').classList.add('hidden');
-      document.getElementById('forgotSection').classList.remove('hidden');
+      loginSection.classList.add('hidden');
+      forgotSection.classList.remove('hidden');
       hideAlert('loginError');
     });
+
     document.getElementById('backToLoginBtn').addEventListener('click', () => {
-      document.getElementById('forgotSection').classList.add('hidden');
-      document.getElementById('signinSection').classList.remove('hidden');
-      hideAlert('resetSuccess'); hideAlert('resetError');
+      forgotSection.classList.add('hidden');
+      loginSection.classList.remove('hidden');
+      document.getElementById('loginEmail').focus();
     });
 
     /* ── Alert helpers ── */
-    function showAlert(id) { document.getElementById(id).classList.add('show'); }
-    function hideAlert(id) { document.getElementById(id).classList.remove('show'); }
-    function validateEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
-    function setErr(inputId, errId, msg) {
-      const el = document.getElementById(inputId);
-      document.getElementById(errId).textContent = msg;
-      if (msg) el.classList.add('error'); else el.classList.remove('error');
+    function showAlert(id) { document.getElementById(id).classList.add('show') }
+    function hideAlert(id) { document.getElementById(id).classList.remove('show') }
+
+    /* ── Field validation ── */
+    function validateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
     }
 
-    /* ── Sign In form ── */
+    function setFieldError(inputId, errId, msg) {
+      const input = document.getElementById(inputId);
+      document.getElementById(errId).textContent = msg;
+      if (msg) input.classList.add('error');
+      else input.classList.remove('error');
+    }
+
+    /* ── Login form ── */
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault(); hideAlert('loginError');
+      e.preventDefault();
+      hideAlert('loginError');
+
       const email = document.getElementById('loginEmail').value.trim();
-      const pw    = document.getElementById('loginPassword').value;
-      let ok = true;
-      setErr('loginEmail','loginEmailErr',''); setErr('loginPassword','loginPasswordErr','');
-      if (!email) { setErr('loginEmail','loginEmailErr','Please enter your email.'); ok=false; }
-      else if (!validateEmail(email)) { setErr('loginEmail','loginEmailErr','Please enter a valid email.'); ok=false; }
-      if (!pw) { setErr('loginPassword','loginPasswordErr','Please enter your password.'); ok=false; }
-      else if (pw.length < 6) { setErr('loginPassword','loginPasswordErr','Password must be at least 6 characters.'); ok=false; }
-      if (!ok) return;
+      const password = document.getElementById('loginPassword').value;
+      let valid = true;
+
+      setFieldError('loginEmail', 'loginEmailErr', '');
+      setFieldError('loginPassword', 'loginPasswordErr', '');
+
+      if (!email) {
+        setFieldError('loginEmail', 'loginEmailErr', 'Please enter your email address.');
+        valid = false;
+      } else if (!validateEmail(email)) {
+        setFieldError('loginEmail', 'loginEmailErr', 'Please enter a valid email address.');
+        valid = false;
+      }
+
+      if (!password) {
+        setFieldError('loginPassword', 'loginPasswordErr', 'Please enter your password.');
+        valid = false;
+      } else if (password.length < 6) {
+        setFieldError('loginPassword', 'loginPasswordErr', 'Password must be at least 6 characters.');
+        valid = false;
+      }
+
+      if (!valid) return;
 
       const btn = document.getElementById('loginBtn');
-      btn.classList.add('loading'); btn.disabled = true;
+      btn.classList.add('loading');
+      btn.disabled = true;
 
       try {
-        const res  = await fetch('/api/login', {
-          method : 'POST',
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ email, password: pw })
+          body: JSON.stringify({ email, password })
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
+        btn.classList.remove('loading');
+        btn.disabled = false;
 
-        if (data.ok) {
-          localStorage.setItem('amz_token', data.token);
-          localStorage.setItem('amz_user',  JSON.stringify(data.user));
-          /* Redirect to platform */
-          window.location.href = 'home.html';
-        } else {
-          btn.classList.remove('loading'); btn.disabled = false;
+        if (!res.ok) {
           document.getElementById('loginErrorMsg').textContent = data.error || 'Invalid email or password.';
           showAlert('loginError');
+          return;
         }
-      } catch {
-        btn.classList.remove('loading'); btn.disabled = false;
-        document.getElementById('loginErrorMsg').textContent = 'Network error. Please try again.';
+
+        window.location.href = data.user && data.user.isAdmin ? 'admin.html' : 'dashboard.html';
+      } catch (err) {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        document.getElementById('loginErrorMsg').textContent = 'Network error — please try again.';
         showAlert('loginError');
       }
     });
 
+    /* ── Sign up form ── */
+    const toggleSignupPwBtn = document.getElementById('toggleSignupPw');
+    const toggleSignupPwIcon = document.getElementById('toggleSignupPwIcon');
+    const signupPwInput = document.getElementById('signupPassword');
+    toggleSignupPwBtn.addEventListener('click', () => {
+      const isHidden = signupPwInput.type === 'password';
+      signupPwInput.type = isHidden ? 'text' : 'password';
+      toggleSignupPwIcon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+    });
 
-    /* ── Sign Up form ── */
     document.getElementById('signupForm').addEventListener('submit', async function(e) {
-      e.preventDefault(); hideAlert('signupError'); hideAlert('signupSuccess');
-      const first = document.getElementById('signupFirst').value.trim();
-      const last  = document.getElementById('signupLast').value.trim();
+      e.preventDefault();
+      hideAlert('signupError');
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
       const email = document.getElementById('signupEmail').value.trim();
-      const role  = document.getElementById('signupRole').value;
-      const pw    = document.getElementById('signupPassword').value;
-      let ok = true;
-      setErr('signupFirst','signupFirstErr',''); setErr('signupLast','signupLastErr','');
-      setErr('signupEmail','signupEmailErr',''); setErr('signupRole','signupRoleErr','');
-      setErr('signupPassword','signupPasswordErr','');
-      if (first.length < 2) { setErr('signupFirst','signupFirstErr','Please enter your first name.'); ok=false; }
-      if (last.length  < 2) { setErr('signupLast','signupLastErr','Please enter your last name.'); ok=false; }
-      if (!email) { setErr('signupEmail','signupEmailErr','Please enter your email.'); ok=false; }
-      else if (!validateEmail(email)) { setErr('signupEmail','signupEmailErr','Please enter a valid email.'); ok=false; }
-      if (!role) { setErr('signupRole','signupRoleErr','Please select your role.'); ok=false; }
-      if (!pw) { setErr('signupPassword','signupPasswordErr','Please create a password.'); ok=false; }
-      else if (pw.length < 8) { setErr('signupPassword','signupPasswordErr','Password must be at least 8 characters.'); ok=false; }
-      if (!ok) return;
+      const password = document.getElementById('signupPassword').value;
+      const role = document.getElementById('signupRole').value;
+      let valid = true;
+
+      ['firstName','lastName','signupEmail','signupPassword'].forEach(id => setFieldError(id, id + 'Err', ''));
+      setFieldError('signupRole', 'signupRoleErr', '');
+
+      if (firstName.length < 2) { setFieldError('firstName', 'firstNameErr', 'Please enter your first name.'); valid = false; }
+      if (lastName.length < 2) { setFieldError('lastName', 'lastNameErr', 'Please enter your last name.'); valid = false; }
+      if (!validateEmail(email)) { setFieldError('signupEmail', 'signupEmailErr', 'Please enter a valid email address.'); valid = false; }
+      if (password.length < 8) { setFieldError('signupPassword', 'signupPasswordErr', 'Password must be at least 8 characters.'); valid = false; }
+      if (!role) { setFieldError('signupRole', 'signupRoleErr', 'Please select your medical role.'); valid = false; }
+
+      if (!valid) return;
 
       const btn = document.getElementById('signupBtn');
-      btn.classList.add('loading'); btn.disabled = true;
+      btn.classList.add('loading');
+      btn.disabled = true;
 
       try {
-        const res  = await fetch('/api/signup', {
-          method : 'POST',
+        const res = await fetch('/api/signup', {
+          method: 'POST',
+          credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ first_name: first, last_name: last, email, role, password: pw })
+          body: JSON.stringify({ firstName, lastName, email, password, role })
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
+        btn.classList.remove('loading');
+        btn.disabled = false;
 
-        if (data.ok) {
-          localStorage.setItem('amz_token', data.token);
-          localStorage.setItem('amz_user',  JSON.stringify(data.user));
-          /* Redirect to platform */
-          window.location.href = 'home.html';
-        } else {
-          btn.classList.remove('loading'); btn.disabled = false;
+        if (!res.ok) {
           document.getElementById('signupErrorMsg').textContent = data.error || 'Something went wrong. Please try again.';
           showAlert('signupError');
+          return;
         }
-      } catch {
-        btn.classList.remove('loading'); btn.disabled = false;
-        document.getElementById('signupErrorMsg').textContent = 'Network error. Please try again.';
+
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        document.getElementById('signupErrorMsg').textContent = 'Network error — please try again.';
         showAlert('signupError');
       }
     });
 
-    /* ── Forgot password form ── */
-    document.getElementById('forgotForm').addEventListener('submit', async function(e) {
-      e.preventDefault(); hideAlert('resetSuccess'); hideAlert('resetError');
-      const email = document.getElementById('resetEmail').value.trim();
-      setErr('resetEmail','resetEmailErr','');
-      if (!email) { setErr('resetEmail','resetEmailErr','Please enter your email.'); return; }
-      if (!validateEmail(email)) { setErr('resetEmail','resetEmailErr','Please enter a valid email.'); return; }
+    /* ── Tab switching ── */
+    const tabSignIn = document.getElementById('tabSignIn');
+    const tabSignUp = document.getElementById('tabSignUp');
+    const signupSection = document.getElementById('signupSection');
 
-      const btn = document.getElementById('resetBtn');
-      btn.classList.add('loading'); btn.disabled = true;
+    function showSignIn() {
+      tabSignIn.classList.add('active'); tabSignUp.classList.remove('active');
+      loginSection.classList.remove('hidden'); signupSection.classList.add('hidden'); forgotSection.classList.add('hidden');
+    }
+    function showSignUp() {
+      tabSignUp.classList.add('active'); tabSignIn.classList.remove('active');
+      signupSection.classList.remove('hidden'); loginSection.classList.add('hidden'); forgotSection.classList.add('hidden');
+    }
 
-      try {
-        const res  = await fetch('/api/reset-password', {
-          method : 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ email })
-        });
-        const data = await res.json();
-        btn.classList.remove('loading'); btn.disabled = false;
-        document.getElementById('resetEmail').value = '';
-        showAlert('resetSuccess');
-      } catch {
-        btn.classList.remove('loading'); btn.disabled = false;
-        showAlert('resetSuccess'); /* still show success to prevent enumeration */
-      }
-    });
+    tabSignIn.addEventListener('click', showSignIn);
+    tabSignUp.addEventListener('click', showSignUp);
+    document.getElementById('goToSignUp').addEventListener('click', (e) => { e.preventDefault(); showSignUp(); });
+    document.getElementById('goToSignUp2').addEventListener('click', (e) => { e.preventDefault(); showSignUp(); });
+    document.getElementById('goToSignIn').addEventListener('click', (e) => { e.preventDefault(); showSignIn(); });
+
+    if (window.location.hash === '#signup') showSignUp();
 
     /* ── Clear errors on input ── */
-    ['loginEmail','loginPassword','signupFirst','signupLast','signupEmail','signupRole','signupPassword','resetEmail'].forEach(id => {
+    ['loginEmail','loginPassword','firstName','lastName','signupEmail','signupPassword'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => el.classList.remove('error'));
     });
-
-    /* ── Auto-open signup tab if URL has ?signup=1 ── */
-    if (new URLSearchParams(window.location.search).get('signup') === '1') switchTab('signup');
   </script>
+
 </body>
 </html>

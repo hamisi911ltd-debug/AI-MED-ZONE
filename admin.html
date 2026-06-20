@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin | AMZ MedAI Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+  :root{
+    --navy:#0D1B2A; --teal:#00C9A7; --blue:#4F7EFF; --white:#FFFFFF;
+    --offwhite:#F8FAFF; --text:#0D1B2A; --text-md:#4A5568; --text-lt:#718096;
+    --border:rgba(0,0,0,.10); --grad:linear-gradient(90deg,#4F7EFF,#00C9A7);
+    --r:14px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--offwhite);color:var(--text);min-height:100vh}
+  button{cursor:pointer;border:none;background:none;font-family:inherit}
+  input{font-family:inherit}
+
+  /* ── LOGIN SCREEN ── */
+  #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--navy);padding:20px}
+  .login-card{background:var(--white);border-radius:var(--r);padding:40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .login-card h1{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+  .login-card .sub{font-size:.85rem;color:var(--text-lt);margin-bottom:26px}
+  .fg{margin-bottom:16px}
+  .fg label{display:block;font-size:.8rem;font-weight:600;margin-bottom:6px}
+  .fg input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;outline:none}
+  .fg input:focus{border-color:var(--blue)}
+  .btn{width:100%;padding:12px;border-radius:10px;background:var(--grad);color:#fff;font-weight:700;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn:disabled{opacity:.6}
+  .err{display:none;background:#FFF1F1;border:1px solid #FFD1D1;color:#C53030;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:16px}
+  .err.show{display:block}
+
+  /* ── DASHBOARD ── */
+  #dashboard{display:none}
+  .topbar{background:var(--navy);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
+  .topbar .brand{font-weight:800;font-size:1.05rem}
+  .topbar .brand span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .topbar .who{font-size:.82rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:14px}
+  .logout-btn{color:#fff;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:6px;opacity:.85}
+  .logout-btn:hover{opacity:1}
+
+  .tabs{display:flex;gap:6px;padding:18px 28px 0;background:var(--white);border-bottom:1px solid var(--border);flex-wrap:wrap}
+  .tab{padding:10px 16px;border-radius:8px 8px 0 0;font-size:.85rem;font-weight:600;color:var(--text-lt)}
+  .tab.active{color:var(--blue);background:var(--offwhite);border:1px solid var(--border);border-bottom:none}
+
+  .panel{padding:28px;max-width:1100px;margin:0 auto}
+  .panel.hidden{display:none}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+  .stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px}
+  .stat-card strong{display:block;font-size:1.8rem;font-weight:900;color:var(--navy)}
+  .stat-card span{font-size:.78rem;color:var(--text-lt);text-transform:uppercase;letter-spacing:.05em}
+
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
+  th,td{padding:11px 14px;text-align:left;font-size:.85rem;border-bottom:1px solid var(--border)}
+  th{background:var(--offwhite);font-weight:700;color:var(--text-md)}
+  tr:last-child td{border-bottom:none}
+  .del-btn{color:#C53030;font-size:.8rem;font-weight:600}
+  .empty{padding:30px;text-align:center;color:var(--text-lt);font-size:.88rem}
+
+  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+  .panel-head h2{font-size:1.15rem;font-weight:800}
+  .add-btn{background:var(--grad);color:#fff;padding:9px 16px;border-radius:8px;font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:6px}
+
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:10}
+  .modal-bg.show{display:flex}
+  .modal{background:#fff;border-radius:var(--r);padding:28px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto}
+  .modal h3{font-size:1.05rem;font-weight:800;margin-bottom:18px}
+  .modal-actions{display:flex;gap:10px;margin-top:8px}
+  .btn-secondary{flex:1;padding:11px;border-radius:9px;border:1.5px solid var(--border);font-weight:600;font-size:.85rem}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <h1>Admin Sign In</h1>
+    <p class="sub">AMZ MedAI Academy — restricted access</p>
+    <div class="err" id="loginErr"></div>
+    <form id="adminLoginForm">
+      <div class="fg"><label>Admin Email</label><input type="email" id="adminEmail" required /></div>
+      <div class="fg"><label>Password</label><input type="password" id="adminPassword" required /></div>
+      <button class="btn" type="submit" id="adminLoginBtn"><i class="fas fa-lock"></i> Sign In</button>
+    </form>
+  </div>
+</div>
+
+<div id="dashboard">
+  <div class="topbar">
+    <div class="brand">AMZ <span>MedAI</span> Admin</div>
+    <div class="who">
+      <span id="whoami"></span>
+      <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="doctors">Doctors</button>
+    <button class="tab" data-tab="courses">Courses</button>
+    <button class="tab" data-tab="subscribers">Subscribers</button>
+  </div>
+
+  <div class="panel" id="panel-overview">
+    <div class="stat-grid" id="statGrid"></div>
+  </div>
+
+  <div class="panel hidden" id="panel-doctors">
+    <div class="panel-head"><h2>Registered Doctors</h2></div>
+    <div id="doctorsTableWrap"></div>
+  </div>
+
+  <div class="panel hidden" id="panel-courses">
+    <div class="panel-head">
+      <h2>Course Curriculum</h2>
+      <button class="add-btn" id="addCourseBtn"><i class="fas fa-plus"></i> Add Course</button>
+    </div>
+    <div id="coursesTableWrap"></div>
+  </div>
+
+  <div class="panel hidden" id="panel-subscribers">
+    <div class="panel-head"><h2>Newsletter Subscribers</h2></div>
+    <div id="subscribersTableWrap"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="courseModalBg">
+  <div class="modal">
+    <h3>Add Course</h3>
+    <form id="courseForm">
+      <div class="fg"><label>Week Number</label><input type="number" id="cWeek" min="1" required /></div>
+      <div class="fg"><label>Slug</label><input type="text" id="cSlug" required placeholder="e.g. llm-foundations" /></div>
+      <div class="fg"><label>Title</label><input type="text" id="cTitle" required /></div>
+      <div class="fg"><label>Description</label><input type="text" id="cDesc" /></div>
+      <div class="fg"><label>Category</label><input type="text" id="cCategory" /></div>
+      <div class="fg"><label>Level</label><input type="text" id="cLevel" placeholder="beginner / intermediate / advanced" /></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="courseModalCancel">Cancel</button>
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+async function api(path, opts = {}) {
+  const res = await fetch(path, { credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...opts });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+const loginScreen = document.getElementById('loginScreen');
+const dashboard = document.getElementById('dashboard');
+
+async function checkSession() {
+  try {
+    const me = await api('/api/admin/me');
+    document.getElementById('whoami').textContent = me.firstName + ' ' + me.lastName;
+    loginScreen.style.display = 'none';
+    dashboard.style.display = 'block';
+    loadOverview();
+  } catch {
+    loginScreen.style.display = 'flex';
+    dashboard.style.display = 'none';
+  }
+}
+
+document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('adminLoginBtn');
+  const err = document.getElementById('loginErr');
+  err.classList.remove('show');
+  btn.disabled = true;
+  try {
+    await api('/api/admin/login', {
+      method: 'POST',
+      body: JSON.stringify({ email: document.getElementById('adminEmail').value, password: document.getElementById('adminPassword').value }),
+    });
+    await checkSession();
+  } catch (ex) {
+    err.textContent = ex.message;
+    err.classList.add('show');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await api('/api/logout', { method: 'POST' });
+  checkSession();
+});
+
+document.querySelectorAll('.tab').forEach((tab) => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach((p) => p.classList.add('hidden'));
+    tab.classList.add('active');
+    document.getElementById('panel-' + tab.dataset.tab).classList.remove('hidden');
+    if (tab.dataset.tab === 'doctors') loadDoctors();
+    if (tab.dataset.tab === 'courses') loadCourses();
+    if (tab.dataset.tab === 'subscribers') loadSubscribers();
+  });
+});
+
+async function loadOverview() {
+  const stats = await api('/api/admin/stats');
+  document.getElementById('statGrid').innerHTML = `
+    <div class="stat-card"><strong>${stats.doctors}</strong><span>Registered Doctors</span></div>
+    <div class="stat-card"><strong>${stats.courses}</strong><span>Courses</span></div>
+    <div class="stat-card"><strong>${stats.modulesInProgress}</strong><span>Modules In Progress</span></div>
+    <div class="stat-card"><strong>${stats.modulesCompleted}</strong><span>Modules Completed</span></div>
+    <div class="stat-card"><strong>${stats.subscribers}</strong><span>Newsletter Subscribers</span></div>
+  `;
+}
+
+async function loadDoctors() {
+  const { doctors } = await api('/api/admin/doctors');
+  const wrap = document.getElementById('doctorsTableWrap');
+  if (!doctors.length) { wrap.innerHTML = '<div class="empty">No doctors registered yet.</div>'; return; }
+  wrap.innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Progress</th><th>Joined</th><th></th></tr></thead><tbody>
+    ${doctors.map((d) => `<tr>
+      <td>${d.first_name} ${d.last_name}</td>
+      <td>${d.email}</td>
+      <td>${(d.role || '').replace(/_/g, ' ')}</td>
+      <td>${d.completed_count}/10 completed${d.in_progress_count ? ` &middot; ${d.in_progress_count} in progress` : ''}</td>
+      <td>${new Date(d.created_at).toLocaleDateString()}</td>
+      <td><button class="del-btn" data-id="${d.id}">Remove</button></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+  wrap.querySelectorAll('.del-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Remove this doctor account?')) return;
+    await api('/api/admin/doctors?id=' + btn.dataset.id, { method: 'DELETE' });
+    loadDoctors();
+  }));
+}
+
+async function loadCourses() {
+  const { courses } = await api('/api/admin/courses');
+  const wrap = document.getElementById('coursesTableWrap');
+  if (!courses.length) { wrap.innerHTML = '<div class="empty">No courses yet.</div>'; return; }
+  wrap.innerHTML = `<table><thead><tr><th>Week</th><th>Title</th><th>Category</th><th>Level</th><th>Completed</th><th>In Progress</th><th></th></tr></thead><tbody>
+    ${courses.map((c) => `<tr>
+      <td>${c.week_number}</td>
+      <td>${c.title}</td>
+      <td>${c.category || ''}</td>
+      <td>${c.level || ''}</td>
+      <td>${c.completed_count}</td>
+      <td>${c.in_progress_count}</td>
+      <td><button class="del-btn" data-id="${c.id}">Delete</button></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+  wrap.querySelectorAll('.del-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Delete this course?')) return;
+    await api('/api/admin/courses?id=' + btn.dataset.id, { method: 'DELETE' });
+    loadCourses();
+  }));
+}
+
+async function loadSubscribers() {
+  const { subscribers } = await api('/api/admin/subscribers');
+  const wrap = document.getElementById('subscribersTableWrap');
+  if (!subscribers.length) { wrap.innerHTML = '<div class="empty">No subscribers yet.</div>'; return; }
+  wrap.innerHTML = `<table><thead><tr><th>Email</th><th>Subscribed</th></tr></thead><tbody>
+    ${subscribers.map((s) => `<tr><td>${s.email}</td><td>${new Date(s.subscribed_at).toLocaleDateString()}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+
+const courseModalBg = document.getElementById('courseModalBg');
+document.getElementById('addCourseBtn').addEventListener('click', () => courseModalBg.classList.add('show'));
+document.getElementById('courseModalCancel').addEventListener('click', () => courseModalBg.classList.remove('show'));
+document.getElementById('courseForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await api('/api/admin/courses', {
+    method: 'POST',
+    body: JSON.stringify({
+      weekNumber: Number(document.getElementById('cWeek').value),
+      slug: document.getElementById('cSlug').value.trim(),
+      title: document.getElementById('cTitle').value.trim(),
+      description: document.getElementById('cDesc').value.trim(),
+      category: document.getElementById('cCategory').value.trim(),
+      level: document.getElementById('cLevel').value.trim(),
+    }),
+  });
+  courseModalBg.classList.remove('show');
+  document.getElementById('courseForm').reset();
+  loadCourses();
+});
+
+checkSession();
+</script>
+</body>
+</html>

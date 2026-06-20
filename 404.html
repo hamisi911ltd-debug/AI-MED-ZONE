@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Page not found — AMZ MedAI Academy." />
+  <title>Page Not Found | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-name">AMZ</span>
+          <span class="logo-tagline">MedAI Academy</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="courses.html" class="nav-link">Courses</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="login.html" class="nav-link nav-link-mobile-action">Sign In</a></li>
+        <li><a href="login.html#signup" class="nav-link nav-link-mobile-action cta">Get Started</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="login.html#signup" class="btn-cta-nav">Get Started <i class="fas fa-arrow-right"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ 404 ═══ -->
+  <section class="section bg-offwhite" style="padding-top:64px;min-height:80vh;display:flex;align-items:center">
+    <div class="container" style="text-align:center">
+      <div style="font-size:5rem;font-weight:900;line-height:1;background:linear-gradient(90deg,#4F7EFF,#00C9A7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">404</div>
+      <h2 style="margin-top:8px">Page Not Found</h2>
+      <p style="margin:14px 0 28px;color:var(--text-lt)">That page doesn't exist or may have moved. Let's get you back on track.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="index.html" class="btn-hero-primary"><i class="fas fa-house"></i> Go Home</a>
+        <a href="#" id="notFoundDashboardLink" class="btn-hero-outline"><i class="fas fa-gauge"></i> My Dashboard</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="nav-logo">
+              <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+              <div class="logo-text">
+                <span class="logo-name">AMZ</span>
+                <span class="logo-tagline">MedAI Academy</span>
+              </div>
+            </a>
+            <p>Nairobi, Kenya — Training platform for doctors, grounded in African healthcare contexts.</p>
+            <span class="footer-badge">Bridging Tech &amp; Human Life</span>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="login.html" id="footerSignInLink">Sign In</a></li>
+              <li><a href="login.html#signup" id="footerSignupLink">Create Account</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Need Help?</h4>
+            <p class="footer-contact-line"><i class="fas fa-envelope"></i> info@amzmedzone.co.ke</p>
+            <p class="footer-contact-line"><i class="fas fa-phone"></i> +254 756 535 289</p>
+            <p class="footer-contact-line"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 AMZ – MedAI Academy. All rights reserved. Nairobi, Kenya.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    'use strict';
+    (async function setDashboardLink() {
+      const me = await window.fetchMe(0);
+      const link = document.getElementById('notFoundDashboardLink');
+      link.href = me ? (me.isAdmin ? 'admin.html' : 'dashboard.html') : 'login.html';
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The 10-week AMZ MedAI Academy curriculum — AI in healthcare training grounded in African contexts, from foundations through capstone." />
+  <title>Curriculum | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-name">AMZ</span>
+          <span class="logo-tagline">MedAI Academy</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="courses.html" class="nav-link active">Courses</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="login.html" class="nav-link nav-link-mobile-action">Sign In</a></li>
+        <li><a href="login.html#signup" class="nav-link nav-link-mobile-action cta">Get Started</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="login.html#signup" class="btn-cta-nav">Get Started <i class="fas fa-arrow-right"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ WEEK-BY-WEEK MODULES ═══ -->
+  <section id="courses" class="section bg-offwhite" style="padding-top:64px">
+    <div class="container">
+      <div class="sec-header">
+        <span class="section-tag">10-Week Structured Programme</span>
+        <h2>The <span class="g-text">Curriculum</span></h2>
+        <p>AI in Healthcare — 10 weekly modules, grounded in African healthcare contexts.</p>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-btn active" data-filter="all">All Weeks</button>
+        <button class="filter-btn" data-filter="foundations">Foundations</button>
+        <button class="filter-btn" data-filter="ethics">Ethics &amp; Governance</button>
+        <button class="filter-btn" data-filter="clinical">Clinical AI</button>
+        <button class="filter-btn" data-filter="tools">Public Health &amp; AI Tools</button>
+      </div>
+
+      <div class="courses-grid" id="coursesGrid">
+
+        <div class="course-card reveal" data-category="foundations">
+          <div class="cc-thumb" style="background-image:url('1.png');background-size:cover;background-position:center">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(13,27,42,.78),rgba(79,126,255,.6))"></div>
+            <i class="fas fa-lightbulb"></i>
+            <span class="cc-level beginner">Week 01</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Foundations</span>
+            <h3>Introduction to AI in Healthcare &amp; African Contexts</h3>
+            <p>Define AI, ML, and deep learning. African healthcare landscape and challenges. AI success stories: Uganda, Kenya, Egypt.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="80" data-category="foundations">
+          <div class="cc-thumb" style="background-image:url('2.png');background-size:cover;background-position:center">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(20,40,80,.78),rgba(79,126,255,.55))"></div>
+            <i class="fas fa-chart-line"></i>
+            <span class="cc-level beginner">Week 02</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Foundations</span>
+            <h3>Fundamentals of Data Science &amp; Statistics for Healthcare</h3>
+            <p>Healthcare data types: structured, imaging, genomic. Sensitivity, specificity, AUC-ROC. Data quality, bias, and African data gaps.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="160" data-category="foundations">
+          <div class="cc-thumb" style="background-image:url('3.png');background-size:cover;background-position:center">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(13,42,42,.78),rgba(0,201,167,.55))"></div>
+            <i class="fas fa-diagram-project"></i>
+            <span class="cc-level beginner">Week 03</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Foundations</span>
+            <h3>Machine Learning Basics — Supervised &amp; Unsupervised Learning</h3>
+            <p>ML paradigms and common algorithms. The ML workflow: training, validation, testing.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-category="ethics">
+          <div class="cc-thumb" style="background-image:url('4.png');background-size:cover;background-position:center">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(124,45,18,.75),rgba(255,179,71,.55))"></div>
+            <i class="fas fa-balance-scale"></i>
+            <span class="cc-level intermediate">Week 04</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Ethics &amp; Governance</span>
+            <h3>AI Ethics — Global, Decolonised &amp; African Perspectives</h3>
+            <p>WHO, EU AI Act, OECD frameworks critiqued. Ubuntu philosophy and the CARE framework. Ethical dilemma debate: African healthcare scenarios.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="80" data-category="ethics">
+          <div class="cc-thumb" style="background-image:url('3.png');background-size:cover;background-position:center">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(6,78,59,.75),rgba(52,211,153,.5))"></div>
+            <i class="fas fa-shield-halved"></i>
+            <span class="cc-level intermediate">Week 05</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Ethics &amp; Governance</span>
+            <h3>Data Handling, Privacy &amp; Governance in African Healthcare</h3>
+            <p>Kenya Data Protection Act 2019 applied. Privacy-preserving techniques: federated learning. Data governance and community-based models.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="160" data-category="clinical">
+          <div class="cc-thumb" style="background-image:url('1.png');background-size:cover;background-position:center top">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(0,77,77,.78),rgba(0,201,167,.55))"></div>
+            <i class="fas fa-brain"></i>
+            <span class="cc-level intermediate">Week 06</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Clinical AI</span>
+            <h3>Diagnostic Algorithms &amp; Clinical Decision Support Systems</h3>
+            <p>How diagnostic AI works: pattern recognition and explainability. CDSS types and integration challenges. Case study: evaluating a malaria diagnostic AI at KNH.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="80" data-category="clinical">
+          <div class="cc-thumb" style="background-image:url('2.png');background-size:cover;background-position:center top">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(30,27,75,.78),rgba(79,126,255,.6))"></div>
+            <i class="fas fa-x-ray"></i>
+            <span class="cc-level intermediate">Week 07</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Clinical AI</span>
+            <h3>Medical Imaging &amp; AI</h3>
+            <p>CNNs, transfer learning, and image classification. Radiology, pathology, ophthalmology, obstetric ultrasound. Image interpretation lab: AI vs. expert radiologist.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="160" data-category="tools">
+          <div class="cc-thumb" style="background-image:url('4.png');background-size:cover;background-position:top">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(45,27,105,.78),rgba(167,139,250,.55))"></div>
+            <i class="fas fa-globe-africa"></i>
+            <span class="cc-level intermediate">Week 08</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Public Health</span>
+            <h3>Public Health Applications &amp; Surveillance</h3>
+            <p>AI for outbreak prediction, maternal and child health. NCD risk, supply chain, and workforce AI. Simulation: managing a cholera outbreak with AI tools.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-category="tools">
+          <div class="cc-thumb" style="background-image:url('3.png');background-size:cover;background-position:top">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(20,20,60,.78),rgba(167,139,250,.55))"></div>
+            <i class="fas fa-robot"></i>
+            <span class="cc-level advanced">Week 09</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">AI Tools &amp; NLP</span>
+            <h3>Practical AI Tools, NLP &amp; Large Language Models in Healthcare</h3>
+            <p>AI platforms for clinical and research use. NLP in clinical documentation, ICD coding, and adverse event detection. Multilingual NLP challenges for Kiswahili and African languages.</p>
+          </div>
+        </div>
+
+        <div class="course-card reveal" data-delay="80" data-category="tools">
+          <div class="cc-thumb" style="background-image:url('1.png');background-size:cover;background-position:center">
+            <div class="cc-thumb-overlay" style="background:linear-gradient(135deg,rgba(13,27,42,.85),rgba(0,201,167,.6))"></div>
+            <i class="fas fa-trophy"></i>
+            <span class="cc-level advanced">Week 10</span>
+          </div>
+          <div class="cc-body">
+            <span class="cc-tag">Capstone</span>
+            <h3>Ethics, Regulation, Future of AI &amp; Capstone Presentations</h3>
+            <p>Kenya National AI Strategy, KMPDC, and WHO ethics frameworks. Career positioning: research, clinical exposure, AI literacy. Capstone project presentations to an expert panel.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer" id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="nav-logo">
+              <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+              <div class="logo-text">
+                <span class="logo-name">AMZ</span>
+                <span class="logo-tagline">MedAI Academy</span>
+              </div>
+            </a>
+            <p>Nairobi, Kenya — A new AI-in-healthcare training platform grounded in African contexts.</p>
+            <span class="footer-badge">Bridging Tech &amp; Human Life</span>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="courses.html">Courses</a></li>
+              <li><a href="login.html" id="footerSignInLink">Sign In</a></li>
+              <li><a href="login.html#signup" id="footerSignupLink">Create Account</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Stay Updated</h4>
+            <p>New courses and platform updates — delivered to your inbox.</p>
+            <form class="footer-nl" id="newsletterForm">
+              <input type="email" id="newsletterEmail" placeholder="your@email.com" required />
+              <button type="submit"><i class="fas fa-arrow-right"></i></button>
+            </form>
+            <p class="footer-contact-line"><i class="fas fa-envelope"></i> info@amzmedzone.co.ke</p>
+            <p class="footer-contact-line"><i class="fas fa-phone"></i> +254 756 535 289</p>
+            <p class="footer-contact-line"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2026 AMZ – MedAI Academy. All rights reserved. Nairobi, Kenya.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ CHATBOT ═══ -->
+  <div class="chatbot-container" id="chatbotContainer" aria-hidden="true">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="20" fill="url(#cg)"/>
+          <circle cx="20" cy="15" r="7" fill="white" opacity="0.9"/>
+          <path d="M6 35 Q20 25 34 35" fill="white" opacity="0.9"/>
+          <defs><linearGradient id="cg" x1="0" y1="0" x2="40" y2="40">
+            <stop offset="0%" stop-color="#4F7EFF"/><stop offset="100%" stop-color="#00C9A7"/>
+          </linearGradient></defs>
+        </svg>
+        <div class="avatar-status"></div>
+      </div>
+      <div class="chatbot-info">
+        <strong>AMZ AI Mentor</strong>
+        <span>Learning Assistant <span class="online-dot"></span> Online</span>
+      </div>
+      <div class="chatbot-header-actions">
+        <button class="chat-action-btn" id="chatClear"    title="Clear"><i class="fas fa-trash-alt"></i></button>
+        <button class="chat-action-btn" id="chatMinimize" title="Minimize"><i class="fas fa-minus"></i></button>
+        <button class="chat-action-btn" id="chatClose"    title="Close"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatMessages" role="log" aria-live="polite"></div>
+    <div class="chatbot-suggestions" id="chatSuggestions"></div>
+    <div class="chatbot-input-area">
+      <textarea id="chatInput" placeholder="Ask about courses or how to get started…" rows="1" aria-label="Chat message"></textarea>
+      <button class="chat-send-btn" id="chatSend" aria-label="Send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <p class="chat-disclaimer"><i class="fas fa-circle-info"></i> Course guidance only — not a substitute for clinical training.</p>
+  </div>
+
+  <button class="chatbot-toggle" id="chatbotToggle" aria-label="Open AI Mentor">
+    <i class="fas fa-robot toggle-icon-open"></i>
+    <i class="fas fa-times toggle-icon-close" style="display:none"></i>
+    <div class="chat-notification-badge">1</div>
+  </button>
+
+  <div class="toast" id="toast" role="alert"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMZ MedAI Academy learning session." />
+  <title>Learning Session | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
+        <div class="logo-text">
+          <span class="logo-name">AMZ</span>
+          <span class="logo-tagline">MedAI Academy</span>
+        </div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="courses.html" class="nav-link">Courses</a></li>
+        <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+        <li><a href="login.html" class="nav-link nav-link-mobile-action">Sign In</a></li>
+        <li><a href="login.html#signup" class="nav-link nav-link-mobile-action cta">Get Started</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+        <a href="login.html#signup" class="btn-cta-nav">Get Started <i class="fas fa-arrow-right"></i></a>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ LESSON HEADER ═══ -->
+  <header class="lesson-header">
+    <div class="container">
+      <a href="dashboard.html" class="lesson-nav-link" style="color:rgba(255,255,255,.7);margin-bottom:18px;display:inline-flex"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+      <div id="lessonWeekBadge" class="lesson-week"><i class="fas fa-book-open"></i> Week --</div>
+      <h1 id="lessonTitle">Loading…</h1>
+      <div class="lesson-meta-row" id="lessonMetaRow"></div>
+    </div>
+  </header>
+
+  <!-- ═══ LESSON BODY ═══ -->
+  <div class="lesson-body">
+    <div class="lesson-content">
+      <h3>What you'll cover</h3>
+      <div class="lesson-topics" id="lessonTopics"></div>
+    </div>
+
+    <div class="lesson-content" id="lessonActionWrap">
+      <div class="lesson-actions">
+        <span id="lessonStatusLabel" style="font-size:.88rem;font-weight:600;color:var(--text-md)"></span>
+        <button class="btn-card start" id="markCompleteBtn" style="width:auto;padding:11px 24px">
+          <i class="fas fa-check"></i> Mark as Complete
+        </button>
+      </div>
+    </div>
+
+    <div class="lesson-actions">
+      <a href="#" id="prevLink" class="lesson-nav-link disabled"><i class="fas fa-chevron-left"></i> Previous Module</a>
+      <a href="dashboard.html" class="lesson-nav-link"><i class="fas fa-grip"></i> All Modules</a>
+      <a href="#" id="nextLink" class="lesson-nav-link disabled">Next Module <i class="fas fa-chevron-right"></i></a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    'use strict';
+
+    (async function initLesson() {
+      const me = await window.fetchMe();
+      if (!me) { window.location.href = 'login.html'; return; }
+
+      const slug = new URLSearchParams(window.location.search).get('slug');
+      const [coursesRes, progressRes] = await Promise.all([
+        fetch('/api/courses', { credentials: 'include' }),
+        fetch('/api/progress', { credentials: 'include' }),
+      ]);
+      const { courses } = await coursesRes.json();
+      const { progress } = await progressRes.json();
+
+      const course = courses.find(c => c.slug === slug);
+      if (!course) { window.location.href = 'dashboard.html'; return; }
+
+      const progressMap = {};
+      progress.forEach(p => { progressMap[p.course_id] = p.status; });
+      let status = progressMap[course.id] || 'not_started';
+
+      document.title = course.title + ' | AMZ MedAI Academy';
+      document.getElementById('lessonWeekBadge').innerHTML = `<i class="fas fa-book-open"></i> Week ${String(course.week_number).padStart(2, '0')} &middot; ${course.category || ''}`;
+      document.getElementById('lessonTitle').textContent = course.title;
+      document.getElementById('lessonMetaRow').innerHTML = `
+        <span class="cc-level ${course.level || 'beginner'}">${course.level || 'beginner'}</span>`;
+
+      const topics = (course.description || '').split(/\.\s+/).filter(Boolean);
+      document.getElementById('lessonTopics').innerHTML = topics.map(t =>
+        `<div class="lesson-topic"><i class="fas fa-circle-check"></i><span>${t.replace(/\.$/, '')}.</span></div>`
+      ).join('');
+
+      const idx = courses.findIndex(c => c.id === course.id);
+      const prev = courses[idx - 1];
+      const next = courses[idx + 1];
+      const prevLink = document.getElementById('prevLink');
+      const nextLink = document.getElementById('nextLink');
+      if (prev) { prevLink.href = `course.html?slug=${prev.slug}`; prevLink.classList.remove('disabled'); }
+      if (next) { nextLink.href = `course.html?slug=${next.slug}`; nextLink.classList.remove('disabled'); }
+
+      function renderStatus() {
+        const label = document.getElementById('lessonStatusLabel');
+        const btn = document.getElementById('markCompleteBtn');
+        if (status === 'completed') {
+          label.innerHTML = '<i class="fas fa-circle-check" style="color:#1f9d6f"></i> You completed this module';
+          btn.innerHTML = '<i class="fas fa-rotate-left"></i> Mark as Not Complete';
+        } else {
+          label.innerHTML = status === 'in_progress'
+            ? '<i class="fas fa-spinner" style="color:#4F7EFF"></i> In progress'
+            : '<i class="fas fa-circle" style="color:var(--text-lt)"></i> Not started yet';
+          btn.innerHTML = '<i class="fas fa-check"></i> Mark as Complete';
+        }
+      }
+      renderStatus();
+
+      async function setStatus(newStatus) {
+        await fetch('/api/progress', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ courseId: course.id, status: newStatus }),
+        }).catch(() => {});
+        status = newStatus;
+        renderStatus();
+      }
+
+      // Starting a module you haven't started yet counts as beginning the session.
+      if (status === 'not_started') setStatus('in_progress');
+
+      document.getElementById('markCompleteBtn').addEventListener('click', () => {
+        setStatus(status === 'completed' ? 'in_progress' : 'completed');
+      });
+    })();
+  </script>
+</body>
+</html>
