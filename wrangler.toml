@@ -1,8 +1,10 @@
-name = "ai-med-zone"
+name                   = "ai-med-zone"
+main                   = "worker.js"
 pages_build_output_dir = "."
-compatibility_date = "2026-06-10"
+compatibility_date     = "2026-06-10"
+account_id             = "7ae8d26215d22e65db04d1ce0febe9e7"
 
 [[d1_databases]]
-binding = "DB"
+binding       = "DB"
 database_name = "ai-med-zone-db"
-database_id = "88fc803b-3e6e-42ea-ace3-17d7da39a4b0"
+database_id   = "88fc803b-3e6e-42ea-ace3-17d7da39a4b0"
