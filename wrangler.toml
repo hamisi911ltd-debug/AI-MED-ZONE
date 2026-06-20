@@ -1,7 +1,7 @@
 name               = "amz-medai-zone"
 main               = "worker.js"
 compatibility_date = "2024-09-23"
-account_id         = "PASTE_YOUR_ACCOUNT_ID_HERE"
+account_id         = "7ae8d26215d22e65db04d1ce0febe9e7"
 
 # Static assets (your HTML/CSS/JS files)
 [assets]
@@ -11,4 +11,4 @@ directory = "."
 [[d1_databases]]
 binding       = "DB"
 database_name = "AMZ_DB"
-database_id   = "PASTE_YOUR_DATABASE_ID_HERE"
+database_id   = "71fdfc42-7161-43e4-8349-05e4d3eee138"
