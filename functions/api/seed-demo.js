@@ -1,8 +1,6 @@
 /**
  * GET /api/seed-demo
  * Creates the demo account if it doesn't exist.
- * Call this once from browser after deployment.
- * Remove or protect this endpoint in production.
  */
 
 async function hashPassword(password) {
@@ -21,19 +19,29 @@ function json(data, status = 200) {
 }
 
 export async function onRequestGet({ env }) {
-  const existing = await env.DB.prepare(
-    'SELECT id FROM users WHERE email = ?'
-  ).bind('demo@amzmedzone.co.ke').first();
+  try {
+    const existing = await env.DB.prepare(
+      'SELECT id FROM users WHERE email = ?'
+    ).bind('demo@amzmedzone.co.ke').first();
 
-  if (existing) {
-    return json({ ok: true, message: 'Demo account already exists.' });
+    if (existing) {
+      return json({ ok: true, message: 'Demo account already exists.', id: existing.id });
+    }
+
+    const hash = await hashPassword('Demo1234!');
+
+    const result = await env.DB.prepare(
+      'INSERT INTO users (first_name, last_name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)'
+    ).bind('Demo', 'Doctor', 'demo@amzmedzone.co.ke', hash, 'physician').run();
+
+    return json({
+      ok     : true,
+      message: 'Demo account created successfully.',
+      email  : 'demo@amzmedzone.co.ke',
+      password: 'Demo1234!'
+    }, 201);
+
+  } catch (err) {
+    return json({ ok: false, error: err.message || String(err) }, 500);
   }
-
-  const hash = await hashPassword('Demo1234!');
-
-  await env.DB.prepare(
-    'INSERT INTO users (first_name, last_name, email, password_hash, role, is_verified, is_active) VALUES (?, ?, ?, ?, ?, 1, 1)'
-  ).bind('Demo', 'Doctor', 'demo@amzmedzone.co.ke', hash, 'physician').run();
-
-  return json({ ok: true, message: 'Demo account created. Email: demo@amzmedzone.co.ke / Password: Demo1234!' }, 201);
 }
