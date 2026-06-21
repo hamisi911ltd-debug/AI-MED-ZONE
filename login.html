@@ -794,7 +794,7 @@
           return;
         }
 
-        window.location.href = data.user && data.user.isAdmin ? 'admin.html' : 'dashboard.html';
+        window.location.href = data.isAdmin ? 'admin.html' : 'dashboard.html';
       } catch (err) {
         btn.classList.remove('loading');
         btn.disabled = false;

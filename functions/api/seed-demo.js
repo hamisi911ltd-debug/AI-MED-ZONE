@@ -1,22 +1,4 @@
-/**
- * GET /api/seed-demo
- * Creates the demo account if it doesn't exist.
- */
-
-async function hashPassword(password) {
-  const salt    = crypto.randomUUID();
-  const encoded = new TextEncoder().encode(salt + password);
-  const buf     = await crypto.subtle.digest('SHA-256', encoded);
-  const hex     = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  return `${salt}:${hex}`;
-}
-
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-  });
-}
+import { hashPassword, createSession, sessionCookieHeader, json } from '../_lib/auth.js';
 
 export async function onRequestGet({ env }) {
   try {
@@ -35,13 +17,13 @@ export async function onRequestGet({ env }) {
     ).bind('Demo', 'Doctor', 'demo@amzmedzone.co.ke', hash, 'physician').run();
 
     return json({
-      ok     : true,
-      message: 'Demo account created successfully.',
-      email  : 'demo@amzmedzone.co.ke',
+      ok      : true,
+      message : 'Demo account created.',
+      email   : 'demo@amzmedzone.co.ke',
       password: 'Demo1234!'
-    }, 201);
+    }, { status: 201 });
 
   } catch (err) {
-    return json({ ok: false, error: err.message || String(err) }, 500);
+    return json({ ok: false, error: err.message || String(err) }, { status: 500 });
   }
 }
