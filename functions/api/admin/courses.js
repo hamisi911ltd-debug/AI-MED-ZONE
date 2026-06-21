@@ -33,6 +33,29 @@ export async function onRequestPost({ request, env }) {
   return json({ success: true });
 }
 
+export async function onRequestPatch({ request, env }) {
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'Invalid request body.' }, { status: 400 });
+  }
+
+  const { id, weekNumber, slug, title, description, category, level, durationMinutes, topicsCount, rating } = body;
+  if (!id || !weekNumber || !slug || !title) {
+    return json({ error: 'id, weekNumber, slug and title are required.' }, { status: 400 });
+  }
+
+  await env.DB.prepare(
+    `UPDATE courses SET week_number = ?, slug = ?, title = ?, description = ?, category = ?, level = ?,
+       duration_minutes = ?, topics_count = ?, rating = ? WHERE id = ?`
+  )
+    .bind(weekNumber, slug, title, description || null, category || null, level || null, durationMinutes || null, topicsCount || null, rating || null, id)
+    .run();
+
+  return json({ success: true });
+}
+
 export async function onRequestDelete({ request, env }) {
   const id = new URL(request.url).searchParams.get('id');
   if (!id) return json({ error: 'Missing id.' }, { status: 400 });

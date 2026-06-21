@@ -60,6 +60,11 @@
       <div class="lesson-topics" id="lessonTopics"></div>
     </div>
 
+    <div class="lesson-content" id="materialsWrap" style="display:none">
+      <h3>Course Materials</h3>
+      <div id="materialsList"></div>
+    </div>
+
     <div class="lesson-content" id="lessonActionWrap">
       <div class="lesson-actions">
         <span id="lessonStatusLabel" style="font-size:.88rem;font-weight:600;color:var(--text-md)"></span>
@@ -109,6 +114,36 @@
       document.getElementById('lessonTopics').innerHTML = topics.map(t =>
         `<div class="lesson-topic"><i class="fas fa-circle-check"></i><span>${t.replace(/\.$/, '')}.</span></div>`
       ).join('');
+
+      fetch(`/api/materials?courseId=${course.id}`, { credentials: 'include' }).then(r => r.json()).then(({ materials }) => {
+        if (!materials || !materials.length) return;
+        function iconFor(m) {
+          if (m.material_type === 'link') return 'fa-link';
+          const mt = (m.mime_type || '').toLowerCase();
+          if (mt.includes('pdf')) return 'fa-file-pdf';
+          if (mt.includes('word') || mt.includes('msword') || mt.includes('officedocument.wordprocessingml')) return 'fa-file-word';
+          if (mt.includes('video')) return 'fa-file-video';
+          if (mt.includes('presentation') || mt.includes('powerpoint')) return 'fa-file-powerpoint';
+          if (mt.includes('sheet') || mt.includes('excel')) return 'fa-file-excel';
+          if (mt.includes('image')) return 'fa-file-image';
+          return 'fa-file';
+        }
+        function sizeOf(bytes) {
+          if (!bytes) return '';
+          const mb = bytes / (1024 * 1024);
+          return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+        }
+        document.getElementById('materialsList').innerHTML = materials.map(m => `
+          <div class="material-row">
+            <div class="material-icon"><i class="fas ${iconFor(m)}"></i></div>
+            <div class="material-info">
+              <strong>${m.title}</strong>
+              <span>${m.material_type === 'link' ? 'External link' : (m.file_name || '')}${m.file_size ? ' · ' + sizeOf(m.file_size) : ''}</span>
+            </div>
+            <a class="material-dl" href="/api/materials-download?id=${m.id}" target="_blank" rel="noopener" title="Open"><i class="fas fa-arrow-up-right-from-square"></i></a>
+          </div>`).join('');
+        document.getElementById('materialsWrap').style.display = 'block';
+      }).catch(() => {});
 
       const idx = courses.findIndex(c => c.id === course.id);
       const prev = courses[idx - 1];

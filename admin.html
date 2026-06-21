@@ -3,143 +3,253 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Admin | AMZ MedAI Academy</title>
+<meta name="description" content="AMZ MedAI Academy — Admin Console" />
+<title>Admin Console | AMZ MedAI Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="app.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <style>
-  :root{
-    --navy:#0D1B2A; --teal:#00C9A7; --blue:#4F7EFF; --white:#FFFFFF;
-    --offwhite:#F8FAFF; --text:#0D1B2A; --text-md:#4A5568; --text-lt:#718096;
-    --border:rgba(0,0,0,.10); --grad:linear-gradient(90deg,#4F7EFF,#00C9A7);
-    --r:14px;
-  }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--offwhite);color:var(--text);min-height:100vh}
-  button{cursor:pointer;border:none;background:none;font-family:inherit}
-  input{font-family:inherit}
-
-  /* ── LOGIN SCREEN ── */
+  /* ── LOGIN SCREEN (admin-only, kept self-contained) ── */
   #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--navy);padding:20px}
-  .login-card{background:var(--white);border-radius:var(--r);padding:40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-  .login-card h1{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+  .login-card{background:var(--white);border-radius:18px;padding:40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .login-card h1{font-size:1.3rem;font-weight:800;margin-bottom:6px;color:var(--navy)}
   .login-card .sub{font-size:.85rem;color:var(--text-lt);margin-bottom:26px}
-  .fg{margin-bottom:16px}
-  .fg label{display:block;font-size:.8rem;font-weight:600;margin-bottom:6px}
-  .fg input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;outline:none}
-  .fg input:focus{border-color:var(--blue)}
-  .btn{width:100%;padding:12px;border-radius:10px;background:var(--grad);color:#fff;font-weight:700;font-size:.92rem;display:flex;align-items:center;justify-content:center;gap:8px}
-  .btn:disabled{opacity:.6}
-  .err{display:none;background:#FFF1F1;border:1px solid #FFD1D1;color:#C53030;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:16px}
-  .err.show{display:block}
-
-  /* ── DASHBOARD ── */
-  #dashboard{display:none}
-  .topbar{background:var(--navy);color:#fff;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
-  .topbar .brand{font-weight:800;font-size:1.05rem}
-  .topbar .brand span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .topbar .who{font-size:.82rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:14px}
-  .logout-btn{color:#fff;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:6px;opacity:.85}
-  .logout-btn:hover{opacity:1}
-
-  .tabs{display:flex;gap:6px;padding:18px 28px 0;background:var(--white);border-bottom:1px solid var(--border);flex-wrap:wrap}
-  .tab{padding:10px 16px;border-radius:8px 8px 0 0;font-size:.85rem;font-weight:600;color:var(--text-lt)}
-  .tab.active{color:var(--blue);background:var(--offwhite);border:1px solid var(--border);border-bottom:none}
-
-  .panel{padding:28px;max-width:1100px;margin:0 auto}
-  .panel.hidden{display:none}
-
-  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
-  .stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px}
-  .stat-card strong{display:block;font-size:1.8rem;font-weight:900;color:var(--navy)}
-  .stat-card span{font-size:.78rem;color:var(--text-lt);text-transform:uppercase;letter-spacing:.05em}
-
-  table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
-  th,td{padding:11px 14px;text-align:left;font-size:.85rem;border-bottom:1px solid var(--border)}
-  th{background:var(--offwhite);font-weight:700;color:var(--text-md)}
-  tr:last-child td{border-bottom:none}
-  .del-btn{color:#C53030;font-size:.8rem;font-weight:600}
-  .empty{padding:30px;text-align:center;color:var(--text-lt);font-size:.88rem}
-
-  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-  .panel-head h2{font-size:1.15rem;font-weight:800}
-  .add-btn{background:var(--grad);color:#fff;padding:9px 16px;border-radius:8px;font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:6px}
-
-  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:10}
-  .modal-bg.show{display:flex}
-  .modal{background:#fff;border-radius:var(--r);padding:28px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto}
-  .modal h3{font-size:1.05rem;font-weight:800;margin-bottom:18px}
-  .modal-actions{display:flex;gap:10px;margin-top:8px}
-  .btn-secondary{flex:1;padding:11px;border-radius:9px;border:1.5px solid var(--border);font-weight:600;font-size:.85rem}
+  .login-card .afg{margin-bottom:16px}
+  .login-card .err{display:none;background:#FFF1F1;border:1px solid #FFD1D1;color:#C53030;padding:10px 14px;border-radius:8px;font-size:.82rem;margin-bottom:16px}
+  .login-card .err.show{display:block}
+  #dashboardRoot{display:none}
 </style>
 </head>
 <body>
 
 <div id="loginScreen">
   <div class="login-card">
-    <h1>Admin Sign In</h1>
+    <h1>Admin Console</h1>
     <p class="sub">AMZ MedAI Academy — restricted access</p>
     <div class="err" id="loginErr"></div>
     <form id="adminLoginForm">
-      <div class="fg"><label>Admin Email</label><input type="email" id="adminEmail" required /></div>
-      <div class="fg"><label>Password</label><input type="password" id="adminPassword" required /></div>
-      <button class="btn" type="submit" id="adminLoginBtn"><i class="fas fa-lock"></i> Sign In</button>
+      <div class="afg"><label>Admin Email</label><input type="email" id="adminEmail" required /></div>
+      <div class="afg"><label>Password</label><input type="password" id="adminPassword" required /></div>
+      <button class="btn-app-primary btn-block" type="submit" id="adminLoginBtn" style="width:100%;justify-content:center"><i class="fas fa-lock"></i> Sign In</button>
     </form>
   </div>
 </div>
 
-<div id="dashboard">
-  <div class="topbar">
-    <div class="brand">AMZ <span>MedAI</span> Admin</div>
-    <div class="who">
-      <span id="whoami"></span>
-      <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+<div id="dashboardRoot">
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="#overview" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">Admin Console</span>
+        </div>
+      </a>
+      <div class="as-scroll">
+        <div class="as-section-label">Manage</div>
+        <nav class="as-nav" id="adminNav">
+          <a href="#overview" class="as-link admin-nav-link active" data-section="overview"><i class="fas fa-chart-line"></i> Overview</a>
+          <a href="#doctors" class="as-link admin-nav-link" data-section="doctors"><i class="fas fa-user-doctor"></i> Doctors</a>
+          <a href="#curriculum" class="as-link admin-nav-link" data-section="curriculum"><i class="fas fa-graduation-cap"></i> Curriculum</a>
+          <a href="#research" class="as-link admin-nav-link" data-section="research"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="#community" class="as-link admin-nav-link" data-section="community"><i class="fas fa-users"></i> Community</a>
+          <a href="#subscribers" class="as-link admin-nav-link" data-section="subscribers"><i class="fas fa-envelope"></i> Subscribers</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="#settings" class="as-link admin-nav-link" data-section="settings"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <a href="#overview" class="at-logo-mobile">
+          <img src="LOGO.png" alt="AMZ Logo" />
+          <div><span class="almt-name">AMZ</span><span class="almt-tag">Admin Console</span></div>
+        </a>
+        <div class="at-greeting">
+          <h1 id="sectionTitle">Overview</h1>
+          <span id="sectionSub">Platform-wide snapshot</span>
+        </div>
+        <div class="at-actions" style="margin-left:auto">
+          <a href="dashboard.html" class="btn-app-outline"><i class="fas fa-arrow-up-right-from-square"></i> <span class="hide-mobile-label">View Doctor App</span></a>
+          <div class="at-profile">
+            <div class="at-avatar" id="adminAvatar">--</div>
+            <div class="at-profile-info"><strong id="adminName">…</strong><span>Administrator</span></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <!-- ═══ OVERVIEW ═══ -->
+        <section class="admin-section" id="section-overview">
+          <div class="kpi-row" id="kpiRow"></div>
+          <div class="app-grid" style="grid-template-columns:1.3fr 1fr">
+            <div class="card card-pad">
+              <div class="chart-card-head"><h3><i class="fas fa-chart-column" style="color:var(--blue);margin-right:6px"></i>Curriculum Completion</h3></div>
+              <div class="chart-canvas-wrap"><canvas id="completionChart"></canvas></div>
+            </div>
+            <div class="card card-pad">
+              <div class="chart-card-head"><h3><i class="fas fa-arrow-trend-up" style="color:var(--teal);margin-right:6px"></i>Doctor Signups (8 weeks)</h3></div>
+              <div class="chart-canvas-wrap"><canvas id="signupsChart"></canvas></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══ DOCTORS ═══ -->
+        <section class="admin-section" id="section-doctors" style="display:none">
+          <div class="page-head">
+            <div><h2>Registered Doctors</h2><p>Manage roles, suspend access, or remove accounts.</p></div>
+          </div>
+          <div class="search-bar"><i class="fas fa-search"></i><input type="text" id="doctorSearch" placeholder="Search doctors…" /></div>
+          <div class="admin-table-wrap"><div id="doctorsTableWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div></div>
+        </section>
+
+        <!-- ═══ CURRICULUM ═══ -->
+        <section class="admin-section" id="section-curriculum" style="display:none">
+          <div class="page-head">
+            <div><h2>Curriculum</h2><p>Add, edit and remove weekly modules. Attach PDFs, Word docs, videos or links to each.</p></div>
+            <div class="page-actions"><button class="btn-app-primary" id="addCourseBtn"><i class="fas fa-plus"></i> Add Module</button></div>
+          </div>
+          <div class="admin-table-wrap"><div id="coursesTableWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div></div>
+        </section>
+
+        <!-- ═══ RESEARCH LAB (oversight) ═══ -->
+        <section class="admin-section" id="section-research" style="display:none">
+          <div class="page-head"><div><h2>Research Lab Projects</h2><p>Platform-wide view of doctor-led research projects.</p></div></div>
+          <div class="admin-table-wrap"><div id="researchTableWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div></div>
+        </section>
+
+        <!-- ═══ COMMUNITY (oversight) ═══ -->
+        <section class="admin-section" id="section-community" style="display:none">
+          <div class="page-head"><div><h2>Community Study Groups</h2><p>Platform-wide view of study groups.</p></div></div>
+          <div class="admin-table-wrap"><div id="communityTableWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div></div>
+        </section>
+
+        <!-- ═══ SUBSCRIBERS ═══ -->
+        <section class="admin-section" id="section-subscribers" style="display:none">
+          <div class="page-head">
+            <div><h2>Newsletter Subscribers</h2><p>Everyone who signed up for updates.</p></div>
+            <div class="page-actions"><button class="btn-app-outline" id="exportSubsBtn"><i class="fas fa-download"></i> Export CSV</button></div>
+          </div>
+          <div class="admin-table-wrap"><div id="subscribersTableWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div></div>
+        </section>
+
+        <!-- ═══ SETTINGS ═══ -->
+        <section class="admin-section" id="section-settings" style="display:none">
+          <div class="page-head"><div><h2>Admin Settings</h2><p>Update your administrator password.</p></div></div>
+          <div class="card card-pad" style="max-width:480px">
+            <form id="adminPasswordForm">
+              <div class="afg"><label>Current Password</label><input type="password" id="curPassword" required autocomplete="current-password" /></div>
+              <div class="afg"><label>New Password</label><input type="password" id="newPassword" required minlength="8" autocomplete="new-password" /></div>
+              <div class="afg"><label>Confirm New Password</label><input type="password" id="confirmPassword" required minlength="8" autocomplete="new-password" /></div>
+              <div class="aferr" id="pwErr"></div>
+              <button type="submit" class="btn-app-primary" id="pwSaveBtn"><i class="fas fa-key"></i> Update Password</button>
+            </form>
+          </div>
+        </section>
+
+      </main>
     </div>
-  </div>
-
-  <div class="tabs">
-    <button class="tab active" data-tab="overview">Overview</button>
-    <button class="tab" data-tab="doctors">Doctors</button>
-    <button class="tab" data-tab="courses">Courses</button>
-    <button class="tab" data-tab="subscribers">Subscribers</button>
-  </div>
-
-  <div class="panel" id="panel-overview">
-    <div class="stat-grid" id="statGrid"></div>
-  </div>
-
-  <div class="panel hidden" id="panel-doctors">
-    <div class="panel-head"><h2>Registered Doctors</h2></div>
-    <div id="doctorsTableWrap"></div>
-  </div>
-
-  <div class="panel hidden" id="panel-courses">
-    <div class="panel-head">
-      <h2>Course Curriculum</h2>
-      <button class="add-btn" id="addCourseBtn"><i class="fas fa-plus"></i> Add Course</button>
-    </div>
-    <div id="coursesTableWrap"></div>
-  </div>
-
-  <div class="panel hidden" id="panel-subscribers">
-    <div class="panel-head"><h2>Newsletter Subscribers</h2></div>
-    <div id="subscribersTableWrap"></div>
   </div>
 </div>
 
-<div class="modal-bg" id="courseModalBg">
-  <div class="modal">
-    <h3>Add Course</h3>
+<!-- ═══ COURSE MODAL ═══ -->
+<div class="app-modal-bg" id="courseModalBg">
+  <div class="app-modal">
+    <h3 id="courseModalTitle">Add Module</h3>
     <form id="courseForm">
-      <div class="fg"><label>Week Number</label><input type="number" id="cWeek" min="1" required /></div>
-      <div class="fg"><label>Slug</label><input type="text" id="cSlug" required placeholder="e.g. llm-foundations" /></div>
-      <div class="fg"><label>Title</label><input type="text" id="cTitle" required /></div>
-      <div class="fg"><label>Description</label><input type="text" id="cDesc" /></div>
-      <div class="fg"><label>Category</label><input type="text" id="cCategory" /></div>
-      <div class="fg"><label>Level</label><input type="text" id="cLevel" placeholder="beginner / intermediate / advanced" /></div>
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" id="courseModalCancel">Cancel</button>
-        <button type="submit" class="btn">Save</button>
+      <input type="hidden" id="cId" />
+      <div class="aform-row">
+        <div class="afg"><label>Week Number</label><input type="number" id="cWeek" min="1" required /></div>
+        <div class="afg"><label>Level</label>
+          <select id="cLevel"><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select>
+        </div>
+      </div>
+      <div class="afg"><label>Slug</label><input type="text" id="cSlug" required placeholder="e.g. llm-foundations" /></div>
+      <div class="afg"><label>Title</label><input type="text" id="cTitle" required /></div>
+      <div class="afg"><label>Description</label><textarea id="cDesc" rows="3"></textarea></div>
+      <div class="aform-row">
+        <div class="afg"><label>Category</label><input type="text" id="cCategory" placeholder="foundations / ethics / clinical / tools" /></div>
+        <div class="afg"><label>Duration (minutes)</label><input type="number" id="cDuration" min="1" /></div>
+      </div>
+      <div class="app-modal-actions">
+        <button type="button" class="btn-app-outline" id="courseModalCancel">Cancel</button>
+        <button type="submit" class="btn-app-primary">Save Module</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ MATERIALS MODAL ═══ -->
+<div class="app-modal-bg" id="materialsModalBg">
+  <div class="app-modal" style="max-width:540px">
+    <h3 id="materialsModalTitle">Course Materials</h3>
+
+    <div id="materialsList" style="margin-bottom:18px"></div>
+
+    <div class="upload-type-toggle">
+      <button type="button" class="utt-btn active" data-type="file" id="uttFile"><i class="fas fa-upload"></i> Upload File</button>
+      <button type="button" class="utt-btn" data-type="link" id="uttLink"><i class="fas fa-link"></i> Paste Link</button>
+    </div>
+
+    <form id="materialForm">
+      <input type="hidden" id="mCourseId" />
+      <div class="afg"><label>Title</label><input type="text" id="mTitle" required placeholder="e.g. Week 06 Slide Deck" /></div>
+
+      <div id="materialFileSection">
+        <label class="dropzone" id="dropzone" for="mFile">
+          <i class="fas fa-cloud-arrow-up"></i>
+          <span>Drag a file here or click to browse</span>
+          <div class="dz-filename" id="dzFilename"></div>
+        </label>
+        <input type="file" id="mFile" style="display:none" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,video/*,image/*,.mp4,.mov,.webm" />
+        <p class="ahint" style="margin-top:8px">PDF, Word, PowerPoint, Excel, images or video. Large videos are better posted as a link (e.g. YouTube).</p>
+      </div>
+
+      <div id="materialLinkSection" style="display:none">
+        <div class="afg"><label>URL</label><input type="url" id="mUrl" placeholder="https://…" /></div>
+      </div>
+
+      <div class="app-modal-actions">
+        <button type="button" class="btn-app-outline" id="materialsModalClose">Close</button>
+        <button type="submit" class="btn-app-primary" id="materialSaveBtn"><i class="fas fa-plus"></i> Add Material</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ DOCTOR EDIT MODAL ═══ -->
+<div class="app-modal-bg" id="doctorModalBg">
+  <div class="app-modal" style="max-width:420px">
+    <h3>Edit Doctor</h3>
+    <form id="doctorForm">
+      <input type="hidden" id="dId" />
+      <div class="afg"><label>Name</label><input type="text" id="dName" disabled /></div>
+      <div class="afg"><label>Medical Role</label>
+        <select id="dRole">
+          <option value="general_practitioner">General Practitioner / Family Physician</option>
+          <option value="specialist_consultant">Specialist Consultant</option>
+          <option value="surgeon">Surgeon</option>
+          <option value="radiologist">Radiologist</option>
+          <option value="resident_intern">Resident / Medical Intern</option>
+          <option value="physician_researcher">Physician-Researcher / Academic Clinician</option>
+        </select>
+      </div>
+      <div class="app-modal-actions">
+        <button type="button" class="btn-app-outline" id="doctorModalCancel">Cancel</button>
+        <button type="submit" class="btn-app-primary">Save</button>
       </div>
     </form>
   </div>
@@ -149,25 +259,40 @@
 'use strict';
 
 async function api(path, opts = {}) {
-  const res = await fetch(path, { credentials: 'include', headers: { 'Content-Type': 'application/json' }, ...opts });
+  const isForm = opts.body instanceof FormData;
+  const res = await fetch(path, {
+    credentials: 'include',
+    headers: isForm ? {} : { 'Content-Type': 'application/json' },
+    ...opts,
+  });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.error || 'Request failed');
   return data;
 }
 
+function showToast(msg) {
+  let toast = document.getElementById('appToast');
+  if (!toast) { toast = document.createElement('div'); toast.id = 'appToast'; toast.className = 'app-toast'; document.body.appendChild(toast); }
+  toast.textContent = msg; toast.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
 const loginScreen = document.getElementById('loginScreen');
-const dashboard = document.getElementById('dashboard');
+const dashboardRoot = document.getElementById('dashboardRoot');
+let refreshTimer = null;
 
 async function checkSession() {
   try {
     const me = await api('/api/admin/me');
-    document.getElementById('whoami').textContent = me.firstName + ' ' + me.lastName;
+    document.getElementById('adminName').textContent = `${me.firstName} ${me.lastName}`;
+    document.getElementById('adminAvatar').textContent = `${(me.firstName||'')[0]||''}${(me.lastName||'')[0]||''}`.toUpperCase();
     loginScreen.style.display = 'none';
-    dashboard.style.display = 'block';
-    loadOverview();
+    dashboardRoot.style.display = 'block';
+    goToSection(location.hash.replace('#','') || 'overview');
   } catch {
     loginScreen.style.display = 'flex';
-    dashboard.style.display = 'none';
+    dashboardRoot.style.display = 'none';
+    clearInterval(refreshTimer);
   }
 }
 
@@ -191,105 +316,381 @@ document.getElementById('adminLoginForm').addEventListener('submit', async (e) =
   }
 });
 
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-  await api('/api/logout', { method: 'POST' });
+document.getElementById('logoutLink').addEventListener('click', async (e) => {
+  e.preventDefault();
+  await api('/api/logout', { method: 'POST' }).catch(() => {});
   checkSession();
 });
 
-document.querySelectorAll('.tab').forEach((tab) => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach((p) => p.classList.add('hidden'));
-    tab.classList.add('active');
-    document.getElementById('panel-' + tab.dataset.tab).classList.remove('hidden');
-    if (tab.dataset.tab === 'doctors') loadDoctors();
-    if (tab.dataset.tab === 'courses') loadCourses();
-    if (tab.dataset.tab === 'subscribers') loadSubscribers();
-  });
+/* ── Sidebar mobile toggle ── */
+const sidebar = document.getElementById('appSidebar');
+const overlay = document.getElementById('appOverlay');
+document.getElementById('sidebarToggle').addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+
+/* ── Section router (single page) ── */
+const SECTION_META = {
+  overview: ['Overview', 'Platform-wide snapshot'],
+  doctors: ['Doctors', 'Manage registered doctors'],
+  curriculum: ['Curriculum', 'Modules &amp; materials'],
+  research: ['Research Lab', 'Doctor-led research projects'],
+  community: ['Community', 'Study groups'],
+  subscribers: ['Subscribers', 'Newsletter list'],
+  settings: ['Settings', 'Your admin account'],
+};
+
+function goToSection(name) {
+  if (!SECTION_META[name]) name = 'overview';
+  document.querySelectorAll('.admin-section').forEach((s) => { s.style.display = 'none'; });
+  document.getElementById('section-' + name).style.display = 'block';
+  document.querySelectorAll('.admin-nav-link').forEach((l) => l.classList.toggle('active', l.dataset.section === name));
+  document.getElementById('sectionTitle').textContent = SECTION_META[name][0];
+  document.getElementById('sectionSub').textContent = SECTION_META[name][1];
+  sidebar.classList.remove('open'); overlay.classList.remove('show');
+
+  clearInterval(refreshTimer);
+  const loaders = { overview: loadOverview, doctors: loadDoctors, curriculum: loadCourses, research: loadResearch, community: loadCommunity, subscribers: loadSubscribers };
+  loaders[name]?.();
+  if (name === 'overview') refreshTimer = setInterval(loadOverview, 30000);
+}
+
+document.querySelectorAll('.admin-nav-link').forEach((link) => {
+  link.addEventListener('click', (e) => { e.preventDefault(); goToSection(link.dataset.section); history.replaceState(null, '', '#' + link.dataset.section); });
 });
 
+/* ── OVERVIEW ── */
+let completionChart, signupsChart;
 async function loadOverview() {
-  const stats = await api('/api/admin/stats');
-  document.getElementById('statGrid').innerHTML = `
-    <div class="stat-card"><strong>${stats.doctors}</strong><span>Registered Doctors</span></div>
-    <div class="stat-card"><strong>${stats.courses}</strong><span>Courses</span></div>
-    <div class="stat-card"><strong>${stats.modulesInProgress}</strong><span>Modules In Progress</span></div>
-    <div class="stat-card"><strong>${stats.modulesCompleted}</strong><span>Modules Completed</span></div>
-    <div class="stat-card"><strong>${stats.subscribers}</strong><span>Newsletter Subscribers</span></div>
-  `;
+  const [stats, { courses }, { doctors }] = await Promise.all([
+    api('/api/admin/stats'), api('/api/admin/courses'), api('/api/admin/doctors'),
+  ]);
+
+  document.getElementById('kpiRow').innerHTML = `
+    <div class="stat-card"><div class="stat-icon" style="--si:#4F7EFF"><i class="fas fa-user-doctor"></i></div><div class="stat-body"><span class="stat-num">${stats.doctors}</span><span class="stat-lbl">Doctors</span></div></div>
+    <div class="stat-card"><div class="stat-icon" style="--si:#00C9A7"><i class="fas fa-graduation-cap"></i></div><div class="stat-body"><span class="stat-num">${stats.courses}</span><span class="stat-lbl">Modules</span></div></div>
+    <div class="stat-card"><div class="stat-icon" style="--si:#34D399"><i class="fas fa-circle-check"></i></div><div class="stat-body"><span class="stat-num">${stats.modulesCompleted}</span><span class="stat-lbl">Completions</span></div></div>
+    <div class="stat-card"><div class="stat-icon" style="--si:#FFB347"><i class="fas fa-spinner"></i></div><div class="stat-body"><span class="stat-num">${stats.modulesInProgress}</span><span class="stat-lbl">In Progress</span></div></div>
+    <div class="stat-card"><div class="stat-icon" style="--si:#A78BFA"><i class="fas fa-envelope"></i></div><div class="stat-body"><span class="stat-num">${stats.subscribers}</span><span class="stat-lbl">Subscribers</span></div></div>`;
+
+  const labels = courses.map((c) => `W${String(c.week_number).padStart(2, '0')}`);
+  const completedData = courses.map((c) => c.completed_count);
+  const progressData = courses.map((c) => c.in_progress_count);
+  if (completionChart) {
+    completionChart.data.labels = labels;
+    completionChart.data.datasets[0].data = completedData;
+    completionChart.data.datasets[1].data = progressData;
+    completionChart.update();
+  } else {
+    completionChart = new Chart(document.getElementById('completionChart'), {
+      type: 'bar',
+      data: { labels, datasets: [
+        { label: 'Completed', data: completedData, backgroundColor: '#00C9A7', borderRadius: 6, maxBarThickness: 26 },
+        { label: 'In Progress', data: progressData, backgroundColor: '#4F7EFF', borderRadius: 6, maxBarThickness: 26 },
+      ] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } } },
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { grid: { display: false } } } },
+    });
+  }
+
+  const weeks = [];
+  const now = new Date();
+  for (let i = 7; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i * 7);
+    weeks.push(d);
+  }
+  const counts = weeks.map((wkStart, idx) => {
+    const wkEnd = idx < weeks.length - 1 ? weeks[idx + 1] : new Date(now.getTime() + 86400000);
+    return doctors.filter((d) => { const c = new Date(d.created_at); return c >= wkStart && c < wkEnd; }).length;
+  });
+  const wkLabels = weeks.map((d) => d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+  if (signupsChart) {
+    signupsChart.data.labels = wkLabels; signupsChart.data.datasets[0].data = counts; signupsChart.update();
+  } else {
+    signupsChart = new Chart(document.getElementById('signupsChart'), {
+      type: 'line',
+      data: { labels: wkLabels, datasets: [{ label: 'New Doctors', data: counts, borderColor: '#00C9A7', backgroundColor: 'rgba(0,201,167,.12)', fill: true, tension: 0.35, pointRadius: 3 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { grid: { display: false } } } },
+    });
+  }
 }
 
-async function loadDoctors() {
-  const { doctors } = await api('/api/admin/doctors');
+/* ── DOCTORS ── */
+let allDoctors = [];
+function renderDoctors(list) {
   const wrap = document.getElementById('doctorsTableWrap');
-  if (!doctors.length) { wrap.innerHTML = '<div class="empty">No doctors registered yet.</div>'; return; }
-  wrap.innerHTML = `<table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Progress</th><th>Joined</th><th></th></tr></thead><tbody>
-    ${doctors.map((d) => `<tr>
-      <td>${d.first_name} ${d.last_name}</td>
+  if (!list.length) { wrap.innerHTML = '<div class="empty-state"><i class="fas fa-user-doctor"></i><strong>No doctors found</strong></div>'; return; }
+  wrap.innerHTML = `<table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Progress</th><th>Joined</th><th></th></tr></thead><tbody>
+    ${list.map((d) => `<tr>
+      <td>Dr. ${d.first_name} ${d.last_name}</td>
       <td>${d.email}</td>
       <td>${(d.role || '').replace(/_/g, ' ')}</td>
-      <td>${d.completed_count}/10 completed${d.in_progress_count ? ` &middot; ${d.in_progress_count} in progress` : ''}</td>
+      <td><span class="pill ${d.is_active === 0 ? 'inactive' : 'active'}">${d.is_active === 0 ? 'Suspended' : 'Active'}</span></td>
+      <td>${d.completed_count}/10 completed${d.in_progress_count ? ` · ${d.in_progress_count} in progress` : ''}</td>
       <td>${new Date(d.created_at).toLocaleDateString()}</td>
-      <td><button class="del-btn" data-id="${d.id}">Remove</button></td>
-    </tr>`).join('')}
-  </tbody></table>`;
-  wrap.querySelectorAll('.del-btn').forEach((btn) => btn.addEventListener('click', async () => {
-    if (!confirm('Remove this doctor account?')) return;
-    await api('/api/admin/doctors?id=' + btn.dataset.id, { method: 'DELETE' });
-    loadDoctors();
+      <td><div class="table-actions">
+        <button class="icon-btn edit-doctor-btn" data-id="${d.id}" data-name="Dr. ${d.first_name} ${d.last_name}" data-role="${d.role || ''}" title="Edit role"><i class="fas fa-pen"></i></button>
+        <button class="icon-btn toggle-active-btn" data-id="${d.id}" data-active="${d.is_active === 0 ? 0 : 1}" title="${d.is_active === 0 ? 'Reactivate' : 'Suspend'}"><i class="fas ${d.is_active === 0 ? 'fa-rotate-left' : 'fa-ban'}"></i></button>
+        <button class="icon-btn danger del-doctor-btn" data-id="${d.id}" title="Remove"><i class="fas fa-trash"></i></button>
+      </div></td>
+    </tr>`).join('')}</tbody></table>`;
+
+  wrap.querySelectorAll('.edit-doctor-btn').forEach((btn) => btn.addEventListener('click', () => {
+    document.getElementById('dId').value = btn.dataset.id;
+    document.getElementById('dName').value = btn.dataset.name;
+    document.getElementById('dRole').value = btn.dataset.role;
+    document.getElementById('doctorModalBg').classList.add('show');
+  }));
+  wrap.querySelectorAll('.toggle-active-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    const willActivate = btn.dataset.active === '0';
+    if (!confirm(willActivate ? 'Reactivate this doctor\'s account?' : 'Suspend this doctor\'s account? They will be signed out immediately.')) return;
+    try { await api('/api/admin/doctors', { method: 'PATCH', body: JSON.stringify({ id: Number(btn.dataset.id), isActive: willActivate }) }); showToast('Updated.'); loadDoctors(); }
+    catch (err) { showToast(err.message); }
+  }));
+  wrap.querySelectorAll('.del-doctor-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Permanently remove this doctor account and all their progress?')) return;
+    try { await api('/api/admin/doctors?id=' + btn.dataset.id, { method: 'DELETE' }); showToast('Doctor removed.'); loadDoctors(); }
+    catch (err) { showToast(err.message); }
   }));
 }
+async function loadDoctors() {
+  const { doctors } = await api('/api/admin/doctors');
+  allDoctors = doctors;
+  renderDoctors(allDoctors);
+}
+document.getElementById('doctorSearch').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  renderDoctors(!q ? allDoctors : allDoctors.filter((d) => `${d.first_name} ${d.last_name} ${d.email}`.toLowerCase().includes(q)));
+});
+document.getElementById('doctorForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  try {
+    await api('/api/admin/doctors', { method: 'PATCH', body: JSON.stringify({ id: Number(document.getElementById('dId').value), role: document.getElementById('dRole').value }) });
+    document.getElementById('doctorModalBg').classList.remove('show');
+    showToast('Doctor updated.');
+    loadDoctors();
+  } catch (err) { showToast(err.message); }
+});
+document.getElementById('doctorModalCancel').addEventListener('click', () => document.getElementById('doctorModalBg').classList.remove('show'));
 
+/* ── CURRICULUM ── */
 async function loadCourses() {
   const { courses } = await api('/api/admin/courses');
   const wrap = document.getElementById('coursesTableWrap');
-  if (!courses.length) { wrap.innerHTML = '<div class="empty">No courses yet.</div>'; return; }
-  wrap.innerHTML = `<table><thead><tr><th>Week</th><th>Title</th><th>Category</th><th>Level</th><th>Completed</th><th>In Progress</th><th></th></tr></thead><tbody>
+  if (!courses.length) { wrap.innerHTML = '<div class="empty-state"><i class="fas fa-graduation-cap"></i><strong>No modules yet</strong></div>'; return; }
+  wrap.innerHTML = `<table class="admin-table"><thead><tr><th>Week</th><th>Title</th><th>Category</th><th>Level</th><th>Completed</th><th>In Progress</th><th></th></tr></thead><tbody>
     ${courses.map((c) => `<tr>
-      <td>${c.week_number}</td>
-      <td>${c.title}</td>
+      <td>${String(c.week_number).padStart(2, '0')}</td>
+      <td class="wrap">${c.title}</td>
       <td>${c.category || ''}</td>
       <td>${c.level || ''}</td>
       <td>${c.completed_count}</td>
       <td>${c.in_progress_count}</td>
-      <td><button class="del-btn" data-id="${c.id}">Delete</button></td>
-    </tr>`).join('')}
-  </tbody></table>`;
-  wrap.querySelectorAll('.del-btn').forEach((btn) => btn.addEventListener('click', async () => {
-    if (!confirm('Delete this course?')) return;
-    await api('/api/admin/courses?id=' + btn.dataset.id, { method: 'DELETE' });
+      <td><div class="table-actions">
+        <button class="icon-btn materials-btn" data-id="${c.id}" data-title="${c.title.replace(/"/g,'&quot;')}" title="Materials"><i class="fas fa-paperclip"></i></button>
+        <button class="icon-btn edit-course-btn" data-course='${JSON.stringify(c).replace(/'/g, "&#39;")}' title="Edit"><i class="fas fa-pen"></i></button>
+        <button class="icon-btn danger del-course-btn" data-id="${c.id}" title="Delete"><i class="fas fa-trash"></i></button>
+      </div></td>
+    </tr>`).join('')}</tbody></table>`;
+
+  wrap.querySelectorAll('.edit-course-btn').forEach((btn) => btn.addEventListener('click', () => openCourseModal(JSON.parse(btn.dataset.course))));
+  wrap.querySelectorAll('.del-course-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Delete this module? This also removes everyone\'s progress on it.')) return;
+    try { await api('/api/admin/courses?id=' + btn.dataset.id, { method: 'DELETE' }); showToast('Module deleted.'); loadCourses(); }
+    catch (err) { showToast(err.message); }
+  }));
+  wrap.querySelectorAll('.materials-btn').forEach((btn) => btn.addEventListener('click', () => openMaterialsModal(btn.dataset.id, btn.dataset.title)));
+}
+
+function openCourseModal(course) {
+  document.getElementById('courseModalTitle').textContent = course ? 'Edit Module' : 'Add Module';
+  document.getElementById('cId').value = course?.id || '';
+  document.getElementById('cWeek').value = course?.week_number || '';
+  document.getElementById('cSlug').value = course?.slug || '';
+  document.getElementById('cTitle').value = course?.title || '';
+  document.getElementById('cDesc').value = course?.description || '';
+  document.getElementById('cCategory').value = course?.category || '';
+  document.getElementById('cLevel').value = course?.level || 'beginner';
+  document.getElementById('cDuration').value = course?.duration_minutes || '';
+  document.getElementById('courseModalBg').classList.add('show');
+}
+document.getElementById('addCourseBtn').addEventListener('click', () => openCourseModal(null));
+document.getElementById('courseModalCancel').addEventListener('click', () => document.getElementById('courseModalBg').classList.remove('show'));
+document.getElementById('courseForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const id = document.getElementById('cId').value;
+  const payload = {
+    weekNumber: Number(document.getElementById('cWeek').value),
+    slug: document.getElementById('cSlug').value.trim(),
+    title: document.getElementById('cTitle').value.trim(),
+    description: document.getElementById('cDesc').value.trim(),
+    category: document.getElementById('cCategory').value.trim(),
+    level: document.getElementById('cLevel').value,
+    durationMinutes: document.getElementById('cDuration').value ? Number(document.getElementById('cDuration').value) : null,
+  };
+  try {
+    if (id) await api('/api/admin/courses', { method: 'PATCH', body: JSON.stringify({ id: Number(id), ...payload }) });
+    else await api('/api/admin/courses', { method: 'POST', body: JSON.stringify(payload) });
+    document.getElementById('courseModalBg').classList.remove('show');
+    document.getElementById('courseForm').reset();
+    showToast(id ? 'Module updated.' : 'Module added.');
     loadCourses();
+  } catch (err) { showToast(err.message); }
+});
+
+/* ── MATERIALS ── */
+const MAT_ICONS = { pdf: 'fa-file-pdf', word: 'fa-file-word', video: 'fa-file-video', image: 'fa-file-image', sheet: 'fa-file-excel', presentation: 'fa-file-powerpoint', link: 'fa-link' };
+function matIcon(m) {
+  if (m.material_type === 'link') return MAT_ICONS.link;
+  const t = (m.mime_type || '').toLowerCase();
+  for (const k of ['pdf', 'word', 'video', 'image', 'sheet', 'presentation']) if (t.includes(k)) return MAT_ICONS[k];
+  return 'fa-file';
+}
+let uploadType = 'file';
+async function openMaterialsModal(courseId, title) {
+  document.getElementById('materialsModalTitle').textContent = `Materials — ${title}`;
+  document.getElementById('mCourseId').value = courseId;
+  await refreshMaterials(courseId);
+  document.getElementById('materialsModalBg').classList.add('show');
+}
+async function refreshMaterials(courseId) {
+  const { materials } = await api('/api/admin/materials?courseId=' + courseId);
+  const list = document.getElementById('materialsList');
+  list.innerHTML = !materials.length ? '<p class="ahint">No materials added yet.</p>' : materials.map((m) => `
+    <div class="material-row">
+      <div class="material-icon"><i class="fas ${matIcon(m)}"></i></div>
+      <div class="material-info"><strong>${m.title}</strong><span>${m.material_type === 'link' ? m.external_url : (m.file_name || '')}</span></div>
+      <button class="icon-btn danger del-material-btn" data-id="${m.id}"><i class="fas fa-trash"></i></button>
+    </div>`).join('');
+  list.querySelectorAll('.del-material-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Remove this material?')) return;
+    await api('/api/admin/materials?id=' + btn.dataset.id, { method: 'DELETE' });
+    refreshMaterials(courseId);
+  }));
+}
+document.getElementById('materialsModalClose').addEventListener('click', () => document.getElementById('materialsModalBg').classList.remove('show'));
+document.getElementById('uttFile').addEventListener('click', () => setUploadType('file'));
+document.getElementById('uttLink').addEventListener('click', () => setUploadType('link'));
+function setUploadType(type) {
+  uploadType = type;
+  document.getElementById('uttFile').classList.toggle('active', type === 'file');
+  document.getElementById('uttLink').classList.toggle('active', type === 'link');
+  document.getElementById('materialFileSection').style.display = type === 'file' ? 'block' : 'none';
+  document.getElementById('materialLinkSection').style.display = type === 'link' ? 'block' : 'none';
+}
+const dropzone = document.getElementById('dropzone');
+const mFile = document.getElementById('mFile');
+dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+dropzone.addEventListener('drop', (e) => { e.preventDefault(); dropzone.classList.remove('drag'); if (e.dataTransfer.files[0]) { mFile.files = e.dataTransfer.files; updateDzName(); } });
+mFile.addEventListener('change', updateDzName);
+function updateDzName() { document.getElementById('dzFilename').textContent = mFile.files[0]?.name || ''; }
+
+document.getElementById('materialForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const courseId = document.getElementById('mCourseId').value;
+  const title = document.getElementById('mTitle').value.trim();
+  const btn = document.getElementById('materialSaveBtn');
+  btn.disabled = true;
+  try {
+    if (uploadType === 'link') {
+      const url = document.getElementById('mUrl').value.trim();
+      await api('/api/admin/materials', { method: 'POST', body: JSON.stringify({ courseId: Number(courseId), title, externalUrl: url }) });
+    } else {
+      if (!mFile.files[0]) { showToast('Choose a file first.'); btn.disabled = false; return; }
+      const form = new FormData();
+      form.append('file', mFile.files[0]);
+      form.append('courseId', courseId);
+      form.append('title', title);
+      await api('/api/admin/materials', { method: 'POST', body: form });
+    }
+    document.getElementById('materialForm').reset();
+    document.getElementById('dzFilename').textContent = '';
+    showToast('Material added.');
+    refreshMaterials(courseId);
+  } catch (err) {
+    showToast(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ── RESEARCH (oversight) ── */
+async function loadResearch() {
+  const { projects } = await api('/api/admin/research');
+  const wrap = document.getElementById('researchTableWrap');
+  if (!projects.length) { wrap.innerHTML = '<div class="empty-state"><i class="fas fa-flask"></i><strong>No projects yet</strong></div>'; return; }
+  wrap.innerHTML = `<table class="admin-table"><thead><tr><th>Title</th><th>Area</th><th>Created by</th><th>Members</th><th>Created</th><th></th></tr></thead><tbody>
+    ${projects.map((p) => `<tr>
+      <td class="wrap">${p.title}</td><td>${p.area || ''}</td><td>Dr. ${p.creator_first} ${p.creator_last}</td><td>${p.member_count}</td>
+      <td>${new Date(p.created_at).toLocaleDateString()}</td>
+      <td><button class="icon-btn danger del-research-btn" data-id="${p.id}"><i class="fas fa-trash"></i></button></td>
+    </tr>`).join('')}</tbody></table>`;
+  wrap.querySelectorAll('.del-research-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Delete this research project?')) return;
+    await api('/api/admin/research?id=' + btn.dataset.id, { method: 'DELETE' }); showToast('Deleted.'); loadResearch();
   }));
 }
 
-async function loadSubscribers() {
-  const { subscribers } = await api('/api/admin/subscribers');
-  const wrap = document.getElementById('subscribersTableWrap');
-  if (!subscribers.length) { wrap.innerHTML = '<div class="empty">No subscribers yet.</div>'; return; }
-  wrap.innerHTML = `<table><thead><tr><th>Email</th><th>Subscribed</th></tr></thead><tbody>
-    ${subscribers.map((s) => `<tr><td>${s.email}</td><td>${new Date(s.subscribed_at).toLocaleDateString()}</td></tr>`).join('')}
-  </tbody></table>`;
+/* ── COMMUNITY (oversight) ── */
+async function loadCommunity() {
+  const { groups } = await api('/api/admin/community');
+  const wrap = document.getElementById('communityTableWrap');
+  if (!groups.length) { wrap.innerHTML = '<div class="empty-state"><i class="fas fa-users"></i><strong>No study groups yet</strong></div>'; return; }
+  wrap.innerHTML = `<table class="admin-table"><thead><tr><th>Group</th><th>Module</th><th>Created by</th><th>Members</th><th>Created</th><th></th></tr></thead><tbody>
+    ${groups.map((g) => `<tr>
+      <td class="wrap">${g.name}</td><td>Week ${String(g.week_number).padStart(2,'0')}</td><td>Dr. ${g.creator_first} ${g.creator_last}</td><td>${g.member_count}</td>
+      <td>${new Date(g.created_at).toLocaleDateString()}</td>
+      <td><button class="icon-btn danger del-group-btn" data-id="${g.id}"><i class="fas fa-trash"></i></button></td>
+    </tr>`).join('')}</tbody></table>`;
+  wrap.querySelectorAll('.del-group-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Delete this study group?')) return;
+    await api('/api/admin/community?id=' + btn.dataset.id, { method: 'DELETE' }); showToast('Deleted.'); loadCommunity();
+  }));
 }
 
-const courseModalBg = document.getElementById('courseModalBg');
-document.getElementById('addCourseBtn').addEventListener('click', () => courseModalBg.classList.add('show'));
-document.getElementById('courseModalCancel').addEventListener('click', () => courseModalBg.classList.remove('show'));
-document.getElementById('courseForm').addEventListener('submit', async (e) => {
+/* ── SUBSCRIBERS ── */
+let allSubscribers = [];
+async function loadSubscribers() {
+  const { subscribers } = await api('/api/admin/subscribers');
+  allSubscribers = subscribers;
+  const wrap = document.getElementById('subscribersTableWrap');
+  if (!subscribers.length) { wrap.innerHTML = '<div class="empty-state"><i class="fas fa-envelope"></i><strong>No subscribers yet</strong></div>'; return; }
+  wrap.innerHTML = `<table class="admin-table"><thead><tr><th>Email</th><th>Subscribed</th><th></th></tr></thead><tbody>
+    ${subscribers.map((s) => `<tr><td>${s.email}</td><td>${new Date(s.subscribed_at).toLocaleDateString()}</td>
+      <td><button class="icon-btn danger del-sub-btn" data-id="${s.id}"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table>`;
+  wrap.querySelectorAll('.del-sub-btn').forEach((btn) => btn.addEventListener('click', async () => {
+    if (!confirm('Remove this subscriber?')) return;
+    await api('/api/admin/subscribers?id=' + btn.dataset.id, { method: 'DELETE' }); showToast('Removed.'); loadSubscribers();
+  }));
+}
+document.getElementById('exportSubsBtn').addEventListener('click', () => {
+  const csv = 'Email,Subscribed At\n' + allSubscribers.map((s) => `${s.email},${s.subscribed_at}`).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'subscribers.csv';
+  a.click();
+});
+
+/* ── SETTINGS ── */
+document.getElementById('adminPasswordForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  await api('/api/admin/courses', {
-    method: 'POST',
-    body: JSON.stringify({
-      weekNumber: Number(document.getElementById('cWeek').value),
-      slug: document.getElementById('cSlug').value.trim(),
-      title: document.getElementById('cTitle').value.trim(),
-      description: document.getElementById('cDesc').value.trim(),
-      category: document.getElementById('cCategory').value.trim(),
-      level: document.getElementById('cLevel').value.trim(),
-    }),
-  });
-  courseModalBg.classList.remove('show');
-  document.getElementById('courseForm').reset();
-  loadCourses();
+  const errEl = document.getElementById('pwErr');
+  errEl.textContent = '';
+  const newPw = document.getElementById('newPassword').value;
+  if (newPw !== document.getElementById('confirmPassword').value) { errEl.textContent = 'New passwords do not match.'; return; }
+  const btn = document.getElementById('pwSaveBtn');
+  btn.disabled = true;
+  try {
+    await api('/api/account-password', { method: 'POST', body: JSON.stringify({ currentPassword: document.getElementById('curPassword').value, newPassword: newPw }) });
+    showToast('Password updated.');
+    document.getElementById('adminPasswordForm').reset();
+  } catch (err) {
+    errEl.textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
 });
 
 checkSession();

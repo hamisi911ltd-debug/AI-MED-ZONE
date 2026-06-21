@@ -55,6 +55,10 @@
     <div class="app-main">
       <header class="app-topbar">
         <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <a href="dashboard.html" class="at-logo-mobile">
+          <img src="LOGO.png" alt="AMZ Logo" />
+          <div><span class="almt-name">AMZ</span><span class="almt-tag">MedAI Academy</span></div>
+        </a>
         <div class="at-greeting">
           <h1>Dashboard</h1>
           <span>Your learning overview</span>
@@ -79,7 +83,7 @@
 
         <div class="welcome-banner">
           <div class="welcome-text">
-            <span class="wb-eyebrow"><i class="fas fa-circle-dot"></i> AI in Healthcare — 10 Week Programme</span>
+            <span class="wb-eyebrow"><i class="fas fa-circle-dot"></i> AI in Healthcare — 10 Week Programme <b id="wbEyebrowPct" style="margin-left:6px;color:var(--teal)"></b></span>
             <h1>Welcome back, <span class="js-firstname">Doctor</span> 👋</h1>
             <p id="welcomeSub">Continue building your AI fluency, grounded in African healthcare contexts.</p>
           </div>
@@ -94,9 +98,9 @@
           <!-- stat cards injected -->
         </div>
 
-        <div class="app-grid" style="grid-template-columns:1.7fr 1fr">
+        <div class="app-grid dash-grid">
 
-          <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
             <div class="card card-pad">
               <div class="chart-card-head">
                 <h3><i class="fas fa-chart-column" style="color:var(--blue);margin-right:6px"></i>Curriculum Progress</h3>
@@ -139,6 +143,15 @@
 
         </div>
 
+        <div class="as-upgrade" style="margin-top:20px;flex-direction:row;align-items:center;gap:14px">
+          <i class="fas fa-robot" style="font-size:1.4rem"></i>
+          <div style="flex:1">
+            <strong>Need a hand?</strong>
+            <span style="display:block">Tap the AI Mentor on the homepage and it'll walk you through any module.</span>
+          </div>
+          <a href="index.html#footer" class="at-icon-btn" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:white;flex-shrink:0"><i class="fas fa-comment-dots"></i></a>
+        </div>
+
       </main>
     </div>
   </div>
@@ -151,10 +164,9 @@
     const AV_COLORS = ['#4F7EFF','#00C9A7','#A78BFA','#FF6B6B','#FFB347','#34D399'];
     function avatarColor(seed) { return AV_COLORS[seed % AV_COLORS.length]; }
 
-    (async function initDashboard() {
-      const me = await window.initAppShell();
-      if (!me) return;
+    let progressChart;
 
+    async function refreshDashboard() {
       const [coursesRes, progressRes, lbRes] = await Promise.all([
         api('/api/courses'),
         api('/api/progress'),
@@ -174,6 +186,7 @@
       document.getElementById('wpText').textContent = `${completed.length} / ${courses.length} modules`;
       document.getElementById('wpPct').textContent = `${pct}%`;
       document.getElementById('wpFill').style.width = `${pct}%`;
+      document.getElementById('wbEyebrowPct').textContent = `· ${pct}%`;
 
       const nextCourse = inProgress[0] || notStarted[0];
       if (nextCourse) {
@@ -216,44 +229,48 @@
       gauge.style.background = `conic-gradient(from -90deg, #4F7EFF 0deg, #00C9A7 ${deg}deg, rgba(13,27,42,.08) ${deg}deg 360deg)`;
       gauge.style.borderRadius = '50%';
       gauge.style.position = 'relative';
-      const ring = document.createElement('div');
-      ring.style.position = 'absolute'; ring.style.inset = '16px'; ring.style.background = 'white'; ring.style.borderRadius = '50%';
-      gauge.insertBefore(ring, gauge.firstChild);
+      if (!document.getElementById('gaugeRing')) {
+        const ring = document.createElement('div');
+        ring.id = 'gaugeRing';
+        ring.style.position = 'absolute'; ring.style.inset = '16px'; ring.style.background = 'white'; ring.style.borderRadius = '50%';
+        gauge.insertBefore(ring, gauge.firstChild);
+      }
       document.getElementById('gaugeScore').textContent = `${pct}%`;
 
       /* ── Progress bar chart (per curriculum week) ── */
-      const ctx = document.getElementById('progressChart');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: courses.map((c) => `W${String(c.week_number).padStart(2, '0')}`),
-          datasets: [{
-            data: courses.map((c) => {
-              const s = progressMap[c.id];
-              return s === 'completed' ? 1 : s === 'in_progress' ? 0.5 : 0.06;
-            }),
-            backgroundColor: courses.map((c) => {
-              const s = progressMap[c.id];
-              return s === 'completed' ? '#00C9A7' : s === 'in_progress' ? '#4F7EFF' : 'rgba(13,27,42,.08)';
-            }),
-            borderRadius: 8,
-            maxBarThickness: 34,
-          }],
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: {
-            callbacks: { label: (item) => {
-              const s = progressMap[courses[item.dataIndex].id];
-              return s === 'completed' ? 'Completed' : s === 'in_progress' ? 'In progress' : 'Not started';
-            } },
-          } },
-          scales: {
-            y: { display: false, max: 1 },
-            x: { grid: { display: false }, ticks: { color: '#8A96A8', font: { size: 11, weight: 600 } } },
-          },
-        },
+      const chartLabels = courses.map((c) => `W${String(c.week_number).padStart(2, '0')}`);
+      const chartData = courses.map((c) => {
+        const s = progressMap[c.id];
+        return s === 'completed' ? 1 : s === 'in_progress' ? 0.5 : 0.06;
       });
+      const chartColors = courses.map((c) => {
+        const s = progressMap[c.id];
+        return s === 'completed' ? '#00C9A7' : s === 'in_progress' ? '#4F7EFF' : 'rgba(13,27,42,.08)';
+      });
+      if (progressChart) {
+        progressChart.data.labels = chartLabels;
+        progressChart.data.datasets[0].data = chartData;
+        progressChart.data.datasets[0].backgroundColor = chartColors;
+        progressChart.update();
+      } else {
+        progressChart = new Chart(document.getElementById('progressChart'), {
+          type: 'bar',
+          data: { labels: chartLabels, datasets: [{ data: chartData, backgroundColor: chartColors, borderRadius: 8, maxBarThickness: 34 }] },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: {
+              callbacks: { label: (item) => {
+                const s = progressMap[courses[item.dataIndex].id];
+                return s === 'completed' ? 'Completed' : s === 'in_progress' ? 'In progress' : 'Not started';
+              } },
+            } },
+            scales: {
+              y: { display: false, max: 1 },
+              x: { grid: { display: false }, ticks: { color: '#8A96A8', font: { size: 11, weight: 600 } } },
+            },
+          },
+        });
+      }
 
       /* ── Continue card ── */
       const cw = document.getElementById('continueWrap');
@@ -294,6 +311,13 @@
           <div class="todo-check"></div>
           <div class="todo-text"><strong>${c.title}</strong><span>Week ${String(c.week_number).padStart(2, '0')}</span></div>
         </div>`).join('') : `<div class="empty-state"><i class="fas fa-circle-check"></i><strong>All caught up</strong><p>Nothing pending right now.</p></div>`;
+    }
+
+    (async function initDashboard() {
+      const me = await window.initAppShell();
+      if (!me) return;
+      await refreshDashboard();
+      setInterval(refreshDashboard, 30000);
     })();
   </script>
 </body>

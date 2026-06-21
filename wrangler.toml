@@ -6,3 +6,7 @@ compatibility_date     = "2026-06-10"
 binding       = "DB"
 database_name = "ai-med-zone-db"
 database_id   = "88fc803b-3e6e-42ea-ace3-17d7da39a4b0"
+
+[[r2_buckets]]
+binding     = "MEDIA"
+bucket_name = "ai-med-zone-media"
