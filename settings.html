@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Manage your AMZ MedAI Academy account settings." />
+  <title>Settings | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="dashboard.html" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">MedAI Academy</span>
+        </div>
+      </a>
+      <div class="as-scroll">
+        <div class="as-section-label">Main</div>
+        <nav class="as-nav">
+          <a href="dashboard.html" class="as-link"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+          <a href="my-courses.html" class="as-link"><i class="fas fa-book-open"></i> Courses</a>
+          <a href="research.html" class="as-link"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="community.html" class="as-link"><i class="fas fa-users"></i> Community</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="profile.html" class="as-link"><i class="fas fa-user"></i> Account Profile</a>
+            <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="at-greeting">
+          <h1>Settings</h1>
+          <span>Account &amp; preferences</span>
+        </div>
+        <div class="at-actions" style="margin-left:auto">
+          <a href="profile.html" class="at-profile">
+            <div class="at-avatar js-avatar">--</div>
+            <div class="at-profile-info"><strong class="js-firstname">…</strong><span class="js-role">…</span></div>
+          </a>
+        </div>
+      </header>
+
+      <main class="app-content" style="max-width:760px">
+
+        <div class="card card-pad">
+          <div class="settings-section">
+            <h3>Profile Details</h3>
+            <p class="sec-sub">Update your name and medical role.</p>
+            <form id="profileForm">
+              <div class="aform-row">
+                <div class="afg"><label>First Name</label><input type="text" id="sFirstName" required /></div>
+                <div class="afg"><label>Last Name</label><input type="text" id="sLastName" required /></div>
+              </div>
+              <div class="afg">
+                <label>Medical Role</label>
+                <select id="sRole" required></select>
+              </div>
+              <div class="afg">
+                <label>Email Address</label>
+                <input type="email" id="sEmail" disabled />
+                <span class="ahint">Contact info@amzmedzone.co.ke to change your registered email.</span>
+              </div>
+              <button type="submit" class="btn-app-primary" id="profileSaveBtn"><i class="fas fa-floppy-disk"></i> Save Changes</button>
+            </form>
+          </div>
+
+          <div class="settings-section">
+            <h3>Change Password</h3>
+            <p class="sec-sub">Use a strong password you don't use elsewhere.</p>
+            <form id="passwordForm">
+              <div class="afg"><label>Current Password</label><input type="password" id="curPassword" required autocomplete="current-password" /></div>
+              <div class="aform-row">
+                <div class="afg"><label>New Password</label><input type="password" id="newPassword" required autocomplete="new-password" minlength="8" /></div>
+                <div class="afg"><label>Confirm New Password</label><input type="password" id="confirmPassword" required autocomplete="new-password" minlength="8" /></div>
+              </div>
+              <div class="aferr" id="pwErr"></div>
+              <button type="submit" class="btn-app-primary" id="passwordSaveBtn"><i class="fas fa-key"></i> Update Password</button>
+            </form>
+          </div>
+
+          <div class="settings-section">
+            <h3>Notifications</h3>
+            <p class="sec-sub">Choose what you hear from us. (Saved on this device.)</p>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <label style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--text-md)">
+                <input type="checkbox" id="notifModules" style="width:17px;height:17px;accent-color:var(--blue)" /> New module reminders
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--text-md)">
+                <input type="checkbox" id="notifCommunity" style="width:17px;height:17px;accent-color:var(--blue)" /> Community &amp; study group activity
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:.86rem;color:var(--text-md)">
+                <input type="checkbox" id="notifResearch" style="width:17px;height:17px;accent-color:var(--blue)" /> Research Lab updates
+              </label>
+            </div>
+          </div>
+
+          <div class="danger-zone">
+            <div>
+              <strong>Need to close your account?</strong>
+              <span>Account deletion is handled by our team to protect your data — email info@amzmedzone.co.ke.</span>
+            </div>
+            <a href="mailto:info@amzmedzone.co.ke" class="btn-app-danger"><i class="fas fa-envelope"></i> Contact Support</a>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    'use strict';
+    const ROLE_OPTIONS = [
+      ['general_practitioner', 'General Practitioner / Family Physician'],
+      ['specialist_consultant', 'Specialist Consultant'],
+      ['surgeon', 'Surgeon'],
+      ['radiologist', 'Radiologist'],
+      ['resident_intern', 'Resident / Medical Intern'],
+      ['physician_researcher', 'Physician-Researcher / Academic Clinician'],
+    ];
+
+    (async function initSettings() {
+      const me = await window.initAppShell();
+      if (!me) return;
+
+      const acc = await api('/api/account');
+      document.getElementById('sFirstName').value = acc.firstName;
+      document.getElementById('sLastName').value = acc.lastName;
+      document.getElementById('sEmail').value = acc.email;
+      document.getElementById('sRole').innerHTML = ROLE_OPTIONS.map(([v, label]) =>
+        `<option value="${v}" ${v === acc.role ? 'selected' : ''}>${label}</option>`).join('');
+
+      ['notifModules', 'notifCommunity', 'notifResearch'].forEach((id) => {
+        const el = document.getElementById(id);
+        el.checked = localStorage.getItem('amz_' + id) !== 'false';
+        el.addEventListener('change', () => localStorage.setItem('amz_' + id, el.checked));
+      });
+
+      document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('profileSaveBtn');
+        btn.disabled = true;
+        try {
+          await api('/api/account', {
+            method: 'PATCH',
+            body: JSON.stringify({
+              firstName: document.getElementById('sFirstName').value.trim(),
+              lastName: document.getElementById('sLastName').value.trim(),
+              role: document.getElementById('sRole').value,
+            }),
+          });
+          appToast('Profile updated.');
+        } catch (err) {
+          appToast(err.message);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const errEl = document.getElementById('pwErr');
+        errEl.textContent = '';
+        const newPw = document.getElementById('newPassword').value;
+        const confirmPw = document.getElementById('confirmPassword').value;
+        if (newPw !== confirmPw) { errEl.textContent = 'New passwords do not match.'; return; }
+
+        const btn = document.getElementById('passwordSaveBtn');
+        btn.disabled = true;
+        try {
+          await api('/api/account-password', {
+            method: 'POST',
+            body: JSON.stringify({ currentPassword: document.getElementById('curPassword').value, newPassword: newPw }),
+          });
+          appToast('Password updated.');
+          document.getElementById('passwordForm').reset();
+        } catch (err) {
+          errEl.textContent = err.message;
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

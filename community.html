@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMZ MedAI Academy Community — join study groups with fellow doctors working through the same modules." />
+  <title>Community | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="dashboard.html" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">MedAI Academy</span>
+        </div>
+      </a>
+      <div class="as-scroll">
+        <div class="as-section-label">Main</div>
+        <nav class="as-nav">
+          <a href="dashboard.html" class="as-link"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+          <a href="my-courses.html" class="as-link"><i class="fas fa-book-open"></i> Courses</a>
+          <a href="research.html" class="as-link"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="community.html" class="as-link"><i class="fas fa-users"></i> Community</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="profile.html" class="as-link"><i class="fas fa-user"></i> Account Profile</a>
+            <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+          <div class="as-upgrade">
+            <i class="fas fa-users"></i>
+            <strong>Community</strong>
+            <span>Study alongside doctors working through the same week's module.</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="at-greeting">
+          <h1>Community</h1>
+          <span>Study groups &amp; peers</span>
+        </div>
+        <div class="at-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="groupSearch" placeholder="Search study groups…" />
+        </div>
+        <div class="at-actions">
+          <button class="at-icon-btn"><i class="fas fa-bell"></i><span class="at-dot"></span></button>
+          <a href="profile.html" class="at-profile">
+            <div class="at-avatar js-avatar">--</div>
+            <div class="at-profile-info"><strong class="js-firstname">…</strong><span class="js-role">…</span></div>
+          </a>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <div>
+            <h2>Community Study Groups</h2>
+            <p>Learn alongside other doctors working through the same week's module.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn-app-primary" id="newGroupBtn"><i class="fas fa-plus"></i> New Study Group</button>
+          </div>
+        </div>
+
+        <div class="card card-pad" style="margin-bottom:22px">
+          <div class="chart-card-head"><h3><i class="fas fa-trophy" style="color:var(--gold);margin-right:6px"></i>Top Learners This Term</h3></div>
+          <div id="communityLeaderboard"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+        </div>
+
+        <div id="groupsWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading study groups…</div></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="app-modal-bg" id="groupModalBg">
+    <div class="app-modal">
+      <h3>Start a Study Group</h3>
+      <form id="groupForm">
+        <div class="afg">
+          <label>Linked Module</label>
+          <select id="gCourse" required></select>
+        </div>
+        <div class="afg">
+          <label>Group Name</label>
+          <input type="text" id="gName" required placeholder="e.g. Imaging Crew — Week 07" />
+        </div>
+        <div class="afg">
+          <label>Description</label>
+          <textarea id="gDesc" rows="3" placeholder="What will the group focus on?"></textarea>
+        </div>
+        <div class="app-modal-actions">
+          <button type="button" class="btn-app-outline" id="groupModalCancel">Cancel</button>
+          <button type="submit" class="btn-app-primary">Create Group</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    'use strict';
+    const AV_COLORS = ['#4F7EFF','#00C9A7','#A78BFA','#FF6B6B','#FFB347','#34D399'];
+
+    let allGroups = [];
+
+    function renderGroups(list) {
+      const wrap = document.getElementById('groupsWrap');
+      if (!list.length) {
+        wrap.innerHTML = `<div class="empty-state"><i class="fas fa-users"></i><strong>No study groups found</strong><p>Start one for the module you're on — others will be able to join.</p></div>`;
+        return;
+      }
+      wrap.innerHTML = `<div class="entity-grid">${list.map((g) => `
+        <div class="entity-card">
+          <div class="entity-top">
+            <div class="entity-icon"><i class="fas fa-people-group"></i></div>
+            <span class="entity-area">Week ${String(g.week_number).padStart(2, '0')}</span>
+          </div>
+          <h3>${g.name}</h3>
+          <p>${g.description || `Studying: ${g.course_title}`}</p>
+          <div class="entity-foot">
+            <span class="entity-members"><i class="fas fa-users"></i> ${g.member_count} member${g.member_count === 1 ? '' : 's'}</span>
+            <span class="entity-by">by Dr. ${g.creator_first} ${g.creator_last}</span>
+          </div>
+          <button class="btn-app-${g.joined ? 'outline' : 'primary'} membership-btn" data-id="${g.id}" data-joined="${g.joined}" style="justify-content:center;margin-top:4px">
+            <i class="fas ${g.joined ? 'fa-right-from-bracket' : 'fa-user-plus'}"></i> ${g.joined ? 'Leave Group' : 'Join Group'}
+          </button>
+        </div>`).join('')}</div>`;
+
+      wrap.querySelectorAll('.membership-btn').forEach((btn) => btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const joined = btn.dataset.joined === 'true';
+        btn.disabled = true;
+        try {
+          if (joined) await api(`/api/community-membership?groupId=${id}`, { method: 'DELETE' });
+          else await api('/api/community-membership', { method: 'POST', body: JSON.stringify({ groupId: Number(id) }) });
+          appToast(joined ? 'Left group.' : 'Joined group!');
+          loadGroups();
+        } catch (err) {
+          appToast(err.message);
+          btn.disabled = false;
+        }
+      }));
+    }
+
+    function currentGroupFilter() {
+      const q = document.getElementById('groupSearch').value.trim().toLowerCase();
+      if (!q) return allGroups;
+      return allGroups.filter((g) => g.name.toLowerCase().includes(q) || (g.description || '').toLowerCase().includes(q) || g.course_title.toLowerCase().includes(q));
+    }
+
+    async function loadGroups() {
+      const { groups } = await api('/api/community');
+      allGroups = groups;
+      renderGroups(currentGroupFilter());
+    }
+
+    (async function initCommunity() {
+      const me = await window.initAppShell();
+      if (!me) return;
+
+      const { courses } = await api('/api/courses');
+      document.getElementById('gCourse').innerHTML = courses.map((c) =>
+        `<option value="${c.id}">Week ${String(c.week_number).padStart(2, '0')} — ${c.title}</option>`).join('');
+
+      await loadGroups();
+
+      api('/api/leaderboard').then(({ leaderboard }) => {
+        const wrap = document.getElementById('communityLeaderboard');
+        if (!leaderboard.length) { wrap.innerHTML = `<div class="empty-state"><i class="fas fa-trophy"></i><strong>No rankings yet</strong></div>`; return; }
+        wrap.innerHTML = leaderboard.slice(0, 5).map((row) => `
+          <div class="lbrd-row ${row.rank <= 3 ? 'top' + row.rank : ''}">
+            <div class="lbrd-rank">${row.rank}</div>
+            <div class="lbrd-av" style="background:${AV_COLORS[row.rank % AV_COLORS.length]}">${row.firstName[0]}${row.lastInitial}</div>
+            <div class="lbrd-info"><strong>${row.firstName} ${row.lastInitial}.${row.isMe ? ' (You)' : ''}</strong><span>${(row.role || '').replace(/_/g, ' ')}</span></div>
+            <div class="lbrd-pts">${row.points} pts</div>
+          </div>`).join('');
+      }).catch(() => {});
+
+      document.getElementById('groupSearch').addEventListener('input', () => renderGroups(currentGroupFilter()));
+    })();
+
+    const modalBg = document.getElementById('groupModalBg');
+    document.getElementById('newGroupBtn').addEventListener('click', () => modalBg.classList.add('show'));
+    document.getElementById('groupModalCancel').addEventListener('click', () => modalBg.classList.remove('show'));
+    document.getElementById('groupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        await api('/api/community', {
+          method: 'POST',
+          body: JSON.stringify({
+            courseId: Number(document.getElementById('gCourse').value),
+            name: document.getElementById('gName').value.trim(),
+            description: document.getElementById('gDesc').value.trim(),
+          }),
+        });
+        modalBg.classList.remove('show');
+        document.getElementById('groupForm').reset();
+        appToast('Study group created!');
+        loadGroups();
+      } catch (err) {
+        appToast(err.message);
+      }
+    });
+  </script>
+</body>
+</html>

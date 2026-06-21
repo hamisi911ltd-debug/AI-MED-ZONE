@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AMZ MedAI Academy Research Lab — collaborate with fellow doctors on applied AI research projects." />
+  <title>Research Lab | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="dashboard.html" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">MedAI Academy</span>
+        </div>
+      </a>
+      <div class="as-scroll">
+        <div class="as-section-label">Main</div>
+        <nav class="as-nav">
+          <a href="dashboard.html" class="as-link"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+          <a href="my-courses.html" class="as-link"><i class="fas fa-book-open"></i> Courses</a>
+          <a href="research.html" class="as-link"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="community.html" class="as-link"><i class="fas fa-users"></i> Community</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="profile.html" class="as-link"><i class="fas fa-user"></i> Account Profile</a>
+            <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+          <div class="as-upgrade">
+            <i class="fas fa-flask"></i>
+            <strong>Research Lab</strong>
+            <span>Start or join a project applying AI to a real clinical question.</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="at-greeting">
+          <h1>Research Lab</h1>
+          <span>Collaborative AI research</span>
+        </div>
+        <div class="at-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="researchSearch" placeholder="Search projects…" />
+        </div>
+        <div class="at-actions">
+          <button class="at-icon-btn"><i class="fas fa-bell"></i><span class="at-dot"></span></button>
+          <a href="profile.html" class="at-profile">
+            <div class="at-avatar js-avatar">--</div>
+            <div class="at-profile-info"><strong class="js-firstname">…</strong><span class="js-role">…</span></div>
+          </a>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <div>
+            <h2>Research Lab</h2>
+            <p>Propose or join a project — apply what you're learning to real clinical questions, with no patient data involved.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn-app-primary" id="newProjectBtn"><i class="fas fa-plus"></i> New Project</button>
+          </div>
+        </div>
+
+        <div id="projectsWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading projects…</div></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="app-modal-bg" id="projectModalBg">
+    <div class="app-modal">
+      <h3>Start a Research Project</h3>
+      <form id="projectForm">
+        <div class="afg">
+          <label>Project Title</label>
+          <input type="text" id="pTitle" required placeholder="e.g. LLM-assisted triage notes in busy OPDs" />
+        </div>
+        <div class="afg">
+          <label>Focus Area</label>
+          <input type="text" id="pArea" placeholder="e.g. Clinical NLP, Diagnostics, Public Health" />
+        </div>
+        <div class="afg">
+          <label>Description</label>
+          <textarea id="pDesc" rows="4" placeholder="What question are you exploring, and what help do you need?"></textarea>
+        </div>
+        <div class="app-modal-actions">
+          <button type="button" class="btn-app-outline" id="projectModalCancel">Cancel</button>
+          <button type="submit" class="btn-app-primary">Create Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    'use strict';
+    const AREA_ICONS = { 'Clinical NLP': 'fa-comment-medical', 'Diagnostics': 'fa-stethoscope', 'Public Health': 'fa-globe-africa', 'Imaging': 'fa-x-ray', 'Ethics': 'fa-balance-scale' };
+    function iconFor(area) { return AREA_ICONS[area] || 'fa-flask'; }
+
+    let allProjects = [];
+
+    function renderProjects(list) {
+      const wrap = document.getElementById('projectsWrap');
+      if (!list.length) {
+        wrap.innerHTML = `<div class="empty-state"><i class="fas fa-flask"></i><strong>No projects found</strong><p>Be the first to start a research project — your colleagues will be able to join.</p></div>`;
+        return;
+      }
+      wrap.innerHTML = `<div class="entity-grid">${list.map((p) => `
+        <div class="entity-card">
+          <div class="entity-top">
+            <div class="entity-icon"><i class="fas ${iconFor(p.area)}"></i></div>
+            ${p.area ? `<span class="entity-area">${p.area}</span>` : ''}
+          </div>
+          <h3>${p.title}</h3>
+          <p>${p.description || 'No description provided yet.'}</p>
+          <div class="entity-foot">
+            <span class="entity-members"><i class="fas fa-users"></i> ${p.member_count} member${p.member_count === 1 ? '' : 's'}</span>
+            <span class="entity-by">by Dr. ${p.creator_first} ${p.creator_last}</span>
+          </div>
+          <button class="btn-app-${p.joined ? 'outline' : 'primary'} membership-btn" data-id="${p.id}" data-joined="${p.joined}" style="justify-content:center;margin-top:4px">
+            <i class="fas ${p.joined ? 'fa-right-from-bracket' : 'fa-user-plus'}"></i> ${p.joined ? 'Leave Project' : 'Join Project'}
+          </button>
+        </div>`).join('')}</div>`;
+
+      wrap.querySelectorAll('.membership-btn').forEach((btn) => btn.addEventListener('click', async () => {
+        const id = btn.dataset.id;
+        const joined = btn.dataset.joined === 'true';
+        btn.disabled = true;
+        try {
+          if (joined) await api(`/api/research-membership?projectId=${id}`, { method: 'DELETE' });
+          else await api('/api/research-membership', { method: 'POST', body: JSON.stringify({ projectId: Number(id) }) });
+          appToast(joined ? 'Left project.' : 'Joined project!');
+          loadProjects();
+        } catch (err) {
+          appToast(err.message);
+          btn.disabled = false;
+        }
+      }));
+    }
+
+    function currentFilter() {
+      const q = document.getElementById('researchSearch').value.trim().toLowerCase();
+      if (!q) return allProjects;
+      return allProjects.filter((p) => p.title.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q) || (p.area || '').toLowerCase().includes(q));
+    }
+
+    async function loadProjects() {
+      const { projects } = await api('/api/research');
+      allProjects = projects;
+      renderProjects(currentFilter());
+    }
+
+    (async function initResearch() {
+      const me = await window.initAppShell();
+      if (!me) return;
+      await loadProjects();
+
+      document.getElementById('researchSearch').addEventListener('input', () => renderProjects(currentFilter()));
+    })();
+
+    const modalBg = document.getElementById('projectModalBg');
+    document.getElementById('newProjectBtn').addEventListener('click', () => modalBg.classList.add('show'));
+    document.getElementById('projectModalCancel').addEventListener('click', () => modalBg.classList.remove('show'));
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        await api('/api/research', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: document.getElementById('pTitle').value.trim(),
+            area: document.getElementById('pArea').value.trim(),
+            description: document.getElementById('pDesc').value.trim(),
+          }),
+        });
+        modalBg.classList.remove('show');
+        document.getElementById('projectForm').reset();
+        appToast('Project created!');
+        loadProjects();
+      } catch (err) {
+        appToast(err.message);
+      }
+    });
+  </script>
+</body>
+</html>

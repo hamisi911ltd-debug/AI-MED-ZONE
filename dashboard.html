@@ -3,163 +3,297 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Your AMZ MedAI Academy learning dashboard — track your progress through the 10-week curriculum." />
-  <title>My Dashboard | AMZ MedAI Academy</title>
+  <meta name="description" content="Your AMZ MedAI Academy learning dashboard — track your progress, performance and standing across the curriculum." />
+  <title>Dashboard | AMZ MedAI Academy</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="app.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 </head>
 <body>
 
-  <!-- ═══ NAVBAR ═══ -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="nav-logo">
-        <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
-        <div class="logo-text">
-          <span class="logo-name">AMZ</span>
-          <span class="logo-tagline">MedAI Academy</span>
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="dashboard.html" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">MedAI Academy</span>
         </div>
       </a>
-
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="courses.html" class="nav-link">Courses</a></li>
-        <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
-        <li><a href="login.html" class="nav-link nav-link-mobile-action">Sign In</a></li>
-        <li><a href="login.html#signup" class="nav-link nav-link-mobile-action cta">Get Started</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <a href="login.html" class="btn-ghost-nav signin-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-        <a href="login.html#signup" class="btn-cta-nav">Get Started <i class="fas fa-arrow-right"></i></a>
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- ═══ DASHBOARD ═══ -->
-  <section class="section bg-offwhite" style="padding-top:64px;min-height:80vh">
-    <div class="container">
-
-      <div class="dash-summary">
-        <div>
-          <h2 id="dashGreeting">Welcome back</h2>
-          <p>Continue your 10-week AI in Healthcare curriculum.</p>
-        </div>
-        <div class="dash-progress-wrap">
-          <div class="dash-progress-label">
-            <span id="dashProgressText">0 / 10 modules completed</span>
-            <span id="dashProgressPct">0%</span>
+      <div class="as-scroll">
+        <div class="as-section-label">Main</div>
+        <nav class="as-nav">
+          <a href="dashboard.html" class="as-link"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+          <a href="my-courses.html" class="as-link"><i class="fas fa-book-open"></i> Courses</a>
+          <a href="research.html" class="as-link"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="community.html" class="as-link"><i class="fas fa-users"></i> Community</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="profile.html" class="as-link"><i class="fas fa-user"></i> Account Profile</a>
+            <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+          <div class="as-upgrade">
+            <i class="fas fa-robot"></i>
+            <strong>Need a hand?</strong>
+            <span>The AI Mentor on the homepage can walk you through any module.</span>
           </div>
-          <div class="progress-track"><div class="progress-fill" id="dashProgressFill" style="width:0%"></div></div>
         </div>
       </div>
+    </aside>
 
-      <div id="dashLoading" style="text-align:center;padding:60px 0;color:var(--text-lt)">
-        <i class="fas fa-circle-notch fa-spin"></i> Loading your dashboard…
-      </div>
+    <!-- ═══ MAIN ═══ -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="at-greeting">
+          <h1>Dashboard</h1>
+          <span>Your learning overview</span>
+        </div>
+        <div class="at-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search courses, topics…" />
+        </div>
+        <div class="at-actions">
+          <button class="at-icon-btn"><i class="fas fa-bell"></i><span class="at-dot"></span></button>
+          <a href="profile.html" class="at-profile">
+            <div class="at-avatar js-avatar">--</div>
+            <div class="at-profile-info">
+              <strong class="js-firstname">…</strong>
+              <span class="js-role">…</span>
+            </div>
+          </a>
+        </div>
+      </header>
 
-      <div class="courses-grid" id="dashGrid" style="display:none"></div>
+      <main class="app-content">
 
-    </div>
-  </section>
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <span class="wb-eyebrow"><i class="fas fa-circle-dot"></i> AI in Healthcare — 10 Week Programme</span>
+            <h1>Welcome back, <span class="js-firstname">Doctor</span> 👋</h1>
+            <p id="welcomeSub">Continue building your AI fluency, grounded in African healthcare contexts.</p>
+          </div>
+          <div class="welcome-progress">
+            <div class="wp-label"><span id="wpText">0 / 10 modules</span><span id="wpPct">0%</span></div>
+            <div class="wp-track"><div class="wp-fill" id="wpFill" style="width:0%"></div></div>
+            <a href="my-courses.html" class="btn-app-primary" id="welcomeCta"><i class="fas fa-play"></i> Continue Learning</a>
+          </div>
+        </div>
 
-  <!-- ═══ FOOTER ═══ -->
-  <footer class="footer" id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <a href="index.html" class="nav-logo">
-              <img src="LOGO.png" alt="AMZ Logo" class="logo-img" />
-              <div class="logo-text">
-                <span class="logo-name">AMZ</span>
-                <span class="logo-tagline">MedAI Academy</span>
+        <div class="stats-row" id="statsRow">
+          <!-- stat cards injected -->
+        </div>
+
+        <div class="app-grid" style="grid-template-columns:1.7fr 1fr">
+
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div class="card card-pad">
+              <div class="chart-card-head">
+                <h3><i class="fas fa-chart-column" style="color:var(--blue);margin-right:6px"></i>Curriculum Progress</h3>
+                <div class="chip-row"><span class="chip active">By Week</span></div>
               </div>
-            </a>
-            <p>Nairobi, Kenya — Training platform for doctors, grounded in African healthcare contexts.</p>
-            <span class="footer-badge">Bridging Tech &amp; Human Life</span>
-          </div>
-          <div class="footer-col">
-            <h4>Quick Links</h4>
-            <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="courses.html">Courses</a></li>
-              <li><a href="dashboard.html">My Dashboard</a></li>
-            </ul>
-          </div>
-          <div class="footer-col">
-            <h4>Need Help?</h4>
-            <p class="footer-contact-line"><i class="fas fa-envelope"></i> info@amzmedzone.co.ke</p>
-            <p class="footer-contact-line"><i class="fas fa-phone"></i> +254 756 535 289</p>
-            <p class="footer-contact-line"><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="container">
-        <p>&copy; 2026 AMZ – MedAI Academy. All rights reserved. Nairobi, Kenya.</p>
-      </div>
-    </div>
-  </footer>
+              <div class="chart-canvas-wrap"><canvas id="progressChart"></canvas></div>
+            </div>
 
-  <script src="script.js"></script>
+            <div class="card card-pad">
+              <div class="chart-card-head"><h3><i class="fas fa-arrow-right" style="color:var(--blue);margin-right:6px"></i>Continue Where You Left Off</h3></div>
+              <div id="continueWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <div class="card gauge-card">
+              <h3 style="font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:6px">Performance Score</h3>
+              <div class="gauge-wrap" id="gaugeWrap">
+                <div class="gauge-center">
+                  <span class="gauge-score" id="gaugeScore">0%</span>
+                  <span class="gauge-score-lbl">Completion</span>
+                </div>
+              </div>
+              <div class="gauge-legend">
+                <div class="gl-item"><span class="gl-dot" style="background:var(--blue)"></span> Completed</div>
+                <div class="gl-item"><span class="gl-dot" style="background:var(--border)"></span> Remaining</div>
+              </div>
+            </div>
+
+            <div class="card card-pad">
+              <div class="chart-card-head"><h3><i class="fas fa-trophy" style="color:var(--gold);margin-right:6px"></i>Leaderboard</h3></div>
+              <div id="leaderboardWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+            </div>
+
+            <div class="card card-pad">
+              <div class="chart-card-head"><h3><i class="fas fa-list-check" style="color:var(--teal);margin-right:6px"></i>Up Next</h3></div>
+              <div id="todoWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
   <script>
     'use strict';
 
+    const WEEK_ICONS = ['fa-lightbulb','fa-chart-line','fa-diagram-project','fa-balance-scale','fa-shield-halved','fa-brain','fa-x-ray','fa-globe-africa','fa-robot','fa-trophy'];
+    const AV_COLORS = ['#4F7EFF','#00C9A7','#A78BFA','#FF6B6B','#FFB347','#34D399'];
+    function avatarColor(seed) { return AV_COLORS[seed % AV_COLORS.length]; }
+
     (async function initDashboard() {
-      const me = await window.fetchMe();
-      if (!me) { window.location.href = 'login.html'; return; }
+      const me = await window.initAppShell();
+      if (!me) return;
 
-      document.getElementById('dashGreeting').textContent = `Welcome back, ${me.firstName}`;
-
-      const [coursesRes, progressRes] = await Promise.all([
-        fetch('/api/courses', { credentials: 'include' }),
-        fetch('/api/progress', { credentials: 'include' }),
+      const [coursesRes, progressRes, lbRes] = await Promise.all([
+        api('/api/courses'),
+        api('/api/progress'),
+        api('/api/leaderboard').catch(() => ({ leaderboard: [] })),
       ]);
-      const { courses } = await coursesRes.json();
-      const { progress } = await progressRes.json();
+      const courses = coursesRes.courses;
+      const progress = progressRes.progress;
 
       const progressMap = {};
-      progress.forEach(p => { progressMap[p.course_id] = p.status; });
+      progress.forEach((p) => { progressMap[p.course_id] = p.status; });
 
-      const completedCount = courses.filter(c => progressMap[c.id] === 'completed').length;
-      const pct = Math.round((completedCount / courses.length) * 100);
-      document.getElementById('dashProgressText').textContent = `${completedCount} / ${courses.length} modules completed`;
-      document.getElementById('dashProgressPct').textContent = `${pct}%`;
-      document.getElementById('dashProgressFill').style.width = `${pct}%`;
+      const completed = courses.filter((c) => progressMap[c.id] === 'completed');
+      const inProgress = courses.filter((c) => progressMap[c.id] === 'in_progress');
+      const notStarted = courses.filter((c) => !progressMap[c.id] || progressMap[c.id] === 'not_started');
+      const pct = Math.round((completed.length / courses.length) * 100);
 
-      const grid = document.getElementById('dashGrid');
-      grid.innerHTML = courses.map(c => {
-        const status = progressMap[c.id] || 'not_started';
-        const statusLabel = status === 'completed' ? 'Completed' : status === 'in_progress' ? 'In Progress' : 'Not Started';
-        const btnClass = status === 'completed' ? 'review' : status === 'in_progress' ? 'continue' : 'start';
-        const btnLabel = status === 'completed' ? 'Review Module' : status === 'in_progress' ? 'Continue' : 'Start Module';
-        const btnIcon = status === 'completed' ? 'fa-rotate-right' : status === 'in_progress' ? 'fa-arrow-right' : 'fa-play';
-        return `
-          <div class="course-card">
-            <div class="cc-thumb" style="background:linear-gradient(135deg,#0D1B2A,#1a3a5c)">
-              <i class="fas fa-book-open"></i>
-              <span class="cc-level ${c.level || 'beginner'}">Week ${String(c.week_number).padStart(2, '0')}</span>
+      document.getElementById('wpText').textContent = `${completed.length} / ${courses.length} modules`;
+      document.getElementById('wpPct').textContent = `${pct}%`;
+      document.getElementById('wpFill').style.width = `${pct}%`;
+
+      const nextCourse = inProgress[0] || notStarted[0];
+      if (nextCourse) {
+        document.getElementById('welcomeCta').href = `course.html?slug=${nextCourse.slug}`;
+        document.getElementById('welcomeSub').textContent = inProgress[0]
+          ? `Pick up Week ${String(nextCourse.week_number).padStart(2, '0')} — ${nextCourse.title}.`
+          : `Start Week ${String(nextCourse.week_number).padStart(2, '0')} — ${nextCourse.title}.`;
+      } else {
+        document.getElementById('welcomeSub').textContent = `You've completed the full curriculum. Outstanding work.`;
+        document.getElementById('welcomeCta').style.display = 'none';
+      }
+
+      /* ── Stat cards ── */
+      document.getElementById('statsRow').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon" style="--si:#34D399"><i class="fas fa-circle-check"></i></div>
+          <div class="stat-body"><span class="stat-num">${completed.length}</span><span class="stat-lbl">Modules Completed</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="--si:#4F7EFF"><i class="fas fa-spinner"></i></div>
+          <div class="stat-body"><span class="stat-num">${inProgress.length}</span><span class="stat-lbl">In Progress</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="--si:#A78BFA"><i class="fas fa-flask"></i></div>
+          <div class="stat-body"><span class="stat-num" id="statResearch">–</span><span class="stat-lbl">Research Projects</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="--si:#FFB347"><i class="fas fa-users"></i></div>
+          <div class="stat-body"><span class="stat-num" id="statCommunity">–</span><span class="stat-lbl">Study Groups</span></div>
+        </div>`;
+
+      api('/api/account').then((acc) => {
+        document.getElementById('statResearch').textContent = acc.stats.researchProjects;
+        document.getElementById('statCommunity').textContent = acc.stats.studyGroups;
+      }).catch(() => {});
+
+      /* ── Performance gauge ── */
+      const deg = Math.round((pct / 100) * 360);
+      const gauge = document.getElementById('gaugeWrap');
+      gauge.style.background = `conic-gradient(from -90deg, #4F7EFF 0deg, #00C9A7 ${deg}deg, rgba(13,27,42,.08) ${deg}deg 360deg)`;
+      gauge.style.borderRadius = '50%';
+      gauge.style.position = 'relative';
+      const ring = document.createElement('div');
+      ring.style.position = 'absolute'; ring.style.inset = '16px'; ring.style.background = 'white'; ring.style.borderRadius = '50%';
+      gauge.insertBefore(ring, gauge.firstChild);
+      document.getElementById('gaugeScore').textContent = `${pct}%`;
+
+      /* ── Progress bar chart (per curriculum week) ── */
+      const ctx = document.getElementById('progressChart');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: courses.map((c) => `W${String(c.week_number).padStart(2, '0')}`),
+          datasets: [{
+            data: courses.map((c) => {
+              const s = progressMap[c.id];
+              return s === 'completed' ? 1 : s === 'in_progress' ? 0.5 : 0.06;
+            }),
+            backgroundColor: courses.map((c) => {
+              const s = progressMap[c.id];
+              return s === 'completed' ? '#00C9A7' : s === 'in_progress' ? '#4F7EFF' : 'rgba(13,27,42,.08)';
+            }),
+            borderRadius: 8,
+            maxBarThickness: 34,
+          }],
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: {
+            callbacks: { label: (item) => {
+              const s = progressMap[courses[item.dataIndex].id];
+              return s === 'completed' ? 'Completed' : s === 'in_progress' ? 'In progress' : 'Not started';
+            } },
+          } },
+          scales: {
+            y: { display: false, max: 1 },
+            x: { grid: { display: false }, ticks: { color: '#8A96A8', font: { size: 11, weight: 600 } } },
+          },
+        },
+      });
+
+      /* ── Continue card ── */
+      const cw = document.getElementById('continueWrap');
+      if (nextCourse) {
+        const icon = WEEK_ICONS[(nextCourse.week_number - 1) % WEEK_ICONS.length];
+        const status = progressMap[nextCourse.id] || 'not_started';
+        const donePct = status === 'in_progress' ? 55 : 0;
+        cw.innerHTML = `
+          <div class="continue-card">
+            <div class="continue-thumb"><i class="fas ${icon}"></i></div>
+            <div class="continue-body">
+              <span class="cb-tag">Week ${String(nextCourse.week_number).padStart(2, '0')} · ${nextCourse.category || ''}</span>
+              <h4>${nextCourse.title}</h4>
+              <div class="continue-track"><div class="continue-fill" style="width:${donePct}%"></div></div>
             </div>
-            <div class="cc-body">
-              <span class="status-badge ${status}">${statusLabel}</span>
-              <h3 style="margin-top:10px">${c.title}</h3>
-              <p>${c.description || ''}</p>
-              <a href="course.html?slug=${c.slug}" class="btn-card ${btnClass}"><i class="fas ${btnIcon}"></i> ${btnLabel}</a>
-            </div>
+            <a href="course.html?slug=${nextCourse.slug}" class="btn-app-outline"><i class="fas fa-arrow-right"></i></a>
           </div>`;
-      }).join('');
+      } else {
+        cw.innerHTML = `<div class="empty-state"><i class="fas fa-trophy"></i><strong>Curriculum complete</strong><p>You've finished every module. Check Research Lab for what's next.</p></div>`;
+      }
 
-      document.getElementById('dashLoading').style.display = 'none';
-      grid.style.display = 'grid';
+      /* ── Leaderboard ── */
+      const lb = lbRes.leaderboard || [];
+      const lbWrap = document.getElementById('leaderboardWrap');
+      lbWrap.innerHTML = lb.length ? lb.slice(0, 6).map((row) => `
+        <div class="lbrd-row ${row.rank <= 3 ? 'top' + row.rank : ''}">
+          <div class="lbrd-rank">${row.rank}</div>
+          <div class="lbrd-av" style="background:${avatarColor(row.rank)}">${row.firstName[0]}${row.lastInitial}</div>
+          <div class="lbrd-info"><strong>${row.firstName} ${row.lastInitial}.${row.isMe ? ' (You)' : ''}</strong><span>${(row.role || '').replace(/_/g, ' ')}</span></div>
+          <div class="lbrd-pts">${row.points} pts</div>
+        </div>`).join('') : `<div class="empty-state"><i class="fas fa-trophy"></i><strong>No rankings yet</strong><p>Complete modules to appear on the leaderboard.</p></div>`;
+
+      /* ── Up next list ── */
+      const upNext = [...inProgress, ...notStarted].slice(0, 4);
+      const todoWrap = document.getElementById('todoWrap');
+      todoWrap.innerHTML = upNext.length ? upNext.map((c) => `
+        <div class="todo-row">
+          <div class="todo-check"></div>
+          <div class="todo-text"><strong>${c.title}</strong><span>Week ${String(c.week_number).padStart(2, '0')}</span></div>
+        </div>`).join('') : `<div class="empty-state"><i class="fas fa-circle-check"></i><strong>All caught up</strong><p>Nothing pending right now.</p></div>`;
     })();
   </script>
 </body>

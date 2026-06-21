@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your AMZ MedAI Academy account profile, achievements and standing." />
+  <title>Account Profile | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="dashboard.html" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">MedAI Academy</span>
+        </div>
+      </a>
+      <div class="as-scroll">
+        <div class="as-section-label">Main</div>
+        <nav class="as-nav">
+          <a href="dashboard.html" class="as-link"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+          <a href="my-courses.html" class="as-link"><i class="fas fa-book-open"></i> Courses</a>
+          <a href="research.html" class="as-link"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="community.html" class="as-link"><i class="fas fa-users"></i> Community</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="profile.html" class="as-link"><i class="fas fa-user"></i> Account Profile</a>
+            <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="at-greeting">
+          <h1>Account Profile</h1>
+          <span>Your standing &amp; achievements</span>
+        </div>
+        <div class="at-actions" style="margin-left:auto">
+          <a href="settings.html" class="btn-app-outline"><i class="fas fa-gear"></i> Edit in Settings</a>
+        </div>
+      </header>
+
+      <main class="app-content">
+
+        <div class="card profile-hero" id="profileHero">
+          <div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading profile…</div>
+        </div>
+
+        <div class="app-grid" style="grid-template-columns:1fr;margin-top:20px">
+          <div class="card card-pad">
+            <div class="chart-card-head"><h3><i class="fas fa-award" style="color:var(--gold);margin-right:6px"></i>Module Badges</h3></div>
+            <div id="badgeGrid" class="badge-grid"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    'use strict';
+    const ROLE_LABELS = {
+      general_practitioner: 'General Practitioner',
+      specialist_consultant: 'Specialist Consultant',
+      surgeon: 'Surgeon',
+      radiologist: 'Radiologist',
+      resident_intern: 'Resident / Medical Intern',
+      physician_researcher: 'Physician-Researcher',
+    };
+
+    function initialsOf(first, last) { return `${(first || '')[0] || ''}${(last || '')[0] || ''}`.toUpperCase(); }
+
+    (async function initProfile() {
+      const me = await window.initAppShell();
+      if (!me) return;
+
+      const [acc, { courses }, { progress }] = await Promise.all([api('/api/account'), api('/api/courses'), api('/api/progress')]);
+
+      const joined = new Date(acc.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long' });
+      document.getElementById('profileHero').innerHTML = `
+        <div class="profile-avatar">${initialsOf(acc.firstName, acc.lastName)}</div>
+        <div class="profile-id" style="flex:1">
+          <h2>Dr. ${acc.firstName} ${acc.lastName}</h2>
+          <span>${acc.email}</span>
+          <div class="profile-meta-row">
+            <span class="profile-tag"><i class="fas fa-user-doctor"></i> ${ROLE_LABELS[acc.role] || 'Doctor'}</span>
+            <span class="profile-tag"><i class="fas fa-calendar"></i> Joined ${joined}</span>
+            <span class="profile-tag"><i class="fas fa-shield-halved"></i> No patient data on file</span>
+          </div>
+          <div class="profile-stats">
+            <div class="profile-stat"><strong>${acc.stats.completedCount}</strong><span>Completed</span></div>
+            <div class="profile-stat"><strong>${acc.stats.inProgressCount}</strong><span>In Progress</span></div>
+            <div class="profile-stat"><strong>${acc.stats.researchProjects + acc.stats.studyGroups}</strong><span>Communities Joined</span></div>
+          </div>
+        </div>`;
+
+      const progressMap = {};
+      progress.forEach((p) => { progressMap[p.course_id] = p.status; });
+
+      document.getElementById('badgeGrid').innerHTML = courses.map((c) => {
+        const unlocked = progressMap[c.id] === 'completed';
+        return `
+          <div class="badge-item ${unlocked ? '' : 'locked'}">
+            <div class="badge-icon"><i class="fas ${unlocked ? 'fa-trophy' : 'fa-lock'}"></i></div>
+            <span>Week ${String(c.week_number).padStart(2, '0')}</span>
+          </div>`;
+      }).join('');
+    })();
+  </script>
+</body>
+</html>

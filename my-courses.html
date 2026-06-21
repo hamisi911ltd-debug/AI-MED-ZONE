@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Your AMZ MedAI Academy courses — track and continue the 10-week AI in Healthcare curriculum." />
+  <title>Courses | AMZ MedAI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <div class="as-overlay" id="appOverlay"></div>
+
+    <aside class="app-sidebar" id="appSidebar">
+      <a href="dashboard.html" class="as-logo">
+        <img src="LOGO.png" alt="AMZ Logo" />
+        <div class="as-logo-text">
+          <span class="as-logo-name">AMZ</span>
+          <span class="as-logo-tag">MedAI Academy</span>
+        </div>
+      </a>
+      <div class="as-scroll">
+        <div class="as-section-label">Main</div>
+        <nav class="as-nav">
+          <a href="dashboard.html" class="as-link"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+          <a href="my-courses.html" class="as-link"><i class="fas fa-book-open"></i> Courses</a>
+          <a href="research.html" class="as-link"><i class="fas fa-flask"></i> Research Lab</a>
+          <a href="community.html" class="as-link"><i class="fas fa-users"></i> Community</a>
+        </nav>
+        <div class="as-bottom">
+          <div class="as-section-label">Account</div>
+          <nav class="as-nav">
+            <a href="profile.html" class="as-link"><i class="fas fa-user"></i> Account Profile</a>
+            <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
+            <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
+          </nav>
+          <div class="as-upgrade">
+            <i class="fas fa-robot"></i>
+            <strong>Need a hand?</strong>
+            <span>The AI Mentor on the homepage can walk you through any module.</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="app-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        <div class="at-greeting">
+          <h1>Courses</h1>
+          <span>10-week curriculum</span>
+        </div>
+        <div class="at-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="courseSearch" placeholder="Search modules…" />
+        </div>
+        <div class="at-actions">
+          <button class="at-icon-btn"><i class="fas fa-bell"></i><span class="at-dot"></span></button>
+          <a href="profile.html" class="at-profile">
+            <div class="at-avatar js-avatar">--</div>
+            <div class="at-profile-info"><strong class="js-firstname">…</strong><span class="js-role">…</span></div>
+          </a>
+        </div>
+      </header>
+
+      <main class="app-content">
+        <div class="page-head">
+          <div>
+            <h2>The Curriculum</h2>
+            <p>10 weekly modules — track your progress and pick up where you left off.</p>
+          </div>
+          <div class="page-actions" id="filterRow"></div>
+        </div>
+
+        <div id="coursesGridWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading courses…</div></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    'use strict';
+    const WEEK_ICONS = ['fa-lightbulb','fa-chart-line','fa-diagram-project','fa-balance-scale','fa-shield-halved','fa-brain','fa-x-ray','fa-globe-africa','fa-robot','fa-trophy'];
+    const THUMB_GRADS = [
+      'linear-gradient(135deg,#0D1B2A,#1a3a5c)','linear-gradient(135deg,#14285a,#4F7EFF)','linear-gradient(135deg,#0d2a2a,#00C9A7)',
+      'linear-gradient(135deg,#3a2410,#FFB347)','linear-gradient(135deg,#062a1d,#34D399)','linear-gradient(135deg,#1b1145,#A78BFA)',
+    ];
+
+    (async function initCourses() {
+      const me = await window.initAppShell();
+      if (!me) return;
+
+      const [{ courses }, { progress }] = await Promise.all([api('/api/courses'), api('/api/progress')]);
+      const progressMap = {};
+      progress.forEach((p) => { progressMap[p.course_id] = p.status; });
+
+      const categories = [...new Set(courses.map((c) => c.category).filter(Boolean))];
+      const filterRow = document.getElementById('filterRow');
+      filterRow.innerHTML = `<button class="btn-app-outline filter-chip active" data-cat="all">All</button>` +
+        categories.map((cat) => `<button class="btn-app-outline filter-chip" data-cat="${cat}">${cat}</button>`).join('');
+
+      function render(filter, query) {
+        let list = filter === 'all' ? courses : courses.filter((c) => c.category === filter);
+        if (query) list = list.filter((c) => c.title.toLowerCase().includes(query) || (c.description || '').toLowerCase().includes(query));
+        const wrap = document.getElementById('coursesGridWrap');
+        if (!list.length) {
+          wrap.innerHTML = `<div class="empty-state"><i class="fas fa-book-open"></i><strong>No modules found</strong><p>Try a different filter.</p></div>`;
+          return;
+        }
+        wrap.innerHTML = `<div class="acourse-grid">${list.map((c) => {
+          const status = progressMap[c.id] || 'not_started';
+          const statusLabel = status === 'completed' ? 'Completed' : status === 'in_progress' ? 'In Progress' : 'Not Started';
+          const btnLabel = status === 'completed' ? 'Review' : status === 'in_progress' ? 'Continue' : 'Start';
+          const btnIcon = status === 'completed' ? 'fa-rotate-right' : status === 'in_progress' ? 'fa-arrow-right' : 'fa-play';
+          const icon = WEEK_ICONS[(c.week_number - 1) % WEEK_ICONS.length];
+          const grad = THUMB_GRADS[(c.week_number - 1) % THUMB_GRADS.length];
+          return `
+            <div class="acourse-card">
+              <div class="acc-thumb" style="background:${grad}">
+                <span class="acc-week">Week ${String(c.week_number).padStart(2, '0')}</span>
+                <span class="acc-level ${c.level || 'beginner'}">${c.level || 'beginner'}</span>
+                <i class="fas ${icon}"></i>
+              </div>
+              <div class="acc-body">
+                <span class="status-badge ${status}" style="align-self:flex-start">${statusLabel}</span>
+                <h3>${c.title}</h3>
+                <p>${c.description || ''}</p>
+                <a href="course.html?slug=${c.slug}" class="btn-app-${status === 'completed' ? 'outline' : 'primary'}" style="justify-content:center">
+                  <i class="fas ${btnIcon}"></i> ${btnLabel}
+                </a>
+              </div>
+            </div>`;
+        }).join('')}</div>`;
+      }
+
+      function currentQuery() { return document.getElementById('courseSearch').value.trim().toLowerCase(); }
+      function currentCat() { return filterRow.querySelector('.filter-chip.active')?.dataset.cat || 'all'; }
+
+      render('all', '');
+
+      filterRow.addEventListener('click', (e) => {
+        const btn = e.target.closest('.filter-chip');
+        if (!btn) return;
+        filterRow.querySelectorAll('.filter-chip').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        render(btn.dataset.cat, currentQuery());
+      });
+
+      document.getElementById('courseSearch').addEventListener('input', () => {
+        render(currentCat(), currentQuery());
+      });
+    })();
+  </script>
+</body>
+</html>
