@@ -62,6 +62,7 @@ window.initAppShell = async function initAppShell() {
   function closeSidebar() { sidebar?.classList.remove('open'); overlay?.classList.remove('show'); }
   toggle?.addEventListener('click', () => { sidebar?.classList.toggle('open'); overlay?.classList.toggle('show'); });
   overlay?.addEventListener('click', closeSidebar);
+  document.getElementById('sidebarClose')?.addEventListener('click', closeSidebar);
   document.querySelectorAll('.as-link').forEach((l) => l.addEventListener('click', closeSidebar));
 
   document.getElementById('logoutLink')?.addEventListener('click', async (e) => {

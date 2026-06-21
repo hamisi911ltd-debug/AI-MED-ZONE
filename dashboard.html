@@ -20,13 +20,15 @@
 
     <!-- ═══ SIDEBAR ═══ -->
     <aside class="app-sidebar" id="appSidebar">
-      <a href="dashboard.html" class="as-logo">
-        <img src="LOGO.png" alt="AMZ Logo" />
-        <div class="as-logo-text">
-          <span class="as-logo-name">AMZ</span>
-          <span class="as-logo-tag">MedAI Academy</span>
-        </div>
-      </a>
+      <div class="as-logo-row">
+        <a href="dashboard.html" class="as-logo">
+          <img src="LOGO.png" alt="AMZ Logo" />
+          <div class="as-logo-text">
+            <span class="as-logo-name">AMZ</span>
+          </div>
+        </a>
+        <button class="as-close" id="sidebarClose" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
+      </div>
       <div class="as-scroll">
         <div class="as-section-label">Main</div>
         <nav class="as-nav">
@@ -42,11 +44,6 @@
             <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
             <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
           </nav>
-          <div class="as-upgrade">
-            <i class="fas fa-robot"></i>
-            <strong>Need a hand?</strong>
-            <span>The AI Mentor on the homepage can walk you through any module.</span>
-          </div>
         </div>
       </div>
     </aside>
@@ -57,7 +54,7 @@
         <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
         <a href="dashboard.html" class="at-logo-mobile">
           <img src="LOGO.png" alt="AMZ Logo" />
-          <div><span class="almt-name">AMZ</span><span class="almt-tag">MedAI Academy</span></div>
+          <div><span class="almt-name">AMZ</span></div>
         </a>
         <div class="at-greeting">
           <h1>Dashboard</h1>
@@ -81,17 +78,17 @@
 
       <main class="app-content">
 
-        <div class="welcome-banner">
-          <div class="welcome-text">
-            <span class="wb-eyebrow"><i class="fas fa-circle-dot"></i> AI in Healthcare — 10 Week Programme <b id="wbEyebrowPct" style="margin-left:6px;color:var(--teal)"></b></span>
+        <div class="greeting-strip">
+          <div class="gs-avatar js-avatar">--</div>
+          <div class="gs-text">
             <h1>Welcome back, <span class="js-firstname">Doctor</span> 👋</h1>
             <p id="welcomeSub">Continue building your AI fluency, grounded in African healthcare contexts.</p>
           </div>
-          <div class="welcome-progress">
-            <div class="wp-label"><span id="wpText">0 / 10 modules</span><span id="wpPct">0%</span></div>
-            <div class="wp-track"><div class="wp-fill" id="wpFill" style="width:0%"></div></div>
-            <a href="my-courses.html" class="btn-app-primary" id="welcomeCta"><i class="fas fa-play"></i> Continue Learning</a>
+          <div class="gs-ring-wrap">
+            <div class="gs-ring" id="gsRing"><span id="gsRingPct">0%</span></div>
+            <span class="gs-ring-lbl">Complete</span>
           </div>
+          <a href="my-courses.html" class="btn-app-primary" id="welcomeCta"><i class="fas fa-play"></i> Continue Learning</a>
         </div>
 
         <div class="stats-row" id="statsRow">
@@ -109,9 +106,20 @@
               <div class="chart-canvas-wrap"><canvas id="progressChart"></canvas></div>
             </div>
 
+            <div class="app-grid" style="grid-template-columns:1fr 1fr">
+              <div class="card card-pad">
+                <div class="chart-card-head"><h3><i class="fas fa-chart-pie" style="color:var(--purple);margin-right:6px"></i>Breakdown</h3></div>
+                <div class="chart-canvas-wrap" style="height:170px"><canvas id="breakdownChart"></canvas></div>
+              </div>
+              <div class="card card-pad">
+                <div class="chart-card-head"><h3><i class="fas fa-arrow-right" style="color:var(--blue);margin-right:6px"></i>Continue</h3></div>
+                <div id="continueWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+              </div>
+            </div>
+
             <div class="card card-pad">
-              <div class="chart-card-head"><h3><i class="fas fa-arrow-right" style="color:var(--blue);margin-right:6px"></i>Continue Where You Left Off</h3></div>
-              <div id="continueWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
+              <div class="chart-card-head"><h3><i class="fas fa-list-check" style="color:var(--teal);margin-right:6px"></i>Up Next</h3></div>
+              <div id="todoWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
             </div>
           </div>
 
@@ -134,22 +142,8 @@
               <div class="chart-card-head"><h3><i class="fas fa-trophy" style="color:var(--gold);margin-right:6px"></i>Leaderboard</h3></div>
               <div id="leaderboardWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
             </div>
-
-            <div class="card card-pad">
-              <div class="chart-card-head"><h3><i class="fas fa-list-check" style="color:var(--teal);margin-right:6px"></i>Up Next</h3></div>
-              <div id="todoWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
-            </div>
           </div>
 
-        </div>
-
-        <div class="as-upgrade" style="margin-top:20px;flex-direction:row;align-items:center;gap:14px">
-          <i class="fas fa-robot" style="font-size:1.4rem"></i>
-          <div style="flex:1">
-            <strong>Need a hand?</strong>
-            <span style="display:block">Tap the AI Mentor on the homepage and it'll walk you through any module.</span>
-          </div>
-          <a href="index.html#footer" class="at-icon-btn" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);color:white;flex-shrink:0"><i class="fas fa-comment-dots"></i></a>
         </div>
 
       </main>
@@ -164,7 +158,7 @@
     const AV_COLORS = ['#4F7EFF','#00C9A7','#A78BFA','#FF6B6B','#FFB347','#34D399'];
     function avatarColor(seed) { return AV_COLORS[seed % AV_COLORS.length]; }
 
-    let progressChart;
+    let progressChart, breakdownChart;
 
     async function refreshDashboard() {
       const [coursesRes, progressRes, lbRes] = await Promise.all([
@@ -183,10 +177,9 @@
       const notStarted = courses.filter((c) => !progressMap[c.id] || progressMap[c.id] === 'not_started');
       const pct = Math.round((completed.length / courses.length) * 100);
 
-      document.getElementById('wpText').textContent = `${completed.length} / ${courses.length} modules`;
-      document.getElementById('wpPct').textContent = `${pct}%`;
-      document.getElementById('wpFill').style.width = `${pct}%`;
-      document.getElementById('wbEyebrowPct').textContent = `· ${pct}%`;
+      document.getElementById('gsRingPct').textContent = `${pct}%`;
+      const gsRing = document.getElementById('gsRing');
+      gsRing.style.background = `conic-gradient(from -90deg, #4F7EFF 0deg, #00C9A7 ${Math.round((pct / 100) * 360)}deg, rgba(13,27,42,.1) ${Math.round((pct / 100) * 360)}deg 360deg)`;
 
       const nextCourse = inProgress[0] || notStarted[0];
       if (nextCourse) {
@@ -268,6 +261,25 @@
               y: { display: false, max: 1 },
               x: { grid: { display: false }, ticks: { color: '#8A96A8', font: { size: 11, weight: 600 } } },
             },
+          },
+        });
+      }
+
+      /* ── Breakdown doughnut ── */
+      const breakdownData = [completed.length, inProgress.length, notStarted.length];
+      if (breakdownChart) {
+        breakdownChart.data.datasets[0].data = breakdownData;
+        breakdownChart.update();
+      } else {
+        breakdownChart = new Chart(document.getElementById('breakdownChart'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Completed', 'In Progress', 'Not Started'],
+            datasets: [{ data: breakdownData, backgroundColor: ['#00C9A7', '#4F7EFF', 'rgba(13,27,42,.1)'], borderWidth: 0 }],
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false, cutout: '68%',
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 9, font: { size: 10 }, padding: 8 } } },
           },
         });
       }

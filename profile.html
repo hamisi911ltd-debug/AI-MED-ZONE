@@ -18,13 +18,15 @@
     <div class="as-overlay" id="appOverlay"></div>
 
     <aside class="app-sidebar" id="appSidebar">
-      <a href="dashboard.html" class="as-logo">
-        <img src="LOGO.png" alt="AMZ Logo" />
-        <div class="as-logo-text">
-          <span class="as-logo-name">AMZ</span>
-          <span class="as-logo-tag">MedAI Academy</span>
-        </div>
-      </a>
+      <div class="as-logo-row">
+        <a href="dashboard.html" class="as-logo">
+          <img src="LOGO.png" alt="AMZ Logo" />
+          <div class="as-logo-text">
+            <span class="as-logo-name">AMZ</span>
+          </div>
+        </a>
+        <button class="as-close" id="sidebarClose" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
+      </div>
       <div class="as-scroll">
         <div class="as-section-label">Main</div>
         <nav class="as-nav">
@@ -49,7 +51,7 @@
         <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
         <a href="dashboard.html" class="at-logo-mobile">
           <img src="LOGO.png" alt="AMZ Logo" />
-          <div><span class="almt-name">AMZ</span><span class="almt-tag">MedAI Academy</span></div>
+          <div><span class="almt-name">AMZ</span></div>
         </a>
         <div class="at-greeting">
           <h1>Account Profile</h1>

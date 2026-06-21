@@ -43,13 +43,16 @@
     <div class="as-overlay" id="appOverlay"></div>
 
     <aside class="app-sidebar" id="appSidebar">
-      <a href="#overview" class="as-logo">
-        <img src="LOGO.png" alt="AMZ Logo" />
-        <div class="as-logo-text">
-          <span class="as-logo-name">AMZ</span>
-          <span class="as-logo-tag">Admin Console</span>
-        </div>
-      </a>
+      <div class="as-logo-row">
+        <a href="#overview" class="as-logo">
+          <img src="LOGO.png" alt="AMZ Logo" />
+          <div class="as-logo-text">
+            <span class="as-logo-name">AMZ</span>
+            <span class="as-logo-tag">Admin Console</span>
+          </div>
+        </a>
+        <button class="as-close" id="sidebarClose" aria-label="Close menu"><i class="fas fa-xmark"></i></button>
+      </div>
       <div class="as-scroll">
         <div class="as-section-label">Manage</div>
         <nav class="as-nav" id="adminNav">
@@ -327,6 +330,7 @@ const sidebar = document.getElementById('appSidebar');
 const overlay = document.getElementById('appOverlay');
 document.getElementById('sidebarToggle').addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
 overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
+document.getElementById('sidebarClose').addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('show'); });
 
 /* ── Section router (single page) ── */
 const SECTION_META = {
