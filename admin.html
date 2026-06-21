@@ -69,6 +69,11 @@
             <a href="#settings" class="as-link admin-nav-link" data-section="settings"><i class="fas fa-gear"></i> Settings</a>
             <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
           </nav>
+          <a href="#settings" class="as-user-mini admin-nav-link" data-section="settings">
+            <div class="aum-avatar" id="adminAvatarMini">--</div>
+            <div class="aum-info"><strong id="adminNameMini">…</strong><span>Administrator</span></div>
+            <i class="fas fa-chevron-right aum-chevron"></i>
+          </a>
         </div>
       </div>
     </aside>
@@ -98,14 +103,14 @@
         <!-- ═══ OVERVIEW ═══ -->
         <section class="admin-section" id="section-overview">
           <div class="kpi-row" id="kpiRow"></div>
-          <div class="app-grid" style="grid-template-columns:1.3fr 1fr">
-            <div class="card card-pad">
-              <div class="chart-card-head"><h3><i class="fas fa-chart-column" style="color:var(--blue);margin-right:6px"></i>Curriculum Completion</h3></div>
-              <div class="chart-canvas-wrap"><canvas id="completionChart"></canvas></div>
+          <div class="app-grid-2">
+            <div class="card card-pad-sm">
+              <div class="chart-card-head"><h3><i class="fas fa-chart-column" style="color:var(--blue);margin-right:6px"></i>Completion</h3></div>
+              <div class="chart-canvas-wrap" style="height:150px"><canvas id="completionChart"></canvas></div>
             </div>
-            <div class="card card-pad">
-              <div class="chart-card-head"><h3><i class="fas fa-arrow-trend-up" style="color:var(--teal);margin-right:6px"></i>Doctor Signups (8 weeks)</h3></div>
-              <div class="chart-canvas-wrap"><canvas id="signupsChart"></canvas></div>
+            <div class="card card-pad-sm">
+              <div class="chart-card-head"><h3><i class="fas fa-arrow-trend-up" style="color:var(--teal);margin-right:6px"></i>Signups (8wk)</h3></div>
+              <div class="chart-canvas-wrap" style="height:150px"><canvas id="signupsChart"></canvas></div>
             </div>
           </div>
         </section>
@@ -289,6 +294,8 @@ async function checkSession() {
     const me = await api('/api/admin/me');
     document.getElementById('adminName').textContent = `${me.firstName} ${me.lastName}`;
     document.getElementById('adminAvatar').textContent = `${(me.firstName||'')[0]||''}${(me.lastName||'')[0]||''}`.toUpperCase();
+    document.getElementById('adminNameMini').textContent = `${me.firstName} ${me.lastName}`;
+    document.getElementById('adminAvatarMini').textContent = `${(me.firstName||'')[0]||''}${(me.lastName||'')[0]||''}`.toUpperCase();
     loginScreen.style.display = 'none';
     dashboardRoot.style.display = 'block';
     goToSection(location.hash.replace('#','') || 'overview');

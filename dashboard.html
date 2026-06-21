@@ -44,6 +44,11 @@
             <a href="settings.html" class="as-link"><i class="fas fa-gear"></i> Settings</a>
             <a href="#" class="as-link" id="logoutLink"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
           </nav>
+          <a href="profile.html" class="as-user-mini">
+            <div class="aum-avatar js-avatar">--</div>
+            <div class="aum-info"><strong class="js-fullname">…</strong><span class="js-role">…</span></div>
+            <i class="fas fa-chevron-right aum-chevron"></i>
+          </a>
         </div>
       </div>
     </aside>
@@ -106,12 +111,12 @@
               <div class="chart-canvas-wrap"><canvas id="progressChart"></canvas></div>
             </div>
 
-            <div class="app-grid" style="grid-template-columns:1fr 1fr">
-              <div class="card card-pad">
+            <div class="app-grid-2">
+              <div class="card card-pad-sm">
                 <div class="chart-card-head"><h3><i class="fas fa-chart-pie" style="color:var(--purple);margin-right:6px"></i>Breakdown</h3></div>
-                <div class="chart-canvas-wrap" style="height:170px"><canvas id="breakdownChart"></canvas></div>
+                <div class="chart-canvas-wrap" style="height:140px"><canvas id="breakdownChart"></canvas></div>
               </div>
-              <div class="card card-pad">
+              <div class="card card-pad-sm">
                 <div class="chart-card-head"><h3><i class="fas fa-arrow-right" style="color:var(--blue);margin-right:6px"></i>Continue</h3></div>
                 <div id="continueWrap"><div class="app-loading"><i class="fas fa-circle-notch fa-spin"></i> Loading…</div></div>
               </div>
@@ -298,10 +303,10 @@
               <h4>${nextCourse.title}</h4>
               <div class="continue-track"><div class="continue-fill" style="width:${donePct}%"></div></div>
             </div>
-            <a href="course.html?slug=${nextCourse.slug}" class="btn-app-outline"><i class="fas fa-arrow-right"></i></a>
+            <a href="course.html?slug=${nextCourse.slug}" class="btn-app-outline" style="padding:8px 11px;flex-shrink:0"><i class="fas fa-arrow-right"></i></a>
           </div>`;
       } else {
-        cw.innerHTML = `<div class="empty-state"><i class="fas fa-trophy"></i><strong>Curriculum complete</strong><p>You've finished every module. Check Research Lab for what's next.</p></div>`;
+        cw.innerHTML = `<div class="empty-state" style="padding:24px 12px"><i class="fas fa-trophy" style="font-size:1.4rem;margin-bottom:8px"></i><strong style="font-size:.8rem">Curriculum complete</strong></div>`;
       }
 
       /* ── Leaderboard ── */
