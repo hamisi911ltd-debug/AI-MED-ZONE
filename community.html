@@ -134,19 +134,14 @@
         return;
       }
       wrap.innerHTML = `<div class="entity-grid">${list.map((g) => `
-        <div class="entity-card">
-          <div class="entity-top">
-            <div class="entity-icon"><i class="fas fa-people-group"></i></div>
-            <span class="entity-area">Week ${String(g.week_number).padStart(2, '0')}</span>
+        <div class="entity-card" title="${(g.description || `Studying: ${g.course_title}`).replace(/"/g, '&quot;')}">
+          <div class="entity-icon"><i class="fas fa-people-group"></i></div>
+          <div class="entity-info">
+            <h3>${g.name}</h3>
+            <span class="entity-sub">W${String(g.week_number).padStart(2, '0')} · ${g.member_count} member${g.member_count === 1 ? '' : 's'}</span>
           </div>
-          <h3>${g.name}</h3>
-          <p>${g.description || `Studying: ${g.course_title}`}</p>
-          <div class="entity-foot">
-            <span class="entity-members"><i class="fas fa-users"></i> ${g.member_count} member${g.member_count === 1 ? '' : 's'}</span>
-            <span class="entity-by">by Dr. ${g.creator_first} ${g.creator_last}</span>
-          </div>
-          <button class="btn-app-${g.joined ? 'outline' : 'primary'} membership-btn" data-id="${g.id}" data-joined="${g.joined}" style="justify-content:center;margin-top:4px">
-            <i class="fas ${g.joined ? 'fa-right-from-bracket' : 'fa-user-plus'}"></i> ${g.joined ? 'Leave Group' : 'Join Group'}
+          <button class="entity-go membership-btn ${g.joined ? 'joined' : ''}" data-id="${g.id}" data-joined="${g.joined}" title="${g.joined ? 'Leave group' : 'Join group'}">
+            <i class="fas ${g.joined ? 'fa-user-check' : 'fa-user-plus'}"></i>
           </button>
         </div>`).join('')}</div>`;
 

@@ -121,26 +121,21 @@
         }
         wrap.innerHTML = `<div class="acourse-grid">${list.map((c) => {
           const status = progressMap[c.id] || 'not_started';
-          const statusLabel = status === 'completed' ? 'Completed' : status === 'in_progress' ? 'In Progress' : 'Not Started';
-          const btnLabel = status === 'completed' ? 'Review' : status === 'in_progress' ? 'Continue' : 'Start';
           const btnIcon = status === 'completed' ? 'fa-rotate-right' : status === 'in_progress' ? 'fa-arrow-right' : 'fa-play';
+          const btnTitle = status === 'completed' ? 'Review' : status === 'in_progress' ? 'Continue' : 'Start';
           const icon = WEEK_ICONS[(c.week_number - 1) % WEEK_ICONS.length];
           const grad = THUMB_GRADS[(c.week_number - 1) % THUMB_GRADS.length];
           return `
-            <div class="acourse-card">
-              <div class="acc-thumb" style="background:${grad}">
-                <span class="acc-week">Week ${String(c.week_number).padStart(2, '0')}</span>
-                <span class="acc-level ${c.level || 'beginner'}">${c.level || 'beginner'}</span>
-                <i class="fas ${icon}"></i>
-              </div>
-              <div class="acc-body">
-                <span class="status-badge ${status}" style="align-self:flex-start">${statusLabel}</span>
+            <div class="acourse-card" title="${c.title}">
+              <div class="acc-thumb" style="background:${grad}"><i class="fas ${icon}"></i></div>
+              <div class="acc-info">
                 <h3>${c.title}</h3>
-                <p>${c.description || ''}</p>
-                <a href="course.html?slug=${c.slug}" class="btn-app-${status === 'completed' ? 'outline' : 'primary'}" style="justify-content:center">
-                  <i class="fas ${btnIcon}"></i> ${btnLabel}
-                </a>
+                <div class="acc-meta">
+                  <span class="acc-week">W${String(c.week_number).padStart(2, '0')}</span>
+                  <span class="acc-level ${c.level || 'beginner'}">${c.level || 'beginner'}</span>
+                </div>
               </div>
+              <a href="course.html?slug=${c.slug}" class="acc-go ${status === 'completed' ? 'done' : ''}" title="${btnTitle}"><i class="fas ${btnIcon}"></i></a>
             </div>`;
         }).join('')}</div>`;
       }
